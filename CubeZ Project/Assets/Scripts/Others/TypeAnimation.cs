@@ -1,0 +1,20 @@
+﻿public enum TypeAnimation
+{
+    Walk,
+    Idle1,
+    Idle2,
+    AttackGeneric1,
+    AttackGeneric2,
+    AttackGeneric3,
+    ZombieAttackGeneric,
+    Run,
+    ZombieWalk,
+    GetHit,
+    Spell1,
+    Spell2,
+    Spell3,
+    Spell4,
+    SimpleAttack,
+    SitandLook,
+    Death,
+}
