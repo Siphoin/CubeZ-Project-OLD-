@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory/Item/Kit", order = 1)]
-public class Kittem : ScriptableObject
+public class Kittem : BaseItem
     {
     [Header("Данные об аптечке")]
     public KitItemData data = new KitItemData();

@@ -17,6 +17,9 @@ public class ItemBaseData
     [Header("ID предмета")]
      public string idItem;
 
+    [HideInInspector]
+    public bool inFastPanel = false;
+
     public ItemBaseData ()
     {
 
