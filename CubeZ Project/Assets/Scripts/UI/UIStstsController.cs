@@ -48,6 +48,7 @@ using UnityEngine.UI;
         character.Sleep.onValueChanged += ShowSleepProgress;
         character.Run.onValueChanged += ShowRunProgress;
         character.Health.onValueChanged += ShowHealthProgress;
+        character.TemperatureBody.onValueChanged += ShowTemperatureProgress;
     }
 
     private void ShowHealthProgress(int value)
@@ -68,6 +69,11 @@ using UnityEngine.UI;
     private void ShowHungerProgress(int value)
     {
         SetProgressValue(progressHunger, value);
+    }
+
+    private void ShowTemperatureProgress(int value)
+    {
+        SetProgressValue(progressTemperature, value);
     }
 
     private void SetProgressValue (ProgressStatsCharacter progress, int value)

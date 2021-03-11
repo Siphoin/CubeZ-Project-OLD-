@@ -33,6 +33,8 @@ public class TimeOfWeakData
 
     [Header("Параметры погоды")]
     public WeatherDataSettings weatherSettings = new WeatherDataSettings();
+    [Header("Параметры температуры")]
+    public TemperatureWorldData temperatureSettings = new TemperatureWorldData();
 
     public TimeOfWeakData ()
     {

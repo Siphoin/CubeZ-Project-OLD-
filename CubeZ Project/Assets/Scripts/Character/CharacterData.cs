@@ -21,6 +21,9 @@ public class CharacterData
     {NeedCharacterType.Temperature, new CharacterStatsDataNeed(NeedCharacterType.Temperature, 100, 3) },
     {NeedCharacterType.Health, new CharacterStatsDataNeed(NeedCharacterType.Health, 100, 0) },
 };
+
+    [Header("Оптимальная температура тела")]
+    public int optimalTemperatureBody = 25;
     public CharacterData ()
     {
 

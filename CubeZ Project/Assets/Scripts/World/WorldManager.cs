@@ -36,9 +36,10 @@ public class WorldManager : MonoBehaviour
 
     private const string TAG_DIRECTION_LIGHT = "DirectionLight";
     private const string FOLBER_VFX_WEATHER = "Prefabs/VFX/";
+
+
     [SerializeField, ReadOnlyField] private DayTimeType dayTimeType;
 
-    private DayTimeType nextTimeDay;
     [Header("Weathers")]
     [SerializeField, ReadOnlyField]  private ParticleSystem rainWeather;
     [SerializeField, ReadOnlyField] private ParticleSystem fogWeather;
@@ -49,6 +50,14 @@ public class WorldManager : MonoBehaviour
     int maxRangeWeatherType =  Enum.GetValues(typeof(WeatherType)).Length;
 
     WeatherType currentWeather = WeatherType.Sun;
+
+    int currentTemperature = 20;
+
+    int oldTemperature = 20;
+
+    public event Action onTemperatureChanged;
+    public string TemperatureString { get => currentTemperature + " °C"; }
+    public int TemperatureValue { get => currentTemperature; }
 
     //
 
@@ -83,34 +92,12 @@ public class WorldManager : MonoBehaviour
 
         SetFirstWeather();
 
+        RandomizeTemperature();
+
+        StartCoroutine(RandomTemperature());
+
     }
 
-    private void SetFirstWeather()
-    {
-        WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
-        SetNewWeather(newWeather);
-    }
-
-    private void LoadWeathers()
-    {
-        rainWeather = LoadWeatherVFX(WeatherType.Rain);
-        snowWeather = LoadWeatherVFX(WeatherType.Snow);
-        fogWeather = LoadWeatherVFX(WeatherType.Fog);
-        if (fogWeather == null)
-        {
-            throw new WorldManagerException("fog weather vfx is null!");
-        }
-
-        if (rainWeather == null)
-        {
-            throw new WorldManagerException("rain weather vfx is null!");
-        }
-
-        if (snowWeather == null)
-        {
-            throw new WorldManagerException("snow weather vfx is null!");
-        }
-    }
 
     private void LoadTimeOfWeakSettings()
     {
@@ -152,25 +139,22 @@ public class WorldManager : MonoBehaviour
 
         if (timeOfWeakData.startedHour <= 6f)
         {
-            directionLight.intensity = 0.1f;
+            directionLight.intensity = timeOfWeakData.intensityNight;
            selectedTypeDay = DayTimeType.Morming;
-            nextTimeDay = DayTimeType.Day;
             selectedColorLight = timeOfWeakData.colorMoming;
         }
 
         else if (timeOfWeakData.startedHour >= 11 && timeOfWeakData.startedHour <= 16)
         {
-            directionLight.intensity = 1f;
+            directionLight.intensity = timeOfWeakData.intensityDay;
             selectedTypeDay = DayTimeType.Day;
-            nextTimeDay = DayTimeType.Night;
             selectedColorLight = timeOfWeakData.colorDay;
         }
 
         else if (timeOfWeakData.startedHour <= 4 || timeOfWeakData.startedHour > 16)
         {
-            directionLight.intensity = 0.1f;
+            directionLight.intensity = timeOfWeakData.intensityNight;
             selectedTypeDay = DayTimeType.Night;
-            nextTimeDay = DayTimeType.Morming;
             selectedColorLight = timeOfWeakData.colorNight;
 
         }
@@ -263,6 +247,35 @@ public class WorldManager : MonoBehaviour
     #endregion
 
     #region Weather System
+
+    private void SetFirstWeather()
+    {
+        WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
+        SetNewWeather(newWeather);
+    }
+
+    private void LoadWeathers()
+    {
+        rainWeather = LoadWeatherVFX(WeatherType.Rain);
+        snowWeather = LoadWeatherVFX(WeatherType.Snow);
+        fogWeather = LoadWeatherVFX(WeatherType.Fog);
+        if (fogWeather == null)
+        {
+            throw new WorldManagerException("fog weather vfx is null!");
+        }
+
+        if (rainWeather == null)
+        {
+            throw new WorldManagerException("rain weather vfx is null!");
+        }
+
+        if (snowWeather == null)
+        {
+            throw new WorldManagerException("snow weather vfx is null!");
+        }
+    }
+
+
     private IEnumerator NewWeather()
     {
         while (true)
@@ -305,9 +318,11 @@ public class WorldManager : MonoBehaviour
         {
             case WeatherType.Rain:
                 newWeather = rainWeather;
+                DecrementTemperature(timeOfWeakData.temperatureSettings.rainTemperatureDecrementValue);
                 break;
             case WeatherType.Snow:
                 newWeather = snowWeather;
+                DecrementTemperature(timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue);
                 break;
             case WeatherType.Fog:
                 newWeather = fogWeather;
@@ -346,6 +361,68 @@ public class WorldManager : MonoBehaviour
             }
 
         }
+    }
+
+    IEnumerator LerpingTemperature ()
+    {
+        float lerpValue = 0;
+        float startedTemperature = currentTemperature;
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(1, 20) * Time.deltaTime);
+            lerpValue += 0.03f;
+            currentTemperature = (int)Mathf.Lerp(oldTemperature, startedTemperature, lerpValue);
+            CallChangededTemperature();
+
+            if (lerpValue >= 1)
+            {
+                yield break;
+            }
+            
+
+        }
+    }
+
+    IEnumerator RandomTemperature ()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(0.5F, timeOfWeakData.weatherSettings.maxValueNewWeatherTime + 1 / 2));
+            RandomizeTemperature();
+        }
+    }
+
+    private void RandomizeTemperature ()
+    {
+        SaveOldTemperature();
+        currentTemperature = Random.Range(timeOfWeakData.temperatureSettings.minTemperatureValue, timeOfWeakData.temperatureSettings.maxTemperatureValue + 1);
+        StartCoroutine(LerpingTemperature());
+    }
+
+    private void DecrementTemperature (int value)
+    {
+        SaveOldTemperature();
+        currentTemperature -= value;
+        StartCoroutine(LerpingTemperature());
+
+    }
+
+    private void IncrementTemperature(int value)
+    {
+        SaveOldTemperature();
+        currentTemperature += value;
+        StartCoroutine(LerpingTemperature());
+
+    }
+
+    private void SaveOldTemperature ()
+    {
+        oldTemperature = currentTemperature;
+    }
+
+    private void CallChangededTemperature ()
+    {
+        onTemperatureChanged?.Invoke();
     }
     #endregion
 

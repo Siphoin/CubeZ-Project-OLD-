@@ -34,7 +34,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool isDead;
 
-     AnimationClip deathAnim;
 
 
 
@@ -250,7 +249,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         
         RaycastHit raycastHit;
-        if (Physics.Raycast(transform.position, transform.forward, out raycastHit))
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
         {
             if (raycastHit.collider.tag == "Zombie")
             {

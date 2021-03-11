@@ -21,6 +21,8 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
  [SerializeField, ReadOnlyField]   private Character character;
 
+ private   WorldManager worldManager;
+
     public CharacterStatsDataNeed Hunger { get => hunger; }
     public CharacterStatsDataNeed Sleep { get => sleep; }
     public CharacterStatsDataNeed Run { get => run; }
@@ -46,13 +48,20 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         // start system needs
         CallInvokingEveryMethod(ProgressiveHunger, hunger.speedNeed);
         CallInvokingEveryMethod(ProgressiveSleep, sleep.speedNeed);
-        CallInvokingEveryMethod(ProgressiveSleep, sleep.speedNeed);
+
         //
         StartCoroutine(RunStatsControl());
+        StartCoroutine(TemperatureStatsControl());
     }
 
-        // Update is called once per frame
-        void Update()
+
+    private void Start()
+    {
+        worldManager = WorldManager.Manager;
+    }
+
+    // Update is called once per frame
+    void Update()
         {
         if (character.IsDead)
         {
@@ -67,7 +76,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
        Invoke(method.Method.Name, time);
     }
 
-    public  void CallInvokingEveryMethod( Action method, float time)
+    public  void CallInvokingEveryMethod(Action method, float time)
     {
         InvokeRepeating(method.Method.Name, time, time);
     }
@@ -158,6 +167,39 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
 
             
+        }
+    }
+
+    private IEnumerator TemperatureStatsControl ()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(temperatureBody.speedNeed);
+            if (worldManager.TemperatureValue < character.CharacterStats.optimalTemperatureBody)
+            {
+                if (temperatureBody.value > 0)
+                {
+                    temperatureBody.value -= 1;
+                    temperatureBody.CallOnValueChanged();
+                }
+
+                else
+                {
+                    DamageCharacter();
+                }
+
+                
+            }
+
+            else
+            {
+                if (temperatureBody.value < temperatureBody.GetDefaultValue())
+                {
+                    temperatureBody.value += 1;
+                    temperatureBody.CallOnValueChanged();
+                }
+            }
+
         }
     }
 

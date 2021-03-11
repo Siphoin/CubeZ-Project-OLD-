@@ -13,18 +13,23 @@ MonoBehaviour:
   m_Name: TimeOfWeakSettings
   m_EditorClassIdentifier: 
   data:
-    colorMoming: {r: 0.99215686, g: 0.7969745, b: 0.5764706, a: 1}
+    colorMoming: {r: 1, g: 0.7950001, b: 0, a: 1}
     colorDay: {r: 1, g: 1, b: 1, a: 1}
-    colorNight: {r: 0.5764706, g: 0.7292372, b: 0.99215686, a: 1}
-    incrementHourValue: 0.01
+    colorNight: {r: 0, g: 0.36499977, b: 1, a: 1}
+    incrementHourValue: 0.005
     mormingStartedHour: 6
     dayStartedHour: 11
     nightStartedHour: 16
     startedHour: 11
-    intensityDay: 1
+    intensityDay: 3
     intensityNight: 0.1
-    valueIntensityLerping: 60
+    valueIntensityLerping: 120
     weatherSettings:
       minValueNewWeatherTime: 15
       maxValueNewWeatherTime: 120
       fogIntensityFPS: 5
+    temperatureSettings:
+      minTemperatureValue: -40
+      maxTemperatureValue: 50
+      rainTemperatureDecrementValue: 2
+      snowTemperatureDecrementValue: 12
