@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponItem : BaseItem
 {
     [Header("Данные об оружии")]
-    [SerializeField] WeaponItemData data = new WeaponItemData();
+    [SerializeField]  WeaponParams dataWeapon = new WeaponParams();
 
 
 
@@ -12,4 +12,5 @@ public class WeaponItem : BaseItem
     {
         data.typeItem = TypeItem.Weapon;
     }
+
 }

@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CharacterStatsController))]
-public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IInvokerMono, IGeterHit
+public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IInvokerMono, IGeterHit, ICharacter
 {
     private Animator animator;
     private CharacterAnimatorObserver animatorObserver;
     private Rigidbody _rb;
     private CharacterData characterData;
 
-    private object target;
 
 
     private const string  VERTICAL_INPUT_NAME = "Vertical";
     private const string HORIZONTAL_INPUT_NAME = "Horizontal";
     private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
+    private const string ZOMBIE_TAG = "Zombie";
+    private const string ATTACK_NAME_ANIM = "AttackGeneric";
+    private const string DEAD_PLAYER_TAG = "DeadPlayer";
+    private const string DEAD_ANIM_NAME = "Death";
+
+
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
@@ -32,7 +37,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public int Health { get => healthStats.value; }
     public bool IsDead { get => isDead; }
 
-    private bool isDead;
+    private bool isDead = false;
+
+    private bool isFrezzed = false;
 
 
 
@@ -77,7 +84,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-        if (characterActive)
+        if (characterActive && !isFrezzed)
         {
             LookAtMouse();
         }
@@ -131,7 +138,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-        if (characterActive)
+        if (characterActive && !isFrezzed)
         {
         Control();
         }
@@ -177,7 +184,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             {
                 int varintsAttack = Random.Range(1, 4);
 
-                string animName = $"AttackGeneric{varintsAttack}";
+                string animName = $"{ATTACK_NAME_ANIM}{varintsAttack}";
                 SetAnimationState(animName.ToEnum<TypeAnimation>());
             }
         }
@@ -251,7 +258,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         RaycastHit raycastHit;
         if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
         {
-            if (raycastHit.collider.tag == "Zombie")
+            if (raycastHit.collider.tag == ZOMBIE_TAG)
             {
                 BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
                 target.Hit(characterData.damage);
@@ -285,8 +292,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             isDead = true;
             healthStats.value = 0;
-            tag = "DeadPlayer";
-            animator.SetBool("Death", true);
+            tag = DEAD_PLAYER_TAG;
+            animator.SetBool(DEAD_ANIM_NAME, true);
             characterActive = false;
             Dead();
         }
@@ -327,5 +334,20 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public void CallInvokingMethod(System.Action method, float time)
     {
         Invoke(method.Method.Name, time);
+    }
+
+    private void SetStateFrezze (bool state)
+    {
+        isFrezzed = state;
+    }
+
+    public void ActivateCharacter ()
+    {
+        SetStateFrezze(false);
+    }
+
+    public void FrezzeCharacter()
+    {
+        SetStateFrezze(true);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-    public class ItemObject : MonoBehaviour
+    public class ItemObject : MonoBehaviour, IObjectAddingInventory
     {
     [Header("Вращается ли объект")]
     [SerializeField] bool rotating = false;
@@ -12,6 +12,8 @@ using UnityEngine;
     private const string TAG_PLAYER = "Player";
     [Header("Этот ресурс содержит предмет:")]
     [SerializeField] BaseItem item;
+
+    private ItemBaseData dataItem;
 
 
         // Use this for initialization
@@ -25,6 +27,7 @@ using UnityEngine;
         {
             throw new ItemObjectException("item is null");
         }
+       
         }
 
         // Update is called once per frame
@@ -43,7 +46,13 @@ using UnityEngine;
     {
         if (collision.gameObject.tag == TAG_PLAYER)
         {
+            AddItemToInventory();
             Destroy(gameObject);
         }
+    }
+
+    public void AddItemToInventory()
+    {
+        GameCacheManager.gameCache.inventory.Add(item.data);
     }
 }

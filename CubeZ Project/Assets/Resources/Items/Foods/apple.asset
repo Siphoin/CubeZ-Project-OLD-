@@ -15,7 +15,10 @@ MonoBehaviour:
   data:
     typeItem: 0
     ItemName: Apple
-    icon: {fileID: 0}
+    itemDecription: "Juicy and delicious. \n\n\n\u25CF Restores 26% of the character's
+      satiety."
+    icon: {fileID: 21300000, guid: d41a0fa9dc0350043b65e2af399f8d04, type: 3}
     idItem: apple
-    paramsItem:
-      satietyRange: 29
+    inFastPanel: 1
+  dataFood:
+    satietyRange: 15

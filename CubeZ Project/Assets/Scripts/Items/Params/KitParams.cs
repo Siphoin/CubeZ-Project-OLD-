@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class KitParams 
+public class KitParams : BaseParamsItem
 {
     [Header("Коэфицент лечения злоровья персонажа")]
     [Range(1, 100)]

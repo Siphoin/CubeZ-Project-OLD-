@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class FoodParams 
+public class FoodParams : BaseParamsItem
 {
     [Range(1, 100)]
     [Header("Коэфицент повышения сытости")]

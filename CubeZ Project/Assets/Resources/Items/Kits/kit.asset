@@ -15,7 +15,16 @@ MonoBehaviour:
   data:
     typeItem: 1
     ItemName: 
-    icon: {fileID: 0}
+    itemDecription: 
+    icon: {fileID: 21300000, guid: 2a535b386c03b7f49b0f2bb88a3342e7, type: 3}
     idItem: 
+    inFastPanel: 0
+  data:
+    typeItem: 1
+    ItemName: 
+    itemDecription: 
+    icon: {fileID: 21300000, guid: 2a535b386c03b7f49b0f2bb88a3342e7, type: 3}
+    idItem: 
+    inFastPanel: 0
     itemParams:
       regenRange: 100

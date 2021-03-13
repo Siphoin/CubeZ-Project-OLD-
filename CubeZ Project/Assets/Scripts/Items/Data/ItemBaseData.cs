@@ -20,6 +20,7 @@ public class ItemBaseData
     [HideInInspector]
     public bool inFastPanel = false;
 
+
     public ItemBaseData ()
     {
 

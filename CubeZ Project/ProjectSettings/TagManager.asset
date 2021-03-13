@@ -9,6 +9,8 @@ TagManager:
   - DirectionLight
   - DeadPlayer
   - DeadZombie
+  - GridItems
+  - RamFastPanel
   layers:
   - Default
   - TransparentFX

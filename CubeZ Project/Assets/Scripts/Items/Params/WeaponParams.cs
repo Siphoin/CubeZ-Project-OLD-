@@ -2,7 +2,7 @@
 
 [System.Serializable]
 
-public class WeaponParams 
+public class WeaponParams : BaseParamsItem
 {
     [Header("Коэфицент прибавления урона")]
     public int damageBonus = 1;
