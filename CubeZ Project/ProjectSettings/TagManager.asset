@@ -11,6 +11,8 @@ TagManager:
   - DeadZombie
   - GridItems
   - RamFastPanel
+  - ItemCell
+  - ItemCellEmtry
   layers:
   - Default
   - TransparentFX

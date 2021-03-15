@@ -1,7 +1,7 @@
 ﻿[System.Serializable]
 public class GameCache
 {
-    public InventoryContainer inventory = new InventoryContainer();
+    public InventoryContainerPlayer inventory = new InventoryContainerPlayer();
     public GameCache ()
     {
         

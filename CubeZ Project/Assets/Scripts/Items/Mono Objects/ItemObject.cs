@@ -27,7 +27,7 @@ using UnityEngine;
         {
             throw new ItemObjectException("item is null");
         }
-       
+       dataItem = new ItemBaseData(item.data);
         }
 
         // Update is called once per frame
@@ -46,13 +46,20 @@ using UnityEngine;
     {
         if (collision.gameObject.tag == TAG_PLAYER)
         {
-            AddItemToInventory();
-            Destroy(gameObject);
+            if (TryAddItemToInventory())
+            {
+                Destroy(gameObject);
+            }
         }
+    }
+
+    private bool TryAddItemToInventory()
+    {
+      return  GameCacheManager.gameCache.inventory.TryAdd(dataItem);
     }
 
     public void AddItemToInventory()
     {
-        GameCacheManager.gameCache.inventory.Add(item.data);
+        throw new System.NotImplementedException();
     }
 }

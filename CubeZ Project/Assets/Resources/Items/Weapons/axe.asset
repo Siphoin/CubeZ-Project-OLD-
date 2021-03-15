@@ -15,16 +15,11 @@ MonoBehaviour:
   data:
     typeItem: 2
     ItemName: Axe
-    itemDecription: 
+    itemDecription: "Ancient weapons of our ancestors\n\n\n\u25CF +10 to the player's
+      base damage."
     icon: {fileID: 21300000, guid: 8aa7f703a3efd0a49ac44cf53cf7778a, type: 3}
     idItem: axe
     inFastPanel: 0
-  data:
-    typeItem: 2
-    ItemName: Axe
-    itemDecription: 
-    icon: {fileID: 21300000, guid: 8aa7f703a3efd0a49ac44cf53cf7778a, type: 3}
-    idItem: axe
-    inFastPanel: 0
-    data:
-      damageBonus: 10
+    indexFastPanel: -1
+  dataWeapon:
+    damageBonus: 1

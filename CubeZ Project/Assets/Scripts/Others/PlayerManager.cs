@@ -13,7 +13,6 @@ public class PlayerManager : MonoBehaviour
     // Use this for initialization
     void Awake()
         {
-        Debug.Log(332434);
         if (manager == null)
         {
             manager = this;

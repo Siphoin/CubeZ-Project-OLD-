@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
-
 [System.Serializable]
-
-public class InventoryContainer 
+public class BaseInventoryContainer
 {
     [Newtonsoft.Json.JsonRequired]
-    private List<ItemBaseData> items = new List<ItemBaseData>(0);
+    protected List<ItemBaseData> items = new List<ItemBaseData>(0);
 
     public int Length { get => items.Count; }
 
-    public InventoryContainer ()
+    public BaseInventoryContainer()
     {
         items = new List<ItemBaseData>(0);
     }
 
-    public InventoryContainer (InventoryContainer copyClass)
+    public BaseInventoryContainer(BaseInventoryContainer copyClass)
     {
         copyClass.CopyAll(this);
     }
 
-    public void Add (ItemBaseData item)
+    public virtual void Add(ItemBaseData item)
     {
+        item.inFastPanel = false;
         items.Add(item);
     }
 
-    public void Remove (ItemBaseData item)
+    public virtual void Remove(ItemBaseData item)
     {
         if (!items.Contains(item))
         {
@@ -38,7 +37,7 @@ public class InventoryContainer
     }
 
 
-    public void Remove(int index)
+    public virtual void Remove(int index)
     {
         if (items[index] == null)
         {
@@ -51,12 +50,12 @@ public class InventoryContainer
         }
     }
 
-    public void Clear ()
+    public virtual void Clear()
     {
         items.Clear();
     }
 
-    public bool TryGet(int index, out ItemBaseData item)
+    public virtual bool TryGet(int index, out ItemBaseData item)
     {
         if (index < 0 || index > items.Count)
         {
@@ -73,7 +72,7 @@ public class InventoryContainer
         return true;
     }
 
-    public ItemBaseData Get (int index)
+    public virtual ItemBaseData Get(int index)
     {
         if (index < 0 || index > items.Count)
         {
@@ -87,10 +86,8 @@ public class InventoryContainer
         return items[index];
     }
 
-    public bool Contains (ItemBaseData item)
+    public virtual bool Contains(ItemBaseData item)
     {
         return items.Contains(item);
     }
-
-    
 }

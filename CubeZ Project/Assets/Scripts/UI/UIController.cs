@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
     public class UIController : MonoBehaviour
     {
@@ -15,7 +16,7 @@ using UnityEngine;
     public static UIController Manager { get => manager; }
 
     // Use this for initialization
-    void Start()
+    void Awake()
         {
         if (manager == null)
         {
@@ -36,9 +37,7 @@ using UnityEngine;
             UIWindowFragment windowFragment = windows[i];
             if (Input.GetKeyDown(windowFragment.buttonPress) && !windowsCached.Contains(windowFragment.window.name + PREFIX_PREFAB))
             {
-                Window window = Instantiate(windowFragment.window);
-                window.onExit += WindowExit;
-                windowsCached.Add(window.name);
+                OpenWindow(windowFragment.window);
             }
         }
         }
@@ -48,5 +47,30 @@ using UnityEngine;
         windowsCached.Remove(window.name);
     }
 
+
+    public Window OpenWindow (string nameWindow)
+    {
+        UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == nameWindow);
+        Window window = Instantiate(targetFragment.window);
+        window.onExit += WindowExit;
+        windowsCached.Add(window.name);
+        return window;
+
+    }
+
+    public Window OpenWindow (Window windowTarget)
+    {
+        UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == windowTarget.name);
+        Window newWindow = Instantiate(targetFragment.window);
+        newWindow.onExit += WindowExit;
+        windowsCached.Add(newWindow.name);
+        return newWindow;
+
+    }
+
+    public bool ContainsWindow (string windowName)
+    {
+        return windowsCached.Contains(windowName + PREFIX_PREFAB);
+    }
 
 }

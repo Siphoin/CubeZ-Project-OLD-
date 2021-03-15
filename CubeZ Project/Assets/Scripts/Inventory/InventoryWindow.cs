@@ -7,8 +7,10 @@ using System;
 public class InventoryWindow : Window
     {
     private const string PATH_ITEMCELL_PREFAB = "Prefabs/UI/ItemCell";
+    private const string PATH_ITEMCELL_EMTRY_PREFAB = "Prefabs/UI/ItemCellEmtry";
+    private const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
 
-       [Header("Окно характеристик предмета")]
+    [Header("Окно характеристик предмета")]
         [SerializeField] GameObject infoItem;
 
     [Header("Текст описания предмета")]
@@ -23,7 +25,13 @@ public class InventoryWindow : Window
     [Header("Грид предметов")]
     [SerializeField] GridLayoutGroup gridItems;
 
- [SerializeField, ReadOnlyField]   private ItemCell itemCellPrefab;
+    [Header("Грид пустых ячеек")]
+    [SerializeField] GridLayoutGroup gridItemsEmtry;
+
+       private ItemCell itemCellPrefab;
+    private ItemCellEmtry itemCellEmtryPrefab;
+
+    private InventoryPlayerSettings inventoryPlayerSettings;
 
     [Header("Грид ячеек быстрого доступа")]
 
@@ -33,7 +41,7 @@ public class InventoryWindow : Window
     private ItemBaseData currentItemData = null;
 
     // Use this for initialization
-    void Start()
+    void Awake()
         {
         FrezzePlayer();
         if (infoItem == null)
@@ -65,6 +73,11 @@ public class InventoryWindow : Window
             throw new InventoryWindowException("grid items fast panel is null");
         }
 
+        if (gridItemsEmtry == null)
+        {
+            throw new InventoryWindowException("grid items emtry is null");
+        }
+
 
         itemCellPrefab = Resources.Load<ItemCell>(PATH_ITEMCELL_PREFAB);
 
@@ -73,9 +86,23 @@ public class InventoryWindow : Window
             throw new InventoryWindowException($"item cell prefab not found. Path: {PATH_ITEMCELL_PREFAB}");
         }
 
+        itemCellEmtryPrefab = Resources.Load<ItemCellEmtry>(PATH_ITEMCELL_EMTRY_PREFAB);
+
+        if (itemCellEmtryPrefab == null)
+        {
+            throw new InventoryWindowException($"item cell emtry prefab not found. Path: {PATH_ITEMCELL_EMTRY_PREFAB}");
+        }
+
+        inventoryPlayerSettings = Resources.Load<InventoryPlayerSettings>(PATH_CHARACTER_INVENTORY_SETTINGS);
+
+        if (inventoryPlayerSettings == null)
+        {
+            throw new InventoryWindowException($"inventory player settings not found. Path: {PATH_CHARACTER_INVENTORY_SETTINGS}");
+        }
+
 
         SetStateInfoItem(false);
-
+        LoadEmtryCells();
         LoadItems();
         }
 
@@ -103,6 +130,14 @@ public class InventoryWindow : Window
         }
     }
 
+    private void LoadEmtryCells ()
+    {
+        for (int i = 0; i < inventoryPlayerSettings.data.maxCountItems; i++)
+        {
+            CreateEmtryCell();
+        }
+    }
+
     private void CreateItemCell (ItemBaseData data)
     {
         if (data == null)
@@ -113,6 +148,17 @@ public class InventoryWindow : Window
         ItemCell newItemCell = Instantiate(itemCellPrefab, gridItems.transform);
         newItemCell.SetData(data);
         newItemCell.onClick += ShowInfoItem;
+
+        if (data.inFastPanel)
+        {
+            RectTransform targetRam = gridsItemsFastPanels.transform.GetChild(data.indexFastPanel).GetComponent<RectTransform>();
+            newItemCell.SetToFastPanel(targetRam);
+        }
+    }
+
+    private void CreateEmtryCell ()
+    {
+        Instantiate(itemCellEmtryPrefab, gridItemsEmtry.transform);
     }
 
     private void ShowInfoItem(ItemBaseData data)
@@ -146,5 +192,10 @@ public class InventoryWindow : Window
                 Destroy(rectTransformCell.GetChild(j).gameObject);
             }
         }
+    }
+
+    public void SetTargetItem (ItemBaseData target)
+    {
+        ShowInfoItem(target);
     }
 }

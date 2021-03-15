@@ -20,16 +20,21 @@ public class ItemBaseData
     [HideInInspector]
     public bool inFastPanel = false;
 
+    [HideInInspector]
+    public int indexFastPanel = -1;
+
 
     public ItemBaseData ()
     {
-
+        inFastPanel = false;
     }
 
 
     public ItemBaseData (ItemBaseData copyClass)
     {
         copyClass.CopyAll(this);
+        inFastPanel = false;
+
     }
 
 }

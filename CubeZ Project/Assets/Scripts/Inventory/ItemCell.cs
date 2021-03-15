@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IItemCell
     {
     private RectTransform rectTransform;
 
@@ -92,7 +92,7 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         thisImage.color = color;
     }
 
-    private void LoadIcon ()
+    public void LoadIcon ()
     {
         Sprite iconSprite = dataTarget.icon;
         if (iconSprite == null)
@@ -109,8 +109,7 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
         if (targetRam != null)
         {
-            transform.SetParent(targetRam);
-            rectTransform.position = targetRam.position;
+            SetToFastPanel();
         }
 
         else
@@ -123,6 +122,22 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         {
             MarkItemFastPanelExits(targetRam != null);
         }
+    }
+
+    private void SetToFastPanel()
+    {
+        transform.SetParent(targetRam);
+        rectTransform.position = targetRam.position;
+    }
+
+    public void SetToFastPanel(Transform target)
+    {
+        if (!target.TryGetComponent(out targetRam))
+        {
+            throw new ItemCellException("ram not valid RectTransform component");
+        }
+        thisImage.rectTransform.sizeDelta = targetRam.sizeDelta;
+        SetToFastPanel();
     }
 
     private void UpdateGrid(LayoutGroup gridLayoutGroup)
@@ -147,17 +162,18 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
 
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == TAG_RAM_FAST_PANRL)
         {
-            Debug.Log(collision.name);
             if (!collision.TryGetComponent(out targetRam))
             {
                 throw new ItemCellException("ram not valid RectTransform component");
             }
 
             transform.SetParent(targetRam);
+            dataTarget.indexFastPanel = transform.parent.transform.GetSiblingIndex();
         }
     }
 
@@ -175,6 +191,12 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void MarkItemFastPanelExits (bool status)
     {
+        bool oldStatus = dataTarget.inFastPanel;
         dataTarget.inFastPanel = status;
+
+        if (oldStatus != dataTarget.inFastPanel)
+        {
+            GameCacheManager.gameCache.inventory.CallEventMarkingItem();
+        }
     }
 }

@@ -348,6 +348,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public void FrezzeCharacter()
     {
+        SetAnimationState(TypeAnimation.Idle2);
         SetStateFrezze(true);
     }
 }
