@@ -754,7 +754,7 @@ GameObject:
   - component: {fileID: 310797031}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: MyPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -4055,7 +4055,7 @@ PrefabInstance:
     - target: {fileID: 2547639568498745569, guid: 695cbe873f87bf84d8d3dacc70bd30be,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2548460966966760883, guid: 695cbe873f87bf84d8d3dacc70bd30be,
         type: 3}

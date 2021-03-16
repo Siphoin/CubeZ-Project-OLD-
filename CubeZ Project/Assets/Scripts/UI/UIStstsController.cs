@@ -25,7 +25,7 @@ using UnityEngine.UI;
 
     [SerializeField, ReadOnlyField] CharacterStatsController character;
 
-    private const string TAG_PLAYER = "Player";
+    private const string TAG_PLAYER = "MyPlayer";
 
     private float fpsRate = 0;
     // Use this for initialization

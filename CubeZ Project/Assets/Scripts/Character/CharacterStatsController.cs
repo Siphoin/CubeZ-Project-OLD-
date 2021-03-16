@@ -203,6 +203,39 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         }
     }
 
+    public void AddValueToNeed (NeedCharacterType type, int value)
+    {
+        CharacterStatsDataNeed targetNeed = null;
+
+        switch (type)
+        {
+            case NeedCharacterType.Eat:
+                targetNeed = hunger;
+                break;
+            case NeedCharacterType.Sleep:
+                targetNeed = sleep;
+                break;
+            case NeedCharacterType.Temperature:
+                targetNeed = temperatureBody;
+                break;
+            case NeedCharacterType.Run:
+                targetNeed = run;
+                break;
+            case NeedCharacterType.Health:
+                targetNeed = health;
+                break;
+            default:
+                throw new CharacterStatsControllerException("invalid type need");
+        }
+
+        targetNeed.value += value;
+        if (targetNeed.value > targetNeed.GetDefaultValue())
+        {
+            targetNeed.value = targetNeed.GetDefaultValue();
+        }
+        targetNeed.CallOnValueChanged();
+    }
+
 
     //
 

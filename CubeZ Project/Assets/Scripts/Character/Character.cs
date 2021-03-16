@@ -30,6 +30,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
 
+    
+
     private bool characterActive = true;
 
     public float Speed { get => characterData.speed; }
@@ -117,18 +119,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void LookAtMouse()
     {
-        Plane playerPlane = new Plane(Vector3.up, transform.position);
+        Vector3 dir = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")) * characterData.rotateSpeed * Time.deltaTime;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float hitdist;
-        if (playerPlane.Raycast(ray, out hitdist))
+        if (dir != Vector3.zero)
         {
-            Vector3 targetPoint = ray.GetPoint(hitdist);
-
-            Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, characterData.rotateSpeed * Time.deltaTime);
-
+            _rb.MoveRotation(Quaternion.LookRotation(dir));
         }
     }
 

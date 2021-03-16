@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(GridLayoutGroup))]
 public class GridItemsFastPanel : MonoBehaviour
     {
-     VerticalLayoutGroup grid;
+     GridLayoutGroup grid;
 
     private ItemCellMainCanvas itemCellMainCanvasPrefab;
 
@@ -15,10 +15,10 @@ public class GridItemsFastPanel : MonoBehaviour
         // Use this for initialization
         void Start()
         {
-        grid = GetComponent<VerticalLayoutGroup>();
+        grid = GetComponent<GridLayoutGroup>();
         if (grid == null)
         {
-            throw new GridItemsFastPanelException("component Vertical Layout Gropup is null");
+            throw new GridItemsFastPanelException("component Grid Layout Group is null");
         }
         itemCellMainCanvasPrefab = Resources.Load<ItemCellMainCanvas>(PATH_ITEM_CELL_MAIN_CANVAS);
 

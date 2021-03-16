@@ -44,7 +44,7 @@ using UnityEngine;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == TAG_PLAYER)
+        if (collision.gameObject.tag.Contains(TAG_PLAYER))
         {
             if (TryAddItemToInventory())
             {

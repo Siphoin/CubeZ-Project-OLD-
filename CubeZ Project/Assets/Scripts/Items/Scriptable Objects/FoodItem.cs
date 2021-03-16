@@ -4,7 +4,7 @@ using UnityEngine;
 public class FoodItem : BaseItem
     {
     [Header("Данные о еде")]
-    [SerializeField]  FoodParams dataFood = new FoodParams();
+     public  FoodParams dataFood = new FoodParams();
 
    
 

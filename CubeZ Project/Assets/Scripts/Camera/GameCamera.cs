@@ -7,7 +7,7 @@ using UnityEngine;
   [SerializeField]  private float smooth = 5.0f;
     private Vector3 offset;
 
-    private const string TAG_PLAYER = "Player";
+    private const string TAG_PLAYER = "MyPlayer";
 
     // Use this for initialization
     void Start()

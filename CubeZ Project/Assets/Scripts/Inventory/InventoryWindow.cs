@@ -9,6 +9,7 @@ public class InventoryWindow : Window
     private const string PATH_ITEMCELL_PREFAB = "Prefabs/UI/ItemCell";
     private const string PATH_ITEMCELL_EMTRY_PREFAB = "Prefabs/UI/ItemCellEmtry";
     private const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
+    private const string PATH_ITEMS_DATA = "Items/";
 
     [Header("Окно характеристик предмета")]
         [SerializeField] GameObject infoItem;
@@ -198,4 +199,77 @@ public class InventoryWindow : Window
     {
         ShowInfoItem(target);
     }
+    #region Use Mechanim
+    public void UseItem ()
+    {
+        switch (currentItemData.typeItem)
+        {
+            case TypeItem.Food:
+                UseFood();
+                break;
+            case TypeItem.Kit:
+                UseKit();
+                break;
+            case TypeItem.Weapon:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UseFood ()
+    {
+        CharacterStatsDataNeed statsHunger = PlayerManager.Manager.PlayerStats.Hunger;
+        if (statsHunger.value >= statsHunger.GetDefaultValue())
+        {
+            return;
+        }
+        string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
+        FoodParams foodItem = Resources.Load<FoodItem>(path).dataFood;
+        AddPlayerValueStatsToNeed(currentItemData.typeItem, foodItem.satietyRange);
+        RemoveItem();
+    }
+
+    private void UseKit()
+    {
+        CharacterStatsDataNeed statsHealth = PlayerManager.Manager.PlayerStats.Health;
+        if (statsHealth.value >= statsHealth.GetDefaultValue())
+        {
+            return;
+        }
+        string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
+        KitParams kittem = Resources.Load<Kittem>(path).dataKit;
+        AddPlayerValueStatsToNeed(currentItemData.typeItem, kittem.regenRange);
+        RemoveItem();
+    }
+
+    private void AddPlayerValueStatsToNeed (TypeItem typeItem, int value)
+    {
+        NeedCharacterType needCharacterType = NeedCharacterType.Eat;
+
+        switch (typeItem)
+        {
+            case TypeItem.Food:
+                needCharacterType = NeedCharacterType.Eat;
+                break;
+            case TypeItem.Kit:
+                needCharacterType = NeedCharacterType.Health;
+                break;
+            default:
+                break;
+        }
+
+        PlayerManager.Manager.PlayerStats.AddValueToNeed(needCharacterType, value);
+    }
+
+
+    private string GetPathToItem (TypeItem typeItem, string id)
+    {
+        return $"{PATH_ITEMS_DATA}{typeItem}s/{id}";
+    }
+
+
+
+
+    #endregion
 }

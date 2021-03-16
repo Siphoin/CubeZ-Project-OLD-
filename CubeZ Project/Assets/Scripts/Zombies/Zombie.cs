@@ -80,7 +80,7 @@ public class Zombie : BaseZombie
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == TAG_PLAYER)
+        if (collision.gameObject.tag.Contains(TAG_PLAYER))
         {
             target = collision.gameObject.GetComponent<Character>();
             SetAggresiveBehavior();

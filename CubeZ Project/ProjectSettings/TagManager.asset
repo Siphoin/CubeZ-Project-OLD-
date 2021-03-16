@@ -13,6 +13,8 @@ TagManager:
   - RamFastPanel
   - ItemCell
   - ItemCellEmtry
+  - OtherPlayer
+  - MyPlayer
   layers:
   - Default
   - TransparentFX

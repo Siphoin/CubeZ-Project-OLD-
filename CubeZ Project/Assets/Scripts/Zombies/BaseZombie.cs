@@ -36,6 +36,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected const string TAG_PLAYER = "Player";
 
+    protected const string PREFIX_DEAD_PLAYER = "Dead";
+
    [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
@@ -218,7 +220,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             RaycastHit raycastHit;
             if (Physics.Raycast(transform.position, transform.forward, out raycastHit))
             {
-                if (raycastHit.collider.tag == TAG_PLAYER)
+                if (raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER))
                 {
                 target = raycastHit.collider.GetComponent<Character>();
                     if (!visiblePlayer)
