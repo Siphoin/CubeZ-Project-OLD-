@@ -22,4 +22,5 @@ MonoBehaviour:
     inFastPanel: 0
     indexFastPanel: -1
   dataWeapon:
-    damageBonus: 1
+    damageBonus: 10
+    strength: 12

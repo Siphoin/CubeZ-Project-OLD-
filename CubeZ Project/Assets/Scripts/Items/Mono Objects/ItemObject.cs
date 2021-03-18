@@ -28,6 +28,7 @@ using UnityEngine;
             throw new ItemObjectException("item is null");
         }
        dataItem = new ItemBaseData(item.data);
+        dataItem.GenerateId();
         }
 
         // Update is called once per frame

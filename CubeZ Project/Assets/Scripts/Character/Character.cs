@@ -10,6 +10,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private Rigidbody _rb;
     private CharacterData characterData;
 
+    private WeaponItem currentWeapon = null;
 
 
     private const string  VERTICAL_INPUT_NAME = "Vertical";
@@ -30,7 +31,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
 
-    
+    private int baseDamage = 6;
+    private int currentDamage;
 
     private bool characterActive = true;
 
@@ -38,6 +40,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public int Health { get => healthStats.value; }
     public bool IsDead { get => isDead; }
+    public WeaponItem CurrentWeapon { get => currentWeapon; }
 
     private bool isDead = false;
 
@@ -54,6 +57,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         characterData = new CharacterData(characterDataSettings.GetData());
         healthStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Health];
         runStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Run];
+
+      
         if (characterDataSettings == null)
         {
             throw new CharacterException("character settings is null");
@@ -62,6 +67,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("Speed <= 0");
         }
+
+        baseDamage = characterData.damage;
+        ReturnToBaseDamage();
 
     }
     void Start()
@@ -218,6 +226,51 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
+    public void IncrementDamage (int value)
+    {
+        ReturnToBaseDamage();
+        if (value < 0)
+        {
+            throw new CharacterException("invalid value damage");
+        }
+        currentDamage += value;
+        Debug.Log(currentDamage);
+    }
+
+    public void ReturnToBaseDamage ()
+    {
+        currentDamage = baseDamage;
+                Debug.Log(currentDamage);
+    }
+
+    public bool CharacterUseTheWeapon (WeaponItem weapon)
+    {
+        CheckWeaponisNull(weapon);
+        if (!currentWeapon)
+        {
+            return false;
+        }
+        return currentWeapon.data.id == weapon.data.id;
+    }
+
+    private static void CheckWeaponisNull(WeaponItem weapon)
+    {
+        if (!weapon)
+        {
+            throw new CharacterException("Weapon argument is null");
+        }
+    }
+
+    public bool CharacterUseWeapon ()
+    {
+        return currentWeapon != null;
+    }
+
+    public void SetWeapon (WeaponItem weapon)
+    {
+        currentWeapon = weapon;
+    }
+
     public void CheckValidStats()
     {
         foreach (var prop in characterData.GetType().GetFields())
@@ -256,9 +309,25 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             if (raycastHit.collider.tag == ZOMBIE_TAG)
             {
                 BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
-                target.Hit(characterData.damage);
+                target.Hit(currentDamage);
+                Debug.Log(CharacterUseWeapon());
+                 if (CharacterUseWeapon())
+        {
+                    
+            currentWeapon.dataWeapon.strength -= 1;
+                    Debug.Log(currentWeapon.dataWeapon.strength);
+
+                    if (currentWeapon.dataWeapon.strength <= 0)
+            {
+                SetWeapon(null);
+                ReturnToBaseDamage();
             }
         }
+            }
+        }
+
+
+       
 
 
             

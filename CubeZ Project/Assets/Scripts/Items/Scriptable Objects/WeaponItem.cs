@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponItem : BaseItem
 {
     [Header("Данные об оружии")]
-    [SerializeField]  WeaponParams dataWeapon = new WeaponParams();
+     public WeaponParams dataWeapon = new WeaponParams();
 
 
 
@@ -12,5 +12,23 @@ public class WeaponItem : BaseItem
     {
         data.typeItem = TypeItem.Weapon;
     }
+
+    public WeaponItem ()
+    {
+
+    }
+
+    public WeaponItem (int damageBonus, int strength)
+    {
+        dataWeapon.damageBonus = damageBonus;
+        dataWeapon.strength = strength;
+    }
+
+    public WeaponItem(WeaponItem copyClass)
+    {
+        copyClass.CopyAll(this);
+    }
+
+    
 
 }

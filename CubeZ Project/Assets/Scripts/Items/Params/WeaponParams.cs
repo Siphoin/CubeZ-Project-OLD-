@@ -16,6 +16,6 @@ public class WeaponParams : BaseParamsItem
 
     public WeaponParams (WeaponParams copyClass)
     {
-        copyClass.CopyAll(copyClass);
+        copyClass.CopyAll(this);
     }
 }

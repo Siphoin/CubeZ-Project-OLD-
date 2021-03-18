@@ -55,6 +55,8 @@ public class WorldManager : MonoBehaviour
 
     int oldTemperature = 20;
 
+    public event Action<DayTimeType> onDayChanged;
+
     public event Action onTemperatureChanged;
     public string TemperatureString { get => currentTemperature + " °C"; }
     public int TemperatureValue { get => currentTemperature; }
@@ -242,6 +244,8 @@ public class WorldManager : MonoBehaviour
             default:
                 break;
         }
+
+        onDayChanged?.Invoke(dayTimeType);
     }
 
     #endregion

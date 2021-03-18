@@ -22,7 +22,7 @@ MonoBehaviour:
     nightStartedHour: 16
     startedHour: 11
     intensityDay: 3
-    intensityNight: 0.1
+    intensityNight: 1
     valueIntensityLerping: 120
     weatherSettings:
       minValueNewWeatherTime: 15

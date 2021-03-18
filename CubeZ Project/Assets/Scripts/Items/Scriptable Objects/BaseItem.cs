@@ -14,4 +14,5 @@ using UnityEngine;
         copyClass.CopyAll(this);
     }
 
+
 }

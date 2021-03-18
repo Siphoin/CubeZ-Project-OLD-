@@ -173,8 +173,22 @@ public class InventoryWindow : Window
 
     public void RemoveItem ()
     {
+        RemoveActiveWeaponPlayer();
         GameCacheManager.gameCache.inventory.Remove(currentItemData);
         LoadItems();
+    }
+
+    private void RemoveActiveWeaponPlayer()
+    {
+        Character currentPlayer = PlayerManager.Manager.Player;
+        if (currentPlayer.CurrentWeapon != null)
+        {
+            if (currentPlayer.CurrentWeapon.data.id == currentItemData.id)
+            {
+                currentPlayer.ReturnToBaseDamage();
+                currentPlayer.SetWeapon(null);
+            }
+        }
     }
 
     private void ClearInventoryWindow ()
@@ -211,6 +225,7 @@ public class InventoryWindow : Window
                 UseKit();
                 break;
             case TypeItem.Weapon:
+                UseWeapon();
                 break;
             default:
                 break;
@@ -241,6 +256,35 @@ public class InventoryWindow : Window
         KitParams kittem = Resources.Load<Kittem>(path).dataKit;
         AddPlayerValueStatsToNeed(currentItemData.typeItem, kittem.regenRange);
         RemoveItem();
+    }
+
+    private void UseWeapon ()
+    {
+        string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
+        WeaponItem weaponItem = Resources.Load<WeaponItem>(path);
+        Character currentPlayer = PlayerManager.Manager.Player;
+        weaponItem = new WeaponItem(weaponItem.dataWeapon.damageBonus, weaponItem.dataWeapon.strength);
+        weaponItem.data.id = currentItemData.id;
+        if (currentPlayer.CurrentWeapon == null)
+        {
+            currentPlayer.SetWeapon(weaponItem);
+            currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
+            return;
+        }
+            if (currentPlayer.CurrentWeapon.data.id == currentItemData.id)
+            {
+                return;
+            }
+
+            else
+            {
+                currentPlayer.SetWeapon(weaponItem);
+                currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
+            }
+
+
+
+
     }
 
     private void AddPlayerValueStatsToNeed (TypeItem typeItem, int value)

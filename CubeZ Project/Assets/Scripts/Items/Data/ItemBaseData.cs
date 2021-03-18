@@ -23,6 +23,9 @@ public class ItemBaseData
     [HideInInspector]
     public int indexFastPanel = -1;
 
+    [HideInInspector]
+    public string id;
+
 
     public ItemBaseData ()
     {
@@ -37,4 +40,10 @@ public class ItemBaseData
 
     }
 
+
+    public void GenerateId()
+    {
+      id = shortid.ShortId.Generate(false, false, 20);
+
+    }
 }
