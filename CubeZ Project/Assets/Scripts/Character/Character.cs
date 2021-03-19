@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CharacterStatsController))]
 public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IInvokerMono, IGeterHit, ICharacter
@@ -33,6 +36,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private int currentDamage;
 
     private bool characterActive = true;
+
+    public event Action<ItemBaseData> onWeaponChanged;
 
     public float Speed { get => characterData.speed; }
 
@@ -232,13 +237,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             throw new CharacterException("invalid value damage");
         }
         currentDamage += value;
-        Debug.Log(currentDamage);
     }
 
     public void ReturnToBaseDamage()
     {
         currentDamage = baseDamage;
-        Debug.Log(currentDamage);
     }
 
     public bool CharacterUseTheWeapon(WeaponItem weapon)
@@ -265,8 +268,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     }
 
     public void SetWeapon(WeaponItem weapon)
-    {
+    {  
         currentWeapon = weapon;
+        onWeaponChanged?.Invoke(currentWeapon == null ? null : currentWeapon.data);
     }
 
     public void CheckValidStats()
@@ -308,25 +312,22 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             {
                 BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
                 target.Hit(currentDamage);
-                Debug.Log(CharacterUseWeapon());
                 if (CharacterUseWeapon())
                 {
 
                     currentWeapon.dataWeapon.strength -= 1;
-                    Debug.Log(currentWeapon.dataWeapon.strength);
+                //    Debug.Log(currentWeapon.dataWeapon.strength);
 
                     if (currentWeapon.dataWeapon.strength <= 0)
                     {
+                        GameCacheManager.gameCache.inventory.Remove(currentWeapon.data);
                         SetWeapon(null);
                         ReturnToBaseDamage();
+                        
                     }
                 }
             }
         }
-
-
-
-
 
 
     }
@@ -368,7 +369,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void Dead()
     {
 
-        animator.Play("Death");
+        animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
         enabled = false;
     }
@@ -388,12 +389,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         return animationState == TypeAnimation.Run;
     }
 
-    public void CallInvokingEveryMethod(System.Action method, float time)
+    public void CallInvokingEveryMethod(Action method, float time)
     {
         InvokeRepeating(method.Method.Name, time, time);
     }
 
-    public void CallInvokingMethod(System.Action method, float time)
+    public void CallInvokingMethod(Action method, float time)
     {
         Invoke(method.Method.Name, time);
     }

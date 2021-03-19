@@ -21,6 +21,7 @@ MonoBehaviour:
     idItem: axe
     inFastPanel: 0
     indexFastPanel: -1
+    id: 
   dataWeapon:
     damageBonus: 10
-    strength: 12
+    strength: 2

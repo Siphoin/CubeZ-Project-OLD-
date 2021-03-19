@@ -263,7 +263,7 @@ public class InventoryWindow : Window
         WeaponItem weaponItem = Resources.Load<WeaponItem>(path);
         Character currentPlayer = PlayerManager.Manager.Player;
         weaponItem = new WeaponItem(weaponItem.dataWeapon.damageBonus, weaponItem.dataWeapon.strength);
-        weaponItem.data.id = currentItemData.id;
+        weaponItem.data = currentItemData;
         if (currentPlayer.CurrentWeapon == null)
         {
             currentPlayer.SetWeapon(weaponItem);
