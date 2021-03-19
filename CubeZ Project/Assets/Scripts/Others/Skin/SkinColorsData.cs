@@ -8,7 +8,7 @@ public class SkinColorsData
     {
         Color.white
     };
-    public SkinColorsData ()
+    public SkinColorsData()
     {
         skinsColors = new Color[]
     {
@@ -16,7 +16,7 @@ public class SkinColorsData
     };
     }
 
-    public SkinColorsData (SkinColorsData copyClass)
+    public SkinColorsData(SkinColorsData copyClass)
     {
         copyClass.CopyAll(this);
     }

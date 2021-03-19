@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,7 +15,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected Vector3 targetPoint = Vector3.zero;
 
-    [SerializeField, ReadOnlyField]  protected bool visiblePlayer = false;
+    [SerializeField, ReadOnlyField] protected bool visiblePlayer = false;
 
     protected NavMeshAgent agent;
 
@@ -30,7 +29,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public Character Target { get => target; }
     public float DistanceVisible { get => zombieStats.distanceVisible; }
 
-    protected   Rigidbody rb;
+    protected Rigidbody rb;
 
     protected TypeAnimation animationState = TypeAnimation.Idle2;
 
@@ -38,7 +37,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected const string PREFIX_DEAD_PLAYER = "Dead";
 
-   [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
+    [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
 
@@ -65,7 +64,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     }
     protected void Ini()
     {
-        
+
         if (zombieStatsSettings == null)
         {
             throw new ZombieException("zombie stats settings is null");
@@ -77,7 +76,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         {
             throw new ZombieException("zombie settings is null");
         }
-         zombieData = new SettingsZombieData(settingsZombie.GetData());
+        zombieData = new SettingsZombieData(settingsZombie.GetData());
 #if UNITY_EDITOR
         CheckValidStats();
 
@@ -148,12 +147,13 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     }
 
 
-    protected void AddBehavior<T> (IStateBehavior state) {
+    protected void AddBehavior<T>(IStateBehavior state)
+    {
         behaviorMap[typeof(T)] = state;
-    
+
     }
 
-    protected void SetBehavior (IStateBehavior stateBehavior)
+    protected void SetBehavior(IStateBehavior stateBehavior)
     {
         if (currentStateBehavior != null)
         {
@@ -165,7 +165,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         currentStateBehavior.Enter();
     }
 
-    protected void UpdateState ()
+    protected void UpdateState()
     {
         if (currentStateBehavior != null)
         {
@@ -173,11 +173,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
     }
 
-    
 
-        public void Damage()
-        {
-        
+
+    public void Damage()
+    {
+
         if (target != null && Vector3.Distance(transform.position, target.transform.position) < 1f)
         {
             RaycastHit raycastHit;
@@ -194,68 +194,68 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
                     SetWalkingBehavior();
                 }
             }
-            
+
 
         }
-        }
+    }
 
-        public void SetTargetPoint(Vector3 point)
-        {
-            targetPoint = point;
-            agent.SetDestination(targetPoint);
-        }
+    public void SetTargetPoint(Vector3 point)
+    {
+        targetPoint = point;
+        agent.SetDestination(targetPoint);
+    }
 
 
-        public void WalkingBack()
-        {
+    public void WalkingBack()
+    {
         SetWalkingBehavior();
-        }
+    }
 
-     public   virtual void WatchingEnviroment()
-        {
+    public virtual void WatchingEnviroment()
+    {
         if (isDead)
         {
             return;
         }
-            RaycastHit raycastHit;
-            if (Physics.Raycast(transform.position, transform.forward, out raycastHit))
+        RaycastHit raycastHit;
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit))
+        {
+            if (raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER))
             {
-                if (raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER))
-                {
                 target = raycastHit.collider.GetComponent<Character>();
-                    if (!visiblePlayer)
+                if (!visiblePlayer)
+                {
+                    float distance = Vector3.Distance(transform.position, target.transform.position);
+                    if (distance <= zombieStats.distanceVisible)
                     {
-                        float distance = Vector3.Distance(transform.position, target.transform.position);
-                        if (distance <= zombieStats.distanceVisible)
-                        {
                         visiblePlayer = true;
                         SetAggresiveBehavior();
 
                     }
-                    }
                 }
-
             }
 
         }
 
-        
+    }
 
-    public void SetAnimationState (TypeAnimation type)
+
+
+    public void SetAnimationState(TypeAnimation type)
     {
         if (type != animationState)
         {
-for (int i = 0; i < animator.runtimeAnimatorController.animationClips.Length; i++)
-        {
-            animator.SetBool(animator.runtimeAnimatorController.animationClips[i].name, false);
-        }
-        animator.SetBool(type.ToString(), true);
+            for (int i = 0; i < animator.runtimeAnimatorController.animationClips.Length; i++)
+            {
+                animator.SetBool(animator.runtimeAnimatorController.animationClips[i].name, false);
+            }
+            animator.SetBool(type.ToString(), true);
             animationState = type;
         }
-        
+
     }
 
-    public void SetWalkingBehavior ()
+    public void SetWalkingBehavior()
     {
         visiblePlayer = false;
         SetBehavior(behaviorMap[typeof(WalkingStateZombie)]);
@@ -270,9 +270,9 @@ for (int i = 0; i < animator.runtimeAnimatorController.animationClips.Length; i+
         StartCoroutine(behaviorMap[typeof(AggresiveStateZombie)].UpdateWaiting());
     }
 
-    protected void LockToTarget ()
+    protected void LockToTarget()
     {
-       Vector3 direction = targetPoint - transform.position;
+        Vector3 direction = targetPoint - transform.position;
         Quaternion root = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, root, 2 * Time.deltaTime);
         var rootNormal = transform.rotation;
@@ -288,11 +288,11 @@ for (int i = 0; i < animator.runtimeAnimatorController.animationClips.Length; i+
             zombieStats.health -= hitValue;
             if (playHitAnim)
             {
-            if (Random.Range(0, 10) > 7)
-            {
-                
-                SetAnimationState(TypeAnimation.GetHit);
-            }
+                if (Random.Range(0, 10) > 7)
+                {
+
+                    SetAnimationState(TypeAnimation.GetHit);
+                }
             }
 
 

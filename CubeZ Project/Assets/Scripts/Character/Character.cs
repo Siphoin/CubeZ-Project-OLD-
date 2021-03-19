@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CharacterStatsController))]
 public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IInvokerMono, IGeterHit, ICharacter
@@ -13,7 +11,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private WeaponItem currentWeapon = null;
 
 
-    private const string  VERTICAL_INPUT_NAME = "Vertical";
+    private const string VERTICAL_INPUT_NAME = "Vertical";
     private const string HORIZONTAL_INPUT_NAME = "Horizontal";
     private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
     private const string ZOMBIE_TAG = "Zombie";
@@ -58,7 +56,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         healthStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Health];
         runStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Run];
 
-      
+
         if (characterDataSettings == null)
         {
             throw new CharacterException("character settings is null");
@@ -98,7 +96,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             LookAtMouse();
         }
-       else
+        else
         {
             _rb.velocity = Vector3.zero;
 
@@ -143,7 +141,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
         if (characterActive && !isFrezzed)
         {
-        Control();
+            Control();
         }
 
     }
@@ -165,7 +163,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             {
                 if (runStats.value > 0)
                 {
-                speed = Run();
+                    speed = Run();
                 }
 
                 else
@@ -226,7 +224,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    public void IncrementDamage (int value)
+    public void IncrementDamage(int value)
     {
         ReturnToBaseDamage();
         if (value < 0)
@@ -237,13 +235,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         Debug.Log(currentDamage);
     }
 
-    public void ReturnToBaseDamage ()
+    public void ReturnToBaseDamage()
     {
         currentDamage = baseDamage;
-                Debug.Log(currentDamage);
+        Debug.Log(currentDamage);
     }
 
-    public bool CharacterUseTheWeapon (WeaponItem weapon)
+    public bool CharacterUseTheWeapon(WeaponItem weapon)
     {
         CheckWeaponisNull(weapon);
         if (!currentWeapon)
@@ -261,12 +259,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    public bool CharacterUseWeapon ()
+    public bool CharacterUseWeapon()
     {
         return currentWeapon != null;
     }
 
-    public void SetWeapon (WeaponItem weapon)
+    public void SetWeapon(WeaponItem weapon)
     {
         currentWeapon = weapon;
     }
@@ -300,9 +298,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    public void Damage ()
+    public void Damage()
     {
-        
+
         RaycastHit raycastHit;
         if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
         {
@@ -311,30 +309,30 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
                 BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
                 target.Hit(currentDamage);
                 Debug.Log(CharacterUseWeapon());
-                 if (CharacterUseWeapon())
-        {
-                    
-            currentWeapon.dataWeapon.strength -= 1;
+                if (CharacterUseWeapon())
+                {
+
+                    currentWeapon.dataWeapon.strength -= 1;
                     Debug.Log(currentWeapon.dataWeapon.strength);
 
                     if (currentWeapon.dataWeapon.strength <= 0)
-            {
-                SetWeapon(null);
-                ReturnToBaseDamage();
+                    {
+                        SetWeapon(null);
+                        ReturnToBaseDamage();
+                    }
+                }
             }
         }
-            }
-        }
 
 
-       
 
 
-            
-        }
-    
 
-    public void Hit (int hitValue, bool playHitAnim = true)
+
+    }
+
+
+    public void Hit(int hitValue, bool playHitAnim = true)
     {
         if (healthStats.value - hitValue > 0)
         {
@@ -375,7 +373,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         enabled = false;
     }
 
-    public bool CharacterIsStand ()
+    public bool CharacterIsStand()
     {
         float _Hor = Input.GetAxis(HORIZONTAL_INPUT_NAME);
         float _Ver = Input.GetAxis(VERTICAL_INPUT_NAME);
@@ -400,12 +398,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         Invoke(method.Method.Name, time);
     }
 
-    private void SetStateFrezze (bool state)
+    private void SetStateFrezze(bool state)
     {
         isFrezzed = state;
     }
 
-    public void ActivateCharacter ()
+    public void ActivateCharacter()
     {
         SetStateFrezze(false);
     }

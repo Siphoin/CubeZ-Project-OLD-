@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-    public class ZombieEyeController : MonoBehaviour
-    {
+public class ZombieEyeController : MonoBehaviour
+{
     [SerializeField] Light firstEye;
     [SerializeField] Light secondEye;
 
     private const float INTENSITY_DEFAULT = 3.0F;
-        // Use this for initialization
-        void Start()
-        {
+    // Use this for initialization
+    void Start()
+    {
         if (firstEye == null)
         {
             throw new ZombieEyeControllerException("first light eye not seted");
@@ -23,7 +22,7 @@ using UnityEngine;
 
         WorldManager.Manager.onDayChanged += NewDayListener;
 
-        }
+    }
 
     private void NewDayListener(DayTimeType day)
     {
@@ -32,16 +31,16 @@ using UnityEngine;
 
     // Update is called once per frame
     void Update()
-        {
+    {
 
-        }
+    }
 
-    private void OffLightEye ()
+    private void OffLightEye()
     {
         SetIntensityEyes(0);
     }
 
-    private IEnumerator LerpingEyesLight (DayTimeType day)
+    private IEnumerator LerpingEyesLight(DayTimeType day)
     {
         float lerpValue = 0;
         float intensityValue = 0;
@@ -62,11 +61,11 @@ using UnityEngine;
         }
     }
 
-    private void SetIntensityEyes (float value)
+    private void SetIntensityEyes(float value)
     {
         secondEye.intensity = value;
         firstEye.intensity = value;
     }
 
 
-    }
+}

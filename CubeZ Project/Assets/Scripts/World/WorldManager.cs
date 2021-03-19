@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,13 +40,13 @@ public class WorldManager : MonoBehaviour
     [SerializeField, ReadOnlyField] private DayTimeType dayTimeType;
 
     [Header("Weathers")]
-    [SerializeField, ReadOnlyField]  private ParticleSystem rainWeather;
+    [SerializeField, ReadOnlyField] private ParticleSystem rainWeather;
     [SerializeField, ReadOnlyField] private ParticleSystem fogWeather;
     [SerializeField, ReadOnlyField] private ParticleSystem snowWeather;
 
     private ParticleSystem activeWeather = null;
 
-    int maxRangeWeatherType =  Enum.GetValues(typeof(WeatherType)).Length;
+    int maxRangeWeatherType = Enum.GetValues(typeof(WeatherType)).Length;
 
     WeatherType currentWeather = WeatherType.Sun;
 
@@ -113,7 +112,7 @@ public class WorldManager : MonoBehaviour
         timeOfWeakData = new TimeOfWeakData(settingsTimeOfWeak.GetData());
     }
 
-    private ParticleSystem LoadWeatherVFX (WeatherType weatherType)
+    private ParticleSystem LoadWeatherVFX(WeatherType weatherType)
     {
         return Resources.Load<ParticleSystem>($"{FOLBER_VFX_WEATHER}{weatherType}");
     }
@@ -129,12 +128,12 @@ public class WorldManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-        {
+    {
         directionLight.transform.Rotate(new Vector3(0, rotateSpeedSun * Time.deltaTime, 0), Space.World);
-        }
+    }
 
     #region Time Of Weak System
-    private void SetDayTime ()
+    private void SetDayTime()
     {
         DayTimeType selectedTypeDay = DayTimeType.Day;
         Color selectedColorLight = new Color();
@@ -142,7 +141,7 @@ public class WorldManager : MonoBehaviour
         if (timeOfWeakData.startedHour <= 6f)
         {
             directionLight.intensity = timeOfWeakData.intensityNight;
-           selectedTypeDay = DayTimeType.Morming;
+            selectedTypeDay = DayTimeType.Morming;
             selectedColorLight = timeOfWeakData.colorMoming;
         }
 
@@ -167,7 +166,7 @@ public class WorldManager : MonoBehaviour
 
     }
 
-    private IEnumerator SunLerpingColor ()
+    private IEnumerator SunLerpingColor()
     {
         NextColorSun();
 
@@ -175,10 +174,10 @@ public class WorldManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeOfWeakData.incrementHourValue);
             lerpingTimeValue += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping;
-         //   Debug.Log(lerpingTimeValue);
+            //   Debug.Log(lerpingTimeValue);
 
             directionLight.color = Color.Lerp(colorActive, colorNext, lerpingTimeValue);
-      //      RenderSettings.ambientLight = Color.Lerp(colorActive, colorNext, lerpingTimeValue);
+            //      RenderSettings.ambientLight = Color.Lerp(colorActive, colorNext, lerpingTimeValue);
 
             if (lerpingTimeValue >= 1)
             {
@@ -193,7 +192,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SunLerpingIntensity (float endValue)
+    private IEnumerator SunLerpingIntensity(float endValue)
     {
         float lerp = 0;
         float startValue = directionLight.intensity;
@@ -205,7 +204,7 @@ public class WorldManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeOfWeakData.incrementHourValue);
             lerp += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping;
-          //  Debug.Log(lerp);
+            //  Debug.Log(lerp);
 
             directionLight.intensity = Mathf.Lerp(startValue, endValue, lerp);
 
@@ -229,7 +228,7 @@ public class WorldManager : MonoBehaviour
                 colorActive = timeOfWeakData.colorMoming;
                 StartCoroutine(SunLerpingIntensity(timeOfWeakData.intensityDay));
                 colorNext = timeOfWeakData.colorDay;
-                
+
                 break;
             case DayTimeType.Day:
                 colorActive = timeOfWeakData.colorDay;
@@ -305,7 +304,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    private void SetNewWeather (WeatherType weatherType)
+    private void SetNewWeather(WeatherType weatherType)
     {
         if (weatherType != WeatherType.Fog && currentWeather == WeatherType.Fog)
         {
@@ -317,7 +316,7 @@ public class WorldManager : MonoBehaviour
             return;
         }
         ParticleSystem newWeather = null;
-        
+
         switch (weatherType)
         {
             case WeatherType.Rain:
@@ -342,12 +341,12 @@ public class WorldManager : MonoBehaviour
 
     private void SetActiveFog(bool active)
     {
-            StartCoroutine(LerpingFog(active));
+        StartCoroutine(LerpingFog(active));
     }
 
-    IEnumerator LerpingFog (bool enable)
+    IEnumerator LerpingFog(bool enable)
     {
-        
+
         float lerpValue = 0;
 
         float lerpAValue = enable == true ? 0 : 0.1f;
@@ -356,7 +355,7 @@ public class WorldManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeOfWeakData.weatherSettings.fogIntensityFPS / 60.0f * Time.deltaTime);
             float speed = timeOfWeakData.weatherSettings.fogIntensityFPS / 60.0f * Time.deltaTime;
-            lerpValue +=speed;
+            lerpValue += speed;
             RenderSettings.fogDensity = Mathf.Lerp(lerpAValue, lerpBValue, lerpValue);
 
             if (lerpValue >= 1)
@@ -367,7 +366,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    IEnumerator LerpingTemperature ()
+    IEnumerator LerpingTemperature()
     {
         float lerpValue = 0;
         float startedTemperature = currentTemperature;
@@ -382,12 +381,12 @@ public class WorldManager : MonoBehaviour
             {
                 yield break;
             }
-            
+
 
         }
     }
 
-    IEnumerator RandomTemperature ()
+    IEnumerator RandomTemperature()
     {
         while (true)
         {
@@ -396,14 +395,14 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    private void RandomizeTemperature ()
+    private void RandomizeTemperature()
     {
         SaveOldTemperature();
         currentTemperature = Random.Range(timeOfWeakData.temperatureSettings.minTemperatureValue, timeOfWeakData.temperatureSettings.maxTemperatureValue + 1);
         StartCoroutine(LerpingTemperature());
     }
 
-    private void DecrementTemperature (int value)
+    private void DecrementTemperature(int value)
     {
         SaveOldTemperature();
         currentTemperature -= value;
@@ -419,12 +418,12 @@ public class WorldManager : MonoBehaviour
 
     }
 
-    private void SaveOldTemperature ()
+    private void SaveOldTemperature()
     {
         oldTemperature = currentTemperature;
     }
 
-    private void CallChangededTemperature ()
+    private void CallChangededTemperature()
     {
         onTemperatureChanged?.Invoke();
     }

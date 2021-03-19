@@ -2,7 +2,7 @@
 
 [System.Serializable]
 public class SettingsZombieData
-    {
+{
     [Header("Максимальная дальность видимости зомби")]
     public float maxDistanceVisible = 10;
     [Header("Максимальная скорость зомби")]
@@ -19,13 +19,13 @@ public class SettingsZombieData
     [Header("Время исчезновение трупа зомби")]
     public float timeRemove = 7;
 
-    public SettingsZombieData ()
+    public SettingsZombieData()
     {
 
     }
 
-    public SettingsZombieData (SettingsZombieData copyClass)
+    public SettingsZombieData(SettingsZombieData copyClass)
     {
         this.CopyAll(copyClass);
     }
-    }
+}

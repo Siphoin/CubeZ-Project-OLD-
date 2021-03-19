@@ -36,12 +36,12 @@ public class TimeOfWeakData
     [Header("Параметры температуры")]
     public TemperatureWorldData temperatureSettings = new TemperatureWorldData();
 
-    public TimeOfWeakData ()
+    public TimeOfWeakData()
     {
 
     }
 
-    public TimeOfWeakData (TimeOfWeakData copyClass)
+    public TimeOfWeakData(TimeOfWeakData copyClass)
     {
         copyClass.CopyAll(this);
     }

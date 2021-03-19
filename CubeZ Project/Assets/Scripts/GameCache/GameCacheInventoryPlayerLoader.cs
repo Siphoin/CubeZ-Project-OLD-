@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-    public class GameCacheInventoryPlayerLoader : MonoBehaviour
-    {
+public class GameCacheInventoryPlayerLoader : MonoBehaviour
+{
     [SerializeField] InventoryPlayerSettings inventoryPlayerSettings;
-        private static bool isLoaded = false;
-        // Use this for initialization
-        void Awake()
-        {
+    private static bool isLoaded = false;
+    // Use this for initialization
+    void Awake()
+    {
         if (inventoryPlayerSettings == null)
         {
             throw new GameCacheInventoryPlayerException("settings inventory player  not seted!!!");
@@ -21,6 +20,6 @@ using UnityEngine;
         }
 
         Destroy(gameObject);
-        }
-
     }
+
+}

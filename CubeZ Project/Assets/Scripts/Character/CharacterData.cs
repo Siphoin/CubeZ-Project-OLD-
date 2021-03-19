@@ -13,7 +13,8 @@ public class CharacterData
 
     [Header("Параметры потребностей")]
 
- [SerializeField] private  Dictionary<NeedCharacterType, CharacterStatsDataNeed> needs = new Dictionary<NeedCharacterType, CharacterStatsDataNeed>()
+    [SerializeField]
+    private Dictionary<NeedCharacterType, CharacterStatsDataNeed> needs = new Dictionary<NeedCharacterType, CharacterStatsDataNeed>()
 {
     {NeedCharacterType.Eat, new CharacterStatsDataNeed(NeedCharacterType.Eat, 100, 4) },
     {NeedCharacterType.Run, new CharacterStatsDataNeed(NeedCharacterType.Run, 100, 0) },
@@ -24,17 +25,17 @@ public class CharacterData
 
     [Header("Оптимальная температура тела")]
     public int optimalTemperatureBody = 25;
-    public CharacterData ()
+    public CharacterData()
     {
 
     }
 
-    public CharacterData (CharacterData copyClass)
+    public CharacterData(CharacterData copyClass)
     {
         copyClass.CopyAll(this);
     }
 
-    public Dictionary<NeedCharacterType, CharacterStatsDataNeed> GetDictonaryNeeds ()
+    public Dictionary<NeedCharacterType, CharacterStatsDataNeed> GetDictonaryNeeds()
     {
         return needs;
     }

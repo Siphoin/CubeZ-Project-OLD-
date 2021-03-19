@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-    public class UIStstsController : MonoBehaviour
-    {
+﻿using UnityEngine;
+public class UIStstsController : MonoBehaviour
+{
     [Header("Прогрессы потребностей")]
 
 
@@ -76,7 +73,7 @@ using UnityEngine.UI;
         SetProgressValue(progressTemperature, value);
     }
 
-    private void SetProgressValue (ProgressStatsCharacter progress, int value)
+    private void SetProgressValue(ProgressStatsCharacter progress, int value)
     {
         progress.SetValue(value);
     }
@@ -84,13 +81,13 @@ using UnityEngine.UI;
 
     // Update is called once per frame
     void Update()
-        {
+    {
 
-        }
+    }
 
     private void OnGUI()
     {
-       fpsRate = 1.0f / Time.unscaledDeltaTime;
+        fpsRate = 1.0f / Time.unscaledDeltaTime;
         GUILayout.Label("FPS: " + (int)fpsRate);
     }
 

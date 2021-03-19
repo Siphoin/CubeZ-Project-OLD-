@@ -1,7 +1,7 @@
 ﻿[System.Serializable]
 public class BaseParamsItem
 {
-    public BaseParamsItem ()
+    public BaseParamsItem()
     {
 
     }

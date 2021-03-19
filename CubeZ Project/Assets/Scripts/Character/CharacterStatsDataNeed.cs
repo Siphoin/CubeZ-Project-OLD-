@@ -4,7 +4,7 @@ using System;
 [System.Serializable]
 public class CharacterStatsDataNeed
 {
- public   NeedCharacterType needType;
+    public NeedCharacterType needType;
     public int value = 100;
     public int speedNeed = 1;
 
@@ -16,12 +16,12 @@ public class CharacterStatsDataNeed
 
     }
 
-    public CharacterStatsDataNeed (NeedCharacterType needType)
+    public CharacterStatsDataNeed(NeedCharacterType needType)
     {
         this.needType = needType;
     }
 
-    public CharacterStatsDataNeed (int value, NeedCharacterType needType)
+    public CharacterStatsDataNeed(int value, NeedCharacterType needType)
     {
         CheckInvalidValueNeed(value);
         this.needType = needType;
@@ -37,12 +37,12 @@ public class CharacterStatsDataNeed
         this.speedNeed = speedNeed;
     }
 
-    public CharacterStatsDataNeed (CharacterStatsDataNeed copyClass)
+    public CharacterStatsDataNeed(CharacterStatsDataNeed copyClass)
     {
         copyClass.CopyAll(this);
     }
 
-    private void CheckInvalidValueNeed (int valueNeed)
+    private void CheckInvalidValueNeed(int valueNeed)
     {
         if (valueNeed < 0)
         {
@@ -50,12 +50,12 @@ public class CharacterStatsDataNeed
         }
     }
 
-    public void CallOnValueChanged ()
+    public void CallOnValueChanged()
     {
         onValueChanged?.Invoke(value);
     }
 
-    public int GetDefaultValue ()
+    public int GetDefaultValue()
     {
         return DEFAULT_VALUE;
     }

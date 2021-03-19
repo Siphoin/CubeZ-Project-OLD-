@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-    public class GameCamera : MonoBehaviour, IFinderPlayer
-    {
+public class GameCamera : MonoBehaviour, IFinderPlayer
+{
     private Character target;
-  [SerializeField]  private float smooth = 5.0f;
+    [SerializeField] private float smooth = 5.0f;
     private Vector3 offset;
 
     private const string TAG_PLAYER = "MyPlayer";

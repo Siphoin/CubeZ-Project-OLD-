@@ -9,12 +9,12 @@ public class WeaponParams : BaseParamsItem
 
     [Header("Коэфицент прочности")]
     public int strength = 10;
-    public WeaponParams ()
+    public WeaponParams()
     {
 
     }
 
-    public WeaponParams (WeaponParams copyClass)
+    public WeaponParams(WeaponParams copyClass)
     {
         copyClass.CopyAll(this);
     }

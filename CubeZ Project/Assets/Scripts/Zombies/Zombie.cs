@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(BoxCollider))]
 public class Zombie : BaseZombie
-    {
+{
 
     // Use this for initialization
     void Start()
@@ -17,7 +16,7 @@ public class Zombie : BaseZombie
 
     // Update is called once per frame
     void Update()
-        {
+    {
         UpdateState();
         agent.speed = visiblePlayer == true ? FastSpeed : zombieStats.speed;
         if (!visiblePlayer)
@@ -48,7 +47,7 @@ public class Zombie : BaseZombie
                 SetAnimationState(TypeAnimation.ZombieAttackGeneric);
             }
         }
-       
+
         try
         {
             if (targetPoint != Vector3.zero)

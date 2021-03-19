@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
-    {
+{
     private static PlayerManager manager;
     private Character player;
     private CharacterStatsController playerStats;
@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
 
     // Use this for initialization
     void Awake()
-        {
+    {
         if (manager == null)
         {
             manager = this;
@@ -39,4 +39,4 @@ public class PlayerManager : MonoBehaviour
             throw new PlayerManagerException("Player not exits component CharacterStatsController");
         }
     }
-    }
+}

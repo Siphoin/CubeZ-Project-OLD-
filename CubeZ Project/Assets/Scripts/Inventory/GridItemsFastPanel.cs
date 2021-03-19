@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 [RequireComponent(typeof(GridLayoutGroup))]
 public class GridItemsFastPanel : MonoBehaviour
-    {
-     GridLayoutGroup grid;
+{
+    GridLayoutGroup grid;
 
     private ItemCellMainCanvas itemCellMainCanvasPrefab;
 
     private const string PATH_ITEM_CELL_MAIN_CANVAS = "Prefabs/UI/itemCellMainCanvas";
-        // Use this for initialization
-        void Start()
-        {
+    // Use this for initialization
+    void Start()
+    {
         grid = GetComponent<GridLayoutGroup>();
         if (grid == null)
         {
@@ -27,10 +25,10 @@ public class GridItemsFastPanel : MonoBehaviour
             throw new GridItemsFastPanelException("prefab item cell main canvas not found");
         }
         GameCacheManager.gameCache.inventory.onListItemsChanged += LoadItems;
-        }
+    }
 
 
-    private void ClearItems ()
+    private void ClearItems()
     {
         for (int i = 0; i < grid.transform.childCount; i++)
         {
@@ -48,7 +46,7 @@ public class GridItemsFastPanel : MonoBehaviour
         }
     }
 
-    private void CreateItem (ItemBaseData data)
+    private void CreateItem(ItemBaseData data)
     {
         if (data == null)
         {

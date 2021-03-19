@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 [System.Serializable]
-    public class WeatherDataSettings
-    {
+public class WeatherDataSettings
+{
     [Header("Минимальное значение смены погоды")]
     public float minValueNewWeatherTime = 15;
 
@@ -13,12 +12,12 @@ using UnityEngine;
     [Header("Туман")]
     public float fogIntensityFPS = 5.0f;
 
-    public WeatherDataSettings ()
+    public WeatherDataSettings()
     {
 
     }
 
-    public WeatherDataSettings (WeatherDataSettings copyClass)
+    public WeatherDataSettings(WeatherDataSettings copyClass)
     {
         copyClass.CopyAll(this);
     }

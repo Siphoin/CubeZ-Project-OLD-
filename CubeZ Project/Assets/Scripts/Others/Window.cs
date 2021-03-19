@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
-    public class Window : MonoBehaviour
-    {
+public class Window : MonoBehaviour
+{
     public event Action<Window> onExit;
 
     protected Character player;
-        // Use this for initialization
-        void Start()
+    // Use this for initialization
+    void Start()
     {
         FrezzePlayer();
     }
@@ -34,14 +33,14 @@ using UnityEngine;
 
     // Update is called once per frame
     void Update()
-        {
+    {
 
-        }
+    }
 
-    public void Exit ()
+    public void Exit()
     {
         player.ActivateCharacter();
         onExit?.Invoke(this);
         Destroy(gameObject);
     }
-    }
+}

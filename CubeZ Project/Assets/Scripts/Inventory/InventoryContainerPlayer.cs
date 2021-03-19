@@ -8,7 +8,7 @@ public class InventoryContainerPlayer : BaseInventoryContainer
 {
     private InventoryPlayerSettingsData settingsData;
     public event Action<List<ItemBaseData>> onListItemsChanged;
-  public  InventoryContainerPlayer  (InventoryContainerPlayer copyClass, InventoryPlayerSettingsData settingsData)
+    public InventoryContainerPlayer(InventoryContainerPlayer copyClass, InventoryPlayerSettingsData settingsData)
     {
         copyClass.CopyAll(this);
         this.settingsData = settingsData;
@@ -19,7 +19,7 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         copyClass.CopyAll(this);
     }
 
-    public InventoryContainerPlayer ()
+    public InventoryContainerPlayer()
     {
 
     }
@@ -58,7 +58,7 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         onListItemsChanged?.Invoke(items);
     }
 
-    public bool TryAdd (ItemBaseData data, out ItemBaseData output)
+    public bool TryAdd(ItemBaseData data, out ItemBaseData output)
     {
         if (settingsData == null)
         {
@@ -92,7 +92,7 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         return true;
     }
 
-    public void CallEventMarkingItem ()
+    public void CallEventMarkingItem()
     {
         CallEventChanges();
 

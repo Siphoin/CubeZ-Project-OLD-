@@ -6,12 +6,12 @@ public class FoodParams : BaseParamsItem
     [Range(1, 100)]
     [Header("Коэфицент повышения сытости")]
     public int satietyRange = 1;
- public   FoodParams ()
+    public FoodParams()
     {
 
     }
 
-    public FoodParams (FoodParams copyClass)
+    public FoodParams(FoodParams copyClass)
     {
         copyClass.CopyAll(this);
     }

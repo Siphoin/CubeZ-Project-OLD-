@@ -1,9 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Zombie/New zombie stats", order = 1)]
-    public class ZombieStatsSettings : ScriptableObject
-    {
+[CreateAssetMenu(menuName = "Zombie/New zombie stats", order = 1)]
+public class ZombieStatsSettings : ScriptableObject
+{
     [SerializeField] ZombieStats data = new ZombieStats();
 
     public ZombieStats GetData()
@@ -11,7 +10,7 @@ using UnityEngine;
         return data;
     }
 
-    public ZombieStatsSettings ()
+    public ZombieStatsSettings()
     {
 
     }

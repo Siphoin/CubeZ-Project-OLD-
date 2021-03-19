@@ -15,7 +15,7 @@ public class ItemBaseData
     public Sprite icon;
 
     [Header("ID предмета")]
-     public string idItem;
+    public string idItem;
 
     [HideInInspector]
     public bool inFastPanel = false;
@@ -27,13 +27,13 @@ public class ItemBaseData
     public string id;
 
 
-    public ItemBaseData ()
+    public ItemBaseData()
     {
         inFastPanel = false;
     }
 
 
-    public ItemBaseData (ItemBaseData copyClass)
+    public ItemBaseData(ItemBaseData copyClass)
     {
         copyClass.CopyAll(this);
         inFastPanel = false;
@@ -43,7 +43,7 @@ public class ItemBaseData
 
     public void GenerateId()
     {
-      id = shortid.ShortId.Generate(false, false, 20);
+        id = shortid.ShortId.Generate(false, false, 20);
 
     }
 }

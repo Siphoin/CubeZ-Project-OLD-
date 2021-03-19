@@ -1,15 +1,14 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-    public class BaseItem : ScriptableObject
-    {
+public class BaseItem : ScriptableObject
+{
     public ItemBaseData data = new ItemBaseData();
-    public BaseItem ()
+    public BaseItem()
     {
 
     }
 
-    public BaseItem (BaseItem copyClass)
+    public BaseItem(BaseItem copyClass)
     {
         copyClass.CopyAll(this);
     }

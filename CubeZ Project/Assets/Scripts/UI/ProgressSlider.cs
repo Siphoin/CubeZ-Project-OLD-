@@ -1,8 +1,6 @@
-﻿using System.Collections;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 [RequireComponent(typeof(Slider))]
 public class ProgressSlider : MonoBehaviour
@@ -44,11 +42,11 @@ public class ProgressSlider : MonoBehaviour
 
 
         textValue.text = value.ToString();
-        
+
 
     }
 
-   protected void UpdateProgress (int value)
+    protected void UpdateProgress(int value)
     {
         slider.value = value;
     }
@@ -63,7 +61,7 @@ public class ProgressSlider : MonoBehaviour
         slider.value = value;
     }
 
-    protected void SetMaxValueProgress (float value)
+    protected void SetMaxValueProgress(float value)
     {
         slider.maxValue = value;
     }

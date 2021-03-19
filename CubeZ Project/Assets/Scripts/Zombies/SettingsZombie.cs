@@ -1,18 +1,17 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Zombie/Zombie Settings", order = 0)]
-    public  class SettingsZombie : ScriptableObject
-    {
+[CreateAssetMenu(menuName = "Zombie/Zombie Settings", order = 0)]
+public class SettingsZombie : ScriptableObject
+{
     [SerializeField] SettingsZombieData data = new SettingsZombieData();
 
-    public SettingsZombieData GetData ()
+    public SettingsZombieData GetData()
     {
         return data;
     }
 
-    public SettingsZombie ()
+    public SettingsZombie()
     {
 
     }
-    }
+}

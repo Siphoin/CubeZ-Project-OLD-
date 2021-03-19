@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 /// <summary>
 /// Позволяет отображать поле в редакторе, но без возможности изменения самого поля. Для правильной работоспособности атрибута требуется дополнительно атрибут SerializeField
 /// </summary>

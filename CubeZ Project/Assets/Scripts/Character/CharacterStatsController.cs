@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Character))]
 public class CharacterStatsController : MonoBehaviour, IInvokerMono
-    {
+{
     private Dictionary<NeedCharacterType, CharacterStatsDataNeed> needs = new Dictionary<NeedCharacterType, CharacterStatsDataNeed>();
 
     // stats fields
@@ -19,9 +19,9 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
     private CharacterStatsDataNeed health;
 
- [SerializeField, ReadOnlyField]   private Character character;
+    [SerializeField, ReadOnlyField] private Character character;
 
- private   WorldManager worldManager;
+    private WorldManager worldManager;
 
     public CharacterStatsDataNeed Hunger { get => hunger; }
     public CharacterStatsDataNeed Sleep { get => sleep; }
@@ -31,7 +31,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
     // Use this for initialization
     void Awake()
-        {
+    {
         character = GetComponent<Character>();
         needs = character.CharacterStats.GetDictonaryNeeds();
 
@@ -62,28 +62,28 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
     // Update is called once per frame
     void Update()
-        {
+    {
         if (character.IsDead)
         {
             CancelInvoke();
             StopAllCoroutines();
             enabled = false;
         }
-        }
-
-    public  void CallInvokingMethod(Action method, float time)
-    {
-       Invoke(method.Method.Name, time);
     }
 
-    public  void CallInvokingEveryMethod(Action method, float time)
+    public void CallInvokingMethod(Action method, float time)
+    {
+        Invoke(method.Method.Name, time);
+    }
+
+    public void CallInvokingEveryMethod(Action method, float time)
     {
         InvokeRepeating(method.Method.Name, time, time);
     }
 
     // needs mechanims
 
-    private void ProgressiveHunger ()
+    private void ProgressiveHunger()
     {
         ProgressiveNeed(hunger);
     }
@@ -95,7 +95,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
 
 
-    private void ProgressiveNeed (CharacterStatsDataNeed statsTarget)
+    private void ProgressiveNeed(CharacterStatsDataNeed statsTarget)
     {
         if (statsTarget.value > 0)
         {
@@ -104,24 +104,24 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 ;
         if (statsTarget.value <= 0)
         {
-        switch (statsTarget.needType)
-        {
+            switch (statsTarget.needType)
+            {
                 case NeedCharacterType.Eat:
                     DamageCharacter();
 
                     break;
                 case NeedCharacterType.Sleep:
-                break;
-            case NeedCharacterType.Temperature:
+                    break;
+                case NeedCharacterType.Temperature:
                     DamageCharacter();
                     break;
-            case NeedCharacterType.Run:
-                break;
-            case NeedCharacterType.Health:
-                break;
-            default:
-                break;
-        }
+                case NeedCharacterType.Run:
+                    break;
+                case NeedCharacterType.Health:
+                    break;
+                default:
+                    break;
+            }
         }
 
         statsTarget.CallOnValueChanged();
@@ -134,7 +134,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         character.Hit(1, false);
     }
 
-    private IEnumerator RunStatsControl ()
+    private IEnumerator RunStatsControl()
     {
         while (true)
         {
@@ -155,7 +155,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                     run.value -= (int)coFSpeed;
                     run.CallOnValueChanged();
                 }
-                
+
             }
 
             else
@@ -163,14 +163,14 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 run.value = 0;
                 run.CallOnValueChanged();
             }
-           
 
 
-            
+
+
         }
     }
 
-    private IEnumerator TemperatureStatsControl ()
+    private IEnumerator TemperatureStatsControl()
     {
         while (true)
         {
@@ -188,7 +188,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                     DamageCharacter();
                 }
 
-                
+
             }
 
             else
@@ -203,7 +203,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         }
     }
 
-    public void AddValueToNeed (NeedCharacterType type, int value)
+    public void AddValueToNeed(NeedCharacterType type, int value)
     {
         CharacterStatsDataNeed targetNeed = null;
 
@@ -239,5 +239,5 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
     //
 
-      
-    }
+
+}

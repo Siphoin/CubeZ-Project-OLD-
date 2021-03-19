@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 [System.Serializable]
-public class TemperatureWorldData 
+public class TemperatureWorldData
 {
     [Header("Минимальная температура")]
     public int minTemperatureValue = -40;
@@ -15,12 +14,12 @@ public class TemperatureWorldData
     public int snowTemperatureDecrementValue = 6;
 
 
-    public TemperatureWorldData ()
+    public TemperatureWorldData()
     {
 
     }
 
-    public TemperatureWorldData (TemperatureWorldData copyClass)
+    public TemperatureWorldData(TemperatureWorldData copyClass)
     {
         copyClass.CopyAll(this);
     }

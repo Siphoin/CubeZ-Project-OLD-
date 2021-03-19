@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using UnityEngine;
 
-    public static class ValidatorData
-    {
+public static class ValidatorData
+{
 
     public static void CheckValidFieldStats(System.Reflection.FieldInfo prop, object type)
     {
@@ -27,7 +25,7 @@ using UnityEngine;
         }
     }
 
-    public  static void CheckValidPropertyStats(System.Reflection.PropertyInfo prop,  object type)
+    public static void CheckValidPropertyStats(System.Reflection.PropertyInfo prop, object type)
     {
         object valueProp = prop.GetValue(type);
         if (valueProp.IsNumber())

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-    public class ItemObject : MonoBehaviour, IObjectAddingInventory
-    {
+public class ItemObject : MonoBehaviour, IObjectAddingInventory
+{
     [Header("Вращается ли объект")]
     [SerializeField] bool rotating = false;
     private const float SPEED_ROTATING = 110.0f;
@@ -16,9 +15,9 @@ using UnityEngine;
     private ItemBaseData dataItem;
 
 
-        // Use this for initialization
-        void Start()
-        {
+    // Use this for initialization
+    void Start()
+    {
         if (SPEED_ROTATING < 0)
         {
             throw new ItemObjectException("speed rotating as < 0");
@@ -27,13 +26,13 @@ using UnityEngine;
         {
             throw new ItemObjectException("item is null");
         }
-       dataItem = new ItemBaseData(item.data);
+        dataItem = new ItemBaseData(item.data);
         dataItem.GenerateId();
-        }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
+    // Update is called once per frame
+    void Update()
+    {
         if (!rotating)
         {
             return;
@@ -56,7 +55,7 @@ using UnityEngine;
 
     private bool TryAddItemToInventory()
     {
-      return  GameCacheManager.gameCache.inventory.TryAdd(dataItem);
+        return GameCacheManager.gameCache.inventory.TryAdd(dataItem);
     }
 
     public void AddItemToInventory()

@@ -2,7 +2,7 @@
 
 public static class SkyboxManager
 {
-    public static void SetSkybox (Material skyboxMaterial)
+    public static void SetSkybox(Material skyboxMaterial)
     {
         if (skyboxMaterial == null)
         {

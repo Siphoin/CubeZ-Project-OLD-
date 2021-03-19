@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
-    public class ZombieRandomizerTextureSkin : MonoBehaviour
-    {
+public class ZombieRandomizerTextureSkin : MonoBehaviour
+{
     SkinnedMeshRenderer meshRenderer;
 
     private const float MAX_OFFSET_TEXTURE = 1000;
@@ -12,8 +11,8 @@ using UnityEngine;
     private const string PATH_TEXTURES = "Textures/Zombie";
 
     Texture[] textureVariants;
-        // Use this for initialization
-        void Start()
+    // Use this for initialization
+    void Start()
     {
         if (!TryGetComponent(out meshRenderer))
         {
@@ -54,7 +53,7 @@ using UnityEngine;
         meshRenderer.material.mainTextureScale = newOffset;
     }
 
-    private float GenerateСoordinateVectorOffset ()
+    private float GenerateСoordinateVectorOffset()
     {
         return Random.Range(1.0f, MAX_OFFSET_TEXTURE + 1.0f);
     }

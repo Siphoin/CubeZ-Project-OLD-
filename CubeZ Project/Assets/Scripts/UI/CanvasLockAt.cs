@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
-    public class CanvasLockAt : MonoBehaviour
+public class CanvasLockAt : MonoBehaviour
+{
+    private Camera cam;
+    private void LateUpdate()
     {
-        private Camera cam;
-        private void LateUpdate()
-        {
-            transform.LookAt(transform.position + cam.transform.forward);
-        
-        }
+        transform.LookAt(transform.position + cam.transform.forward);
 
-        private void Start()
-        {
-            cam = Camera.main;
-        }
     }
+
+    private void Start()
+    {
+        cam = Camera.main;
+    }
+}

@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿public class CharacterAnimatorObserver : AnimatorObserver
+{
 
-
-    public class CharacterAnimatorObserver : AnimatorObserver
+    // Use this for initialization
+    void Start()
     {
 
-        // Use this for initialization
-        void Start()
-        {
+    }
 
-        }
+    // Update is called once per frame
+    void Update()
+    {
 
-        // Update is called once per frame
-        void Update()
-        {
+    }
 
-        }
-
-    public void OffAnimator ()
+    public void OffAnimator()
     {
     }
 
-    }
+}

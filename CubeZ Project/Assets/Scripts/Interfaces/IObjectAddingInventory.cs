@@ -1,4 +1,4 @@
 ﻿public interface IObjectAddingInventory
 {
-   void AddItemToInventory();
+    void AddItemToInventory();
 }

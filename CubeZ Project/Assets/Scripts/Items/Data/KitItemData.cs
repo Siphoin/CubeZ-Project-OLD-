@@ -10,12 +10,12 @@ public class KitItemData : ItemBaseData
     {
     }
 
-    public   KitItemData (ItemBaseData data)
+    public KitItemData(ItemBaseData data)
     {
         data.CopyAll(this);
     }
 
-    public KitItemData (KitItemData copyClass)
+    public KitItemData(KitItemData copyClass)
     {
         copyClass.CopyAll(this);
     }

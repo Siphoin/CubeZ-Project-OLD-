@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 class WalkingStateZombie : IStateBehavior
 {
@@ -12,23 +11,23 @@ class WalkingStateZombie : IStateBehavior
 
     public void Exit()
     {
-   //     Debug.Log("Zombie walking off");
+        //     Debug.Log("Zombie walking off");
     }
 
 
     public void Update()
     {
-    //    Debug.Log("Zombie walking...");
+        //    Debug.Log("Zombie walking...");
     }
 
-public    IEnumerator UpdateWaiting ()
+    public IEnumerator UpdateWaiting()
     {
-       while (true)
+        while (true)
         {
             yield return new WaitForSeconds(Random.Range(12, 14));
             if (!owner.VisiblePlayer)
             {
-                   
+
                 var newPos = NavMeshManager.GenerateRandomPath(owner.transform.position);
                 newPos.y = owner.transform.position.y;
                 owner.SetTargetPoint(newPos);
@@ -44,7 +43,7 @@ public    IEnumerator UpdateWaiting ()
     }
 
 
-    public WalkingStateZombie (BaseZombie owner)
+    public WalkingStateZombie(BaseZombie owner)
     {
         this.owner = owner;
     }

@@ -1,4 +1,4 @@
 ﻿public interface IItemScriptableObject
 {
-   ItemBaseData GetData();
+    ItemBaseData GetData();
 }

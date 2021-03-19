@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemCellMainCanvas : MonoBehaviour, IItemCell
-    {
+{
     [SerializeField] Window windowInventory;
 
     private UIController uIController;
@@ -45,11 +44,11 @@ public class ItemCellMainCanvas : MonoBehaviour, IItemCell
 
     // Update is called once per frame
     void Update()
-        {
+    {
 
-        }
+    }
 
-    public void Select ()
+    public void Select()
     {
         if (currentData == null)
         {
@@ -64,8 +63,8 @@ public class ItemCellMainCanvas : MonoBehaviour, IItemCell
         }
     }
 
-        public void LoadIcon()
-        {
+    public void LoadIcon()
+    {
         Sprite iconSprite = currentData.icon;
         if (iconSprite == null)
         {
@@ -75,8 +74,8 @@ public class ItemCellMainCanvas : MonoBehaviour, IItemCell
         icon.sprite = iconSprite;
     }
 
-        public void SetData(ItemBaseData data)
-        {
+    public void SetData(ItemBaseData data)
+    {
         if (data == null)
         {
             throw new ItemCellException("data is null");
@@ -85,4 +84,4 @@ public class ItemCellMainCanvas : MonoBehaviour, IItemCell
         currentData = data;
         LoadIcon();
     }
-    }
+}

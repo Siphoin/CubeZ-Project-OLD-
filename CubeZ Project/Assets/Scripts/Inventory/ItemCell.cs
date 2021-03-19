@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IItemCell
-    {
+{
     private RectTransform rectTransform;
 
 
@@ -18,7 +17,7 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
 
     private Image thisImage;
-  [SerializeField]  private Image icon;
+    [SerializeField] private Image icon;
 
     private Button buttonIcon;
     private GridLayoutGroup gridLayoutGroup;
@@ -73,9 +72,9 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     // Update is called once per frame
     void Update()
-        {
+    {
 
-        }
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -87,12 +86,12 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         SetColorBorder(transperentColor);
     }
 
-    private void SetColorBorder (Color color)
+    private void SetColorBorder(Color color)
     {
         thisImage.color = color;
     }
 
-    public void LoadIcon ()
+    public void LoadIcon()
     {
         Sprite iconSprite = dataTarget.icon;
         if (iconSprite == null)
@@ -149,7 +148,7 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     }
 
-    public void SetData (ItemBaseData data)
+    public void SetData(ItemBaseData data)
     {
         Ini();
         if (data == null)
@@ -189,7 +188,7 @@ public class ItemCell : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
 
 
-    private void MarkItemFastPanelExits (bool status)
+    private void MarkItemFastPanelExits(bool status)
     {
         bool oldStatus = dataTarget.inFastPanel;
         dataTarget.inFastPanel = status;

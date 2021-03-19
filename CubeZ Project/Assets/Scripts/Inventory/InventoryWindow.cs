@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class InventoryWindow : Window
-    {
+{
     private const string PATH_ITEMCELL_PREFAB = "Prefabs/UI/ItemCell";
     private const string PATH_ITEMCELL_EMTRY_PREFAB = "Prefabs/UI/ItemCellEmtry";
     private const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
     private const string PATH_ITEMS_DATA = "Items/";
 
     [Header("Окно характеристик предмета")]
-        [SerializeField] GameObject infoItem;
+    [SerializeField] GameObject infoItem;
 
     [Header("Текст описания предмета")]
     [SerializeField] TextMeshProUGUI textDescriptionItem;
@@ -29,7 +28,7 @@ public class InventoryWindow : Window
     [Header("Грид пустых ячеек")]
     [SerializeField] GridLayoutGroup gridItemsEmtry;
 
-       private ItemCell itemCellPrefab;
+    private ItemCell itemCellPrefab;
     private ItemCellEmtry itemCellEmtryPrefab;
 
     private InventoryPlayerSettings inventoryPlayerSettings;
@@ -43,7 +42,7 @@ public class InventoryWindow : Window
 
     // Use this for initialization
     void Awake()
-        {
+    {
         FrezzePlayer();
         if (infoItem == null)
         {
@@ -105,20 +104,20 @@ public class InventoryWindow : Window
         SetStateInfoItem(false);
         LoadEmtryCells();
         LoadItems();
-        }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
+    // Update is called once per frame
+    void Update()
+    {
 
-        }
+    }
 
-        private void SetStateInfoItem (bool state)
-        {
-            infoItem.SetActive(state);
-        }
+    private void SetStateInfoItem(bool state)
+    {
+        infoItem.SetActive(state);
+    }
 
-    private void LoadItems ()
+    private void LoadItems()
     {
         ClearInventoryWindow();
         for (int i = 0; i < GameCacheManager.gameCache.inventory.Length; i++)
@@ -131,7 +130,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void LoadEmtryCells ()
+    private void LoadEmtryCells()
     {
         for (int i = 0; i < inventoryPlayerSettings.data.maxCountItems; i++)
         {
@@ -139,7 +138,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void CreateItemCell (ItemBaseData data)
+    private void CreateItemCell(ItemBaseData data)
     {
         if (data == null)
         {
@@ -157,7 +156,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void CreateEmtryCell ()
+    private void CreateEmtryCell()
     {
         Instantiate(itemCellEmtryPrefab, gridItemsEmtry.transform);
     }
@@ -171,7 +170,7 @@ public class InventoryWindow : Window
         icoInfoItem.sprite = data.icon;
     }
 
-    public void RemoveItem ()
+    public void RemoveItem()
     {
         RemoveActiveWeaponPlayer();
         GameCacheManager.gameCache.inventory.Remove(currentItemData);
@@ -191,7 +190,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void ClearInventoryWindow ()
+    private void ClearInventoryWindow()
     {
         SetStateInfoItem(false);
         for (int i = 0; i < gridItems.transform.childCount; i++)
@@ -209,12 +208,12 @@ public class InventoryWindow : Window
         }
     }
 
-    public void SetTargetItem (ItemBaseData target)
+    public void SetTargetItem(ItemBaseData target)
     {
         ShowInfoItem(target);
     }
     #region Use Mechanim
-    public void UseItem ()
+    public void UseItem()
     {
         switch (currentItemData.typeItem)
         {
@@ -232,7 +231,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void UseFood ()
+    private void UseFood()
     {
         CharacterStatsDataNeed statsHunger = PlayerManager.Manager.PlayerStats.Hunger;
         if (statsHunger.value >= statsHunger.GetDefaultValue())
@@ -258,7 +257,7 @@ public class InventoryWindow : Window
         RemoveItem();
     }
 
-    private void UseWeapon ()
+    private void UseWeapon()
     {
         string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
         WeaponItem weaponItem = Resources.Load<WeaponItem>(path);
@@ -271,23 +270,23 @@ public class InventoryWindow : Window
             currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
             return;
         }
-            if (currentPlayer.CurrentWeapon.data.id == currentItemData.id)
-            {
-                return;
-            }
+        if (currentPlayer.CurrentWeapon.data.id == currentItemData.id)
+        {
+            return;
+        }
 
-            else
-            {
-                currentPlayer.SetWeapon(weaponItem);
-                currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
-            }
+        else
+        {
+            currentPlayer.SetWeapon(weaponItem);
+            currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
+        }
 
 
 
 
     }
 
-    private void AddPlayerValueStatsToNeed (TypeItem typeItem, int value)
+    private void AddPlayerValueStatsToNeed(TypeItem typeItem, int value)
     {
         NeedCharacterType needCharacterType = NeedCharacterType.Eat;
 
@@ -307,7 +306,7 @@ public class InventoryWindow : Window
     }
 
 
-    private string GetPathToItem (TypeItem typeItem, string id)
+    private string GetPathToItem(TypeItem typeItem, string id)
     {
         return $"{PATH_ITEMS_DATA}{typeItem}s/{id}";
     }

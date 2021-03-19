@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-    public class UIController : MonoBehaviour
-    {
+public class UIController : MonoBehaviour
+{
     [SerializeField] UIWindowFragment[] windows;
     private HashSet<string> windowsCached = new HashSet<string>();
 
@@ -17,7 +15,7 @@ using System.Linq;
 
     // Use this for initialization
     void Awake()
-        {
+    {
         if (manager == null)
         {
             manager = this;
@@ -27,11 +25,11 @@ using System.Linq;
         {
             Destroy(gameObject);
         }
-        }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
+    // Update is called once per frame
+    void Update()
+    {
         for (int i = 0; i < windows.Length; i++)
         {
             UIWindowFragment windowFragment = windows[i];
@@ -40,7 +38,7 @@ using System.Linq;
                 OpenWindow(windowFragment.window);
             }
         }
-        }
+    }
 
     private void WindowExit(Window window)
     {
@@ -48,7 +46,7 @@ using System.Linq;
     }
 
 
-    public Window OpenWindow (string nameWindow)
+    public Window OpenWindow(string nameWindow)
     {
         UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == nameWindow);
         Window window = Instantiate(targetFragment.window);
@@ -58,7 +56,7 @@ using System.Linq;
 
     }
 
-    public Window OpenWindow (Window windowTarget)
+    public Window OpenWindow(Window windowTarget)
     {
         UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == windowTarget.name);
         Window newWindow = Instantiate(targetFragment.window);
@@ -68,7 +66,7 @@ using System.Linq;
 
     }
 
-    public bool ContainsWindow (string windowName)
+    public bool ContainsWindow(string windowName)
     {
         return windowsCached.Contains(windowName + PREFIX_PREFAB);
     }

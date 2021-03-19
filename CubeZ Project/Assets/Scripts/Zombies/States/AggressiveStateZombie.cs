@@ -6,17 +6,17 @@ class AggresiveStateZombie : IStateBehavior
     BaseZombie owner;
     public void Enter()
     {
-       // Debug.Log("Zombie agressive on");
+        // Debug.Log("Zombie agressive on");
     }
 
     public void Exit()
     {
-      //  Debug.Log("Zombie agressive off");
+        //  Debug.Log("Zombie agressive off");
     }
 
     public void Update()
     {
-      //  Debug.Log("Zombie agressive update");
+        //  Debug.Log("Zombie agressive update");
     }
 
     public IEnumerator UpdateWaiting()

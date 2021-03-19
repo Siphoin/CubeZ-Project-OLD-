@@ -1,8 +1,8 @@
-﻿using System;
+﻿using shortid.Configuration;
+using shortid.Utils;
+using System;
 using System.Linq;
 using System.Text;
-using shortid.Configuration;
-using shortid.Utils;
 
 namespace shortid
 {

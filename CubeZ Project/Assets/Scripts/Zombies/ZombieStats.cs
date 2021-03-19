@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 [System.Serializable]
 public class ZombieStats
 {
@@ -14,7 +11,7 @@ public class ZombieStats
     [Header("Дальность видимости")]
     public float distanceVisible = 1;
 
-    public ZombieStats ()
+    public ZombieStats()
     {
 
     }
