@@ -1308,7 +1308,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3800927216163181438}
   - component: {fileID: 3800927216163181437}
-  - component: {fileID: 2607714536548935526}
   m_Layer: 0
   m_Name: RLegPants
   m_TagString: Untagged
@@ -1394,19 +1393,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.015061288, y: 0.00021901447, z: 0.0031357612}
     m_Extent: {x: 0.016550362, y: 0.0066000256, z: 0.01625372}
   m_DirtyAABB: 0
---- !u!114 &2607714536548935526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800927216163181439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ad55b6d63b26004fa3b63ab8040ec4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinType: 1
 --- !u!1 &3800927216179318254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1437,7 @@ GameObject:
   - component: {fileID: 3800927216426833914}
   - component: {fileID: 3800927216426833915}
   - component: {fileID: 3800927216426833894}
+  - component: {fileID: 3927167534948720204}
   m_Layer: 0
   m_Name: Zombie_1
   m_TagString: Zombie
@@ -1554,6 +1541,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstEye: {fileID: 4914692391918411316}
   secondEye: {fileID: 3800927216932658784}
+--- !u!114 &3927167534948720204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800927216426833916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fadc9184fb163e544a173754b24f28bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinType: 1
+  firstPart: {fileID: 3800927216486948822}
+  secondPart: {fileID: 3800927216163181437}
 --- !u!1 &3800927216486948776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,7 +1566,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3800927216486948823}
   - component: {fileID: 3800927216486948822}
-  - component: {fileID: 1234845067215436332}
   m_Layer: 0
   m_Name: LLegPants
   m_TagString: Untagged
@@ -1650,19 +1651,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.014941116, y: -0.00052526686, z: -0.0035552997}
     m_Extent: {x: 0.016604304, y: 0.0070325057, z: 0.016687285}
   m_DirtyAABB: 0
---- !u!114 &1234845067215436332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800927216486948776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ad55b6d63b26004fa3b63ab8040ec4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinType: 1
 --- !u!1 &3800927216541100150
 GameObject:
   m_ObjectHideFlags: 0

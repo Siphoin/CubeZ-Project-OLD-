@@ -371,6 +371,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
+        gameObject.AddComponent<CharacterRebel>();
         enabled = false;
     }
 

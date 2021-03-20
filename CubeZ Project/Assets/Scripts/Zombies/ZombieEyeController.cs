@@ -67,5 +67,14 @@ public class ZombieEyeController : MonoBehaviour
         firstEye.intensity = value;
     }
 
+    private void OnDestroy()
+    {
+        if (Application.isPlaying)
+        {
+ WorldManager.Manager.onDayChanged -= NewDayListener;
+        }
+       
+    }
+
 
 }

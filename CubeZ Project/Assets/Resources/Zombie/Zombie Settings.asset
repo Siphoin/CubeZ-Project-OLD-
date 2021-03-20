@@ -18,5 +18,7 @@ MonoBehaviour:
     maxHealth: 100
     maxDamage: 20
     maxZombiesCountInHorde: 4
+    minTimeSpawnZombie: 5
+    maxTimeSpawnZombie: 10
     zombieIncrementEveryDay: 2
-    timeRemove: 7
+    timeRemove: 14

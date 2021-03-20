@@ -11,6 +11,9 @@ public class CharacterData
     [Header("Базовый урон")]
     public int damage = 6;
 
+    [Header("Восстает в секундах")]
+    public float rebelTime = 5.0f;
+
     [Header("Параметры потребностей")]
 
     [SerializeField]

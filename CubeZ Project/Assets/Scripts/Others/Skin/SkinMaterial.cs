@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
-[RequireComponent(typeof(Renderer))]
 public class SkinMaterial : MonoBehaviour
 {
     [SerializeField] SkinType skinType = SkinType.Clothe;
 
-    private const string PATH_SETTINGS_COLORS_CLOTHE = "Character/Customize/clotheColorsVariants";
-    private const string PATH_SETTINGS_COLORS_HAIR = "Character/Customize/hairColorsVariants";
+    protected const string PATH_SETTINGS_COLORS_CLOTHE = "Character/Customize/clotheColorsVariants";
+    protected const string PATH_SETTINGS_COLORS_HAIR = "Character/Customize/hairColorsVariants";
 
     private SkinnedMeshRenderer rendererMaterial;
+
+    public SkinType SkinType { get => skinType; }
+
     // Use this for initialization
     void Start()
+    {
+        Ini();
+    }
+
+    protected void Ini()
     {
         if (!TryGetComponent(out rendererMaterial))
         {
@@ -24,7 +31,7 @@ public class SkinMaterial : MonoBehaviour
 
     }
 
-    private void RandomizeColorMaterial()
+    public virtual void RandomizeColorMaterial()
     {
         string path = skinType == SkinType.Clothe ? PATH_SETTINGS_COLORS_CLOTHE : PATH_SETTINGS_COLORS_HAIR;
         SkinSettings skinSettings = Resources.Load<SkinSettings>(path);

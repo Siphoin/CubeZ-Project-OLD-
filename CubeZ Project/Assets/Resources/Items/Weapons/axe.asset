@@ -24,4 +24,4 @@ MonoBehaviour:
     id: 
   dataWeapon:
     damageBonus: 10
-    strength: 2
+    strength: 12

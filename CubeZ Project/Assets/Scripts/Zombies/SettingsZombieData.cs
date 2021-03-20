@@ -13,11 +13,16 @@ public class SettingsZombieData
     public int maxDamage = 20;
     [Header("Максимальное число зомби в ново-созданной орде")]
     public int maxZombiesCountInHorde = 4;
+
+    [Header("Минимальное время спавна зомби")]
+    public float minTimeSpawnZombie = 10f;
+    [Header("Максимальное время спавна зомби")]
+    public float maxTimeSpawnZombie = 15f;
     [Header("Коэфицент численности зомби с каждым днем")]
     public int zombieIncrementEveryDay = 2;
 
     [Header("Время исчезновение трупа зомби")]
-    public float timeRemove = 7;
+    public float timeRemove = 14;
 
     public SettingsZombieData()
     {
@@ -26,6 +31,6 @@ public class SettingsZombieData
 
     public SettingsZombieData(SettingsZombieData copyClass)
     {
-        this.CopyAll(copyClass);
+        copyClass.CopyAll(this);
     }
 }

@@ -36,6 +36,10 @@ public class TimeOfWeakData
     [Header("Параметры температуры")]
     public TemperatureWorldData temperatureSettings = new TemperatureWorldData();
 
+    [Header("Стартовый день")]
+    [Header("Настройки дня")]
+    public int startDay = 1;
+
     public TimeOfWeakData()
     {
 

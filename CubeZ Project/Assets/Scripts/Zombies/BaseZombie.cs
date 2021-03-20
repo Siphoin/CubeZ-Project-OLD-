@@ -60,7 +60,6 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     // Update is called once per frame
     void Update()
     {
-
     }
     protected void Ini()
     {
@@ -114,7 +113,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         zombieStats.damage = Random.Range(zombieStats.damage, zombieData.maxDamage);
         zombieStats.health = Random.Range(zombieStats.health, zombieData.maxHealth);
 
-        Debug.Log(zombieStats);
+     //   Debug.Log(zombieStats);
     }
 
     public void CheckValidStats()
@@ -273,6 +272,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     protected void LockToTarget()
     {
         Vector3 direction = targetPoint - transform.position;
+  //      Debug.Log(direction);
         Quaternion root = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, root, 2 * Time.deltaTime);
         var rootNormal = transform.rotation;

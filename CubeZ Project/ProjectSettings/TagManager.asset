@@ -15,6 +15,7 @@ TagManager:
   - ItemCellEmtry
   - OtherPlayer
   - MyPlayer
+  - ZombieSpawner
   layers:
   - Default
   - TransparentFX

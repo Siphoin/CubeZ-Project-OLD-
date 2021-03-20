@@ -33,6 +33,10 @@ public class WorldManager : MonoBehaviour
 
     private float rotateSpeedSun;
 
+    private int currentDay = 1;
+
+    private bool temperatureisLerping = false;
+
     private const string TAG_DIRECTION_LIGHT = "DirectionLight";
     private const string FOLBER_VFX_WEATHER = "Prefabs/VFX/";
 
@@ -59,6 +63,7 @@ public class WorldManager : MonoBehaviour
     public event Action onTemperatureChanged;
     public string TemperatureString { get => currentTemperature + " °C"; }
     public int TemperatureValue { get => currentTemperature; }
+    public int CurrentDay { get => currentDay; }
 
     //
 
@@ -97,6 +102,8 @@ public class WorldManager : MonoBehaviour
 
         StartCoroutine(RandomTemperature());
 
+        SetStartDay();
+
     }
 
 
@@ -110,6 +117,16 @@ public class WorldManager : MonoBehaviour
         }
 
         timeOfWeakData = new TimeOfWeakData(settingsTimeOfWeak.GetData());
+    }
+
+    private void SetStartDay ()
+    {
+        currentDay = timeOfWeakData.startDay;
+    }
+
+    private void IncrementDay ()
+    {
+        currentDay++;
     }
 
     private ParticleSystem LoadWeatherVFX(WeatherType weatherType)
@@ -228,6 +245,7 @@ public class WorldManager : MonoBehaviour
                 colorActive = timeOfWeakData.colorMoming;
                 StartCoroutine(SunLerpingIntensity(timeOfWeakData.intensityDay));
                 colorNext = timeOfWeakData.colorDay;
+                IncrementDay();
 
                 break;
             case DayTimeType.Day:
@@ -368,8 +386,14 @@ public class WorldManager : MonoBehaviour
 
     IEnumerator LerpingTemperature()
     {
+        if (temperatureisLerping)
+        {
+            yield return null;
+        }
+        temperatureisLerping = true;
         float lerpValue = 0;
         float startedTemperature = currentTemperature;
+        
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(1, 20) * Time.deltaTime);
@@ -379,6 +403,7 @@ public class WorldManager : MonoBehaviour
 
             if (lerpValue >= 1)
             {
+                temperatureisLerping = false;
                 yield break;
             }
 
@@ -414,8 +439,13 @@ public class WorldManager : MonoBehaviour
     {
         SaveOldTemperature();
         currentTemperature += value;
-        StartCoroutine(LerpingTemperature());
+        StartLerpingTemperature();
 
+    }
+
+    private void StartLerpingTemperature()
+    {
+        StartCoroutine(LerpingTemperature());
     }
 
     private void SaveOldTemperature()
