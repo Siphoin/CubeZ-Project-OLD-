@@ -22,7 +22,7 @@ public class Zombie : BaseZombie
         if (!visiblePlayer)
         {
             float distance = Vector3.Distance(transform.position, targetPoint);
-            if (distance > 1f)
+            if (distance > 1f && agent.velocity != Vector3.zero)
             {
                 SetAnimationState(TypeAnimation.ZombieWalk);
             }
@@ -84,6 +84,11 @@ public class Zombie : BaseZombie
             target = collision.gameObject.GetComponent<Character>();
             SetAggresiveBehavior();
         }
+    }
+
+    private void OnDestroy()
+    {
+        CallRemoveEvent();
     }
 
 

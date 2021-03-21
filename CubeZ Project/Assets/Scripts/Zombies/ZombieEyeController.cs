@@ -71,7 +71,16 @@ public class ZombieEyeController : MonoBehaviour
     {
         if (Application.isPlaying)
         {
+            try
+            {
  WorldManager.Manager.onDayChanged -= NewDayListener;
+            }
+
+            catch
+            {
+
+            }
+
         }
        
     }

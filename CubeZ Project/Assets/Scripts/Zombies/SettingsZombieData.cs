@@ -24,6 +24,12 @@ public class SettingsZombieData
     [Header("Время исчезновение трупа зомби")]
     public float timeRemove = 14;
 
+    [Header("Время изчезновения зомби если он не виден основной камерой")]
+    public float timeRemoveonGCZombie = 180.0f;
+
+
+    [Header("Максиальное кол-во зомби в мире")]
+    public int countZombiesWorld = 100;
     public SettingsZombieData()
     {
 

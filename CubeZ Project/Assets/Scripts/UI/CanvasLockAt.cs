@@ -3,9 +3,9 @@
 public class CanvasLockAt : MonoBehaviour
 {
     private Camera cam;
-    private void LateUpdate()
+    private void Update()
     {
-        transform.LookAt(transform.position + cam.transform.forward);
+        transform.forward = Camera.main.transform.forward;
 
     }
 

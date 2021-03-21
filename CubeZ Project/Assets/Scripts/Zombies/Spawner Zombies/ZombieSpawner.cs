@@ -17,7 +17,11 @@ public class ZombieSpawner : MonoBehaviour
     private SettingsZombieData zombieData;
     private SettingsZombie settingsZombie;
 
+    private WorldManager worldManager;
+
     private int maxCountTypesSpawn = 0;
+    private int zombieinWorld = 0;
+    private int maxCountZombieinWorld = 0;
     // Use this for initialization
     void Start()
         {
@@ -40,9 +44,11 @@ public class ZombieSpawner : MonoBehaviour
         {
             throw new ZombieSpawnerException("world manager not found");
         }
+        worldManager = WorldManager.Manager;
         settingsZombie = WorldManager.Manager.SettingsZombie;
         zombieData = new SettingsZombieData(settingsZombie.GetData());
         maxCountTypesSpawn = (int)Enum.GetValues(typeof(TypeSpawnZombie)).Cast<TypeSpawnZombie>().Max();
+        maxCountZombieinWorld = zombieData.countZombiesWorld;
         Debug.Log($"spawner zombies on. Count types zombies as {zombiesVariants.Length}");
         StartCoroutine(Spawn());
 
@@ -59,17 +65,19 @@ public class ZombieSpawner : MonoBehaviour
     {
         while (true)
         {
+            
             float time = Random.Range(zombieData.minTimeSpawnZombie, zombieData.maxTimeSpawnZombie + 1.0f);
             yield return new WaitForSeconds(time);
             int countZombies = Random.Range(1, zombieData.maxZombiesCountInHorde + 1);
+            if (zombieinWorld + countZombies < maxCountZombieinWorld)
+            {
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
-            Vector3 center = NavMeshManager.GenerateRandomPath(transform.position);
+            Vector3 center = NavMeshManager.GenerateRandomPath(worldManager.GetRandomPointWithRandomPlane());
             if (countZombies > 1)
             {
-               typeSpawn = (TypeSpawnZombie)Random.Range(0, maxCountTypesSpawn);
+               typeSpawn = (TypeSpawnZombie)Random.Range(0, maxCountTypesSpawn + 1);
             }
 
-            Debug.Log(typeSpawn);
             for (int i = 0; i < countZombies; i++)
             {
                 yield return new WaitForSeconds(Random.Range(MIN_TIME_SPAWN_ONE_ZOMBIE, MAX_TIME_SPAWN_ONE_ZOMBIE + 1));
@@ -77,25 +85,23 @@ public class ZombieSpawner : MonoBehaviour
                 switch (typeSpawn)
                 {
                     case TypeSpawnZombie.One:
-
-                        Vector3 posZombie = NavMeshManager.GenerateRandomPath(transform.position);
+                        Vector3 posZombie = NavMeshManager.GenerateRandomPath(center);
                         CreateZombie(posZombie);
-
-
                     break;
                     case TypeSpawnZombie.Horde:
-                        float maxAngle = 180.0f;
-                        float x = center.x + RADIUS_HORDE * (float)Math.Cos(Random.Range(maxAngle * -1, maxAngle + 1));
-                        float z = center.z + RADIUS_HORDE * (float)Math.Tan(Random.Range(maxAngle * -1, maxAngle + 1));
-                        Vector3 posZombieHorde = new Vector3(x, center.y, z);
+                        var posZombieHorde = center + RADIUS_HORDE * Random.insideUnitSphere;
+                        posZombieHorde.y = -center.y;
                         CreateZombie(posZombieHorde);
                         break;
                     default:
-                        break;
+                            throw new ZombieSpawnerException("Type spawn is invalid");
                 }
             }
 
-            Debug.Log($"Spawned {countZombies} zombies");
+            Debug.Log($"Spawned {countZombies} zombies. Count zombies in World {zombieinWorld}");
+            }
+           
+
         }
     }
 
@@ -109,11 +115,23 @@ public class ZombieSpawner : MonoBehaviour
         var quaternion = Quaternion.identity;
        quaternion.y = selectedAngle;
         newZombie.transform.rotation = quaternion;
+        newZombie.onRemove += ZombieRemoved;
+        IncrementZombieCountCurrent();
 
     
     }
 
-    public void CreateZombie(Vector3 position, Quaternion quaternion)
+    private void ZombieRemoved ()
+    {
+        zombieinWorld--;
+    }
+
+    private void IncrementZombieCountCurrent ()
+    {
+        zombieinWorld++;
+    }
+
+    public BaseZombie CreateZombie(Vector3 position, Quaternion quaternion)
     {
         BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
         BaseZombie newZombie = Instantiate(selectedPrefab);
@@ -121,6 +139,9 @@ public class ZombieSpawner : MonoBehaviour
         float maxAngle = 180.0f;
         float selectedAngle = Random.Range(maxAngle * -1.0f, maxAngle + 1.0f);
         newZombie.transform.rotation = quaternion;
+        newZombie.onRemove += ZombieRemoved;
+        IncrementZombieCountCurrent();
+        return newZombie;
 
 
     }

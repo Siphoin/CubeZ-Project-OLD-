@@ -22,3 +22,5 @@ MonoBehaviour:
     maxTimeSpawnZombie: 10
     zombieIncrementEveryDay: 2
     timeRemove: 14
+    timeRemoveonGCZombie: 180
+    countZombiesWorld: 100

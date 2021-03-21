@@ -16,15 +16,25 @@ using UnityEngine;
             {
                 throw new CharacterRebelException("character data settings not found");
             }
-
+        try
+        {
         zombieSpawner = GameObject.FindGameObjectWithTag(TAG_ZOMBIE_SPAWNER).GetComponent<ZombieSpawner>();
+        }
+        catch
+        {
+
+            throw new CharacterRebelException("Zombie Spawner not found");
+        }
+
+
 
         CallInvokingMethod(Rebel, characterDataSettings.GetData().rebelTime);
         }
 
     private void Rebel()
     {
-        zombieSpawner.CreateZombie(transform.position, transform.rotation);
+     Transform newZombie = zombieSpawner.CreateZombie(transform.position, transform.rotation).transform;
+        GameCamera.Main.SetTarget(newZombie);
         Destroy(gameObject);
     }
 

@@ -11,6 +11,8 @@ public class WorldManager : MonoBehaviour
 
     private static WorldManager manager;
 
+    private GameObject[] planes;
+
     private const string PATH_SETTINGS_ZOMBIE = "Zombie/Zombie Settings";
 
     private const string PATH_SETTINGS_TIME_OF_WEAK = "World/TimeOfWeakSettings";
@@ -39,6 +41,7 @@ public class WorldManager : MonoBehaviour
 
     private const string TAG_DIRECTION_LIGHT = "DirectionLight";
     private const string FOLBER_VFX_WEATHER = "Prefabs/VFX/";
+    private const string TAG_PLANE = "Plane";
 
 
     [SerializeField, ReadOnlyField] private DayTimeType dayTimeType;
@@ -70,6 +73,9 @@ public class WorldManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        planes = GameObject.FindGameObjectsWithTag(TAG_PLANE);
+
+
         if (manager == null)
         {
             manager = this;
@@ -80,8 +86,16 @@ public class WorldManager : MonoBehaviour
             Destroy(gameObject);
         }
         LoadWeathers();
-
+        try
+        {
         directionLight = GameObject.FindGameObjectWithTag(TAG_DIRECTION_LIGHT).GetComponent<Light>();
+        }
+        catch
+        {
+
+            throw new WorldManagerException("Direction Light not found");
+        }
+
         // load settings list
 
 
@@ -388,6 +402,7 @@ public class WorldManager : MonoBehaviour
     {
         if (temperatureisLerping)
         {
+            Debug.Log(1233132);
             yield return null;
         }
         temperatureisLerping = true;
@@ -457,6 +472,16 @@ public class WorldManager : MonoBehaviour
     {
         onTemperatureChanged?.Invoke();
     }
+    #endregion
+
+    #region Path Find Mechanim 
+
+    public Vector3 GetRandomPointWithRandomPlane ()
+    {
+        Transform randomPlane = planes[Random.Range(0, planes.Length)].transform;
+        return NavMeshManager.GenerateRandomPath(randomPlane.position);
+    }
+
     #endregion
 
 }

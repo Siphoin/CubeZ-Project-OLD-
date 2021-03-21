@@ -39,6 +39,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public event Action<ItemBaseData> onWeaponChanged;
 
+    public event Action onDead;
+
     public float Speed { get => characterData.speed; }
 
     public int Health { get => healthStats.value; }
@@ -99,7 +101,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
         if (characterActive && !isFrezzed)
         {
-            LookAtMouse();
+            LookAtDirection();
         }
         else
         {
@@ -128,9 +130,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    private void LookAtMouse()
+    private void LookAtDirection()
     {
-        Vector3 dir = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")) * characterData.rotateSpeed * Time.deltaTime;
+        Vector3 dir = new Vector3(Input.GetAxis(HORIZONTAL_INPUT_NAME), 0.0f, Input.GetAxis(VERTICAL_INPUT_NAME)) * characterData.rotateSpeed * Time.deltaTime;
 
         if (dir != Vector3.zero)
         {
@@ -368,7 +370,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Dead()
     {
-
+        onDead?.Invoke();
         animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
         gameObject.AddComponent<CharacterRebel>();

@@ -37,6 +37,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected const string PREFIX_DEAD_PLAYER = "Dead";
 
+    private const string TAG_DEAD_ZOMBIE = "DeadZombie";
+
+    private const string ANIM_DEATH_NAME = "Death";
+
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
@@ -51,6 +55,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     private bool isDead = false;
     private SettingsZombieData zombieData;
+
+    public event Action onRemove;
 
     // Use this for initialization
     void Start()
@@ -271,14 +277,24 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected void LockToTarget()
     {
-        Vector3 direction = targetPoint - transform.position;
-  //      Debug.Log(direction);
-        Quaternion root = Quaternion.LookRotation(direction);
+        float distancetoPoint = Vector3.Distance(transform.position, targetPoint);
+    //    Debug.Log(distancetoPoint);
+        if (distancetoPoint > 0.2f)
+        {
+
+ Vector3 direction = targetPoint - transform.position;
+
+            if (!direction.NotValid()) {
+Quaternion root = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, root, 2 * Time.deltaTime);
         var rootNormal = transform.rotation;
         rootNormal.x = 0;
         rootNormal.z = 0;
         transform.rotation = rootNormal;
+            }
+        
+        }
+       
     }
 
     public void Hit(int hitValue, bool playHitAnim = true)
@@ -306,11 +322,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             agent.speed = 0;
             agent.acceleration = 0;
             target = null;
-            tag = "DeadZombie";
-            animator.SetBool("Death", true);
-            Dead();
+            tag = TAG_DEAD_ZOMBIE;
             currentStateBehavior.Exit();
             StopCoroutine(currentStateBehavior.UpdateWaiting());
+            Dead();
         }
 
     }
@@ -319,7 +334,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     {
         TimerDestroy timerDestroy = gameObject.AddComponent<TimerDestroy>();
         timerDestroy.timeDestroy = zombieData.timeRemove;
-        animator.Play("Death");
+        animator.Play(ANIM_DEATH_NAME);
         rb.isKinematic = true;
         enabled = false;
     }
@@ -333,5 +348,16 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     {
         Invoke(method.Method.Name, time);
     }
+
+    private void OnDestroy()
+    {
+        CallRemoveEvent();
+    }
+
+    protected void CallRemoveEvent ()
+    {
+        onRemove?.Invoke();
+    }
+
 }
 
