@@ -2,4 +2,5 @@
 {
     Hair,
     Clothe,
+    Bed,    
 }

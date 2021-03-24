@@ -2,8 +2,8 @@
 
 public class SkinBottonPartMaterial : SkinMaterial
     {
-    [SerializeField] private SkinnedMeshRenderer firstPart;
-    [SerializeField] private SkinnedMeshRenderer secondPart;
+    [SerializeField] private Renderer firstPart;
+    [SerializeField] private Renderer secondPart;
         // Use this for initialization
         void Start()
         {
@@ -19,14 +19,14 @@ public class SkinBottonPartMaterial : SkinMaterial
         }
     public override void RandomizeColorMaterial()
     {
-        string path = SkinType == SkinType.Clothe ? PATH_SETTINGS_COLORS_CLOTHE : PATH_SETTINGS_COLORS_HAIR;
+        string path = PATH_FOLBER_SETTINGS + SkinType.ToString().ToLower() + PREFIX_NAME_SETTINGS;
         SkinSettings skinSettings = Resources.Load<SkinSettings>(path);
         Color selectedColor = skinSettings.GetRandomSkinColor();
         SetMaterialColorSkinnedRenderer(selectedColor, firstPart);
         SetMaterialColorSkinnedRenderer(selectedColor, secondPart);
     }
 
-    private void SetMaterialColorSkinnedRenderer (Color color, SkinnedMeshRenderer renderer)
+    private void SetMaterialColorSkinnedRenderer (Color color, Renderer renderer)
     {
         renderer.material.color = color;
     }

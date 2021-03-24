@@ -30,12 +30,15 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < windows.Length; i++)
+        if (Input.anyKeyDown)
         {
-            UIWindowFragment windowFragment = windows[i];
-            if (Input.GetKeyDown(windowFragment.buttonPress) && !windowsCached.Contains(windowFragment.window.name + PREFIX_PREFAB))
+            for (int i = 0; i < windows.Length; i++)
             {
-                OpenWindow(windowFragment.window);
+                UIWindowFragment windowFragment = windows[i];
+                if (Input.GetKeyDown(ControlManagerObject.Manager.ControlManager.GetKeyCodeByFragment(windowFragment.buttonPressTrigger)) && !windowsCached.Contains(windowFragment.window.name + PREFIX_PREFAB))
+                {
+                    OpenWindow(windowFragment.window);
+                }
             }
         }
     }

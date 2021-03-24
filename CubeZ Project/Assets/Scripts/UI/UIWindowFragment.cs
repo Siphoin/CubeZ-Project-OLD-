@@ -4,7 +4,7 @@
 
 public class UIWindowFragment
 {
-    public KeyCode buttonPress;
+    public string buttonPressTrigger;
     public Window window;
 
     public UIWindowFragment()

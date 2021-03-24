@@ -2,11 +2,10 @@
 public class SkinMaterial : MonoBehaviour
 {
     [SerializeField] SkinType skinType = SkinType.Clothe;
+    protected const string PATH_FOLBER_SETTINGS = "Character/Customize/";
+    protected const string PREFIX_NAME_SETTINGS = "ColorsVariants";
 
-    protected const string PATH_SETTINGS_COLORS_CLOTHE = "Character/Customize/clotheColorsVariants";
-    protected const string PATH_SETTINGS_COLORS_HAIR = "Character/Customize/hairColorsVariants";
-
-    private SkinnedMeshRenderer rendererMaterial;
+    private Renderer rendererMaterial;
 
     public SkinType SkinType { get => skinType; }
 
@@ -33,9 +32,10 @@ public class SkinMaterial : MonoBehaviour
 
     public virtual void RandomizeColorMaterial()
     {
-        string path = skinType == SkinType.Clothe ? PATH_SETTINGS_COLORS_CLOTHE : PATH_SETTINGS_COLORS_HAIR;
+        string path = PATH_FOLBER_SETTINGS + skinType.ToString().ToLower() + PREFIX_NAME_SETTINGS;
         SkinSettings skinSettings = Resources.Load<SkinSettings>(path);
         rendererMaterial.material.color = skinSettings.GetRandomSkinColor();
 
     }
+
 }

@@ -402,9 +402,9 @@ public class WorldManager : MonoBehaviour
     {
         if (temperatureisLerping)
         {
-            Debug.Log(1233132);
-            yield return null;
+            yield break;
         }
+
         temperatureisLerping = true;
         float lerpValue = 0;
         float startedTemperature = currentTemperature;
