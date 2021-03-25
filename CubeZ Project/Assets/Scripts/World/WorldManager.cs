@@ -204,7 +204,7 @@ public class WorldManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timeOfWeakData.incrementHourValue);
-            lerpingTimeValue += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping;
+            lerpingTimeValue += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping * Time.timeScale;
             //   Debug.Log(lerpingTimeValue);
 
             directionLight.color = Color.Lerp(colorActive, colorNext, lerpingTimeValue);
@@ -234,7 +234,7 @@ public class WorldManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timeOfWeakData.incrementHourValue);
-            lerp += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping;
+            lerp += timeOfWeakData.incrementHourValue / timeOfWeakData.valueIntensityLerping * Time.timeScale;
             //  Debug.Log(lerp);
 
             directionLight.intensity = Mathf.Lerp(startValue, endValue, lerp);
@@ -456,6 +456,11 @@ public class WorldManager : MonoBehaviour
         currentTemperature += value;
         StartLerpingTemperature();
 
+    }
+
+    public void NewTimeScale (float value)
+    {
+        Time.timeScale = value;
     }
 
     private void StartLerpingTemperature()

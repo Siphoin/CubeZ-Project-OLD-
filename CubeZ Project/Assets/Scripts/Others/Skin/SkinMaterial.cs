@@ -34,6 +34,10 @@ public class SkinMaterial : MonoBehaviour
     {
         string path = PATH_FOLBER_SETTINGS + skinType.ToString().ToLower() + PREFIX_NAME_SETTINGS;
         SkinSettings skinSettings = Resources.Load<SkinSettings>(path);
+        if (skinSettings == null)
+        {
+            throw new SkinMaterialException("not found component settings materiaL color materials");
+        }
         rendererMaterial.material.color = skinSettings.GetRandomSkinColor();
 
     }

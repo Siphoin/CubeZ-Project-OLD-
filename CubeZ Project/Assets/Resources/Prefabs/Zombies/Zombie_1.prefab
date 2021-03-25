@@ -1451,7 +1451,7 @@ GameObject:
   - component: {fileID: 3800927216426833914}
   - component: {fileID: 3800927216426833915}
   - component: {fileID: 3800927216426833894}
-  - component: {fileID: 3927167534948720204}
+  - component: {fileID: 4660773410560626154}
   m_Layer: 0
   m_Name: Zombie_1
   m_TagString: Zombie
@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstEye: {fileID: 4914692391918411316}
   secondEye: {fileID: 3800927216932658784}
---- !u!114 &3927167534948720204
+--- !u!114 &4660773410560626154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1568,8 +1568,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skinType: 1
-  firstPart: {fileID: 3800927216486948822}
-  secondPart: {fileID: 3800927216163181437}
+  renderers:
+  - {fileID: 3800927216486948822}
+  - {fileID: 3800927216163181437}
 --- !u!1 &3800927216486948776
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string ATTACK_NAME_ANIM = "AttackGeneric";
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
     private const string DEAD_ANIM_NAME = "Death";
-
+    private const string KEY_CODE_OFF_SLEEP_NAME = "offSleep";
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
@@ -41,15 +41,24 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public event Action onDead;
 
+    public event Action<bool> onSleep;
+
+
+    private bool isDead = false;
+
+    private bool isFrezzed = false;
+
+    private bool isSleeping = false;
+
+    private Vector3 lastPosition;
+    private Quaternion lastQuaternion;
+
     public float Speed { get => characterData.speed; }
 
     public int Health { get => healthStats.value; }
     public bool IsDead { get => isDead; }
     public WeaponItem CurrentWeapon { get => currentWeapon; }
-
-    private bool isDead = false;
-
-    private bool isFrezzed = false;
+    public bool IsSleeping { get => isSleeping; }
 
 
 
@@ -73,6 +82,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             throw new CharacterException("Speed <= 0");
         }
 
+
+
         baseDamage = characterData.damage;
         ReturnToBaseDamage();
 
@@ -84,6 +95,17 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         CheckValidStats();
 
 #endif
+        if (ControlManagerObject.Manager == null)
+        {
+            throw new CharacterException("Control manager object not found");
+        }
+
+        if (ControlManagerObject.Manager.ControlManager == null)
+        {
+            throw new CharacterException("Control manager not found");
+        }
+
+
         animator = transform.GetChild(0).GetComponent<Animator>();
 
         animatorObserver = transform.GetChild(0).GetComponent<CharacterAnimatorObserver>();
@@ -109,6 +131,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         }
         ActionsCharactersCheck();
+
+        if (isSleeping)
+        {
+            if (Input.GetKeyDown(ControlManagerObject.Manager.ControlManager.GetKeyCodeByFragment(KEY_CODE_OFF_SLEEP_NAME)))
+            {
+                Awakening();
+            }
+        }
 
     }
 
@@ -181,6 +211,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
             }
         }
+
 
 
         else
@@ -350,8 +381,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
                     characterActive = true;
                 }
             }
-
+            if (isSleeping)
+            {
+                Awakening();
+            }
         }
+
 
         else
         {
@@ -417,4 +452,46 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         SetAnimationState(TypeAnimation.Idle2);
         SetStateFrezze(true);
     }
+
+    #region Sleep System
+    public void Sleep(Bed bedTarget)
+    {
+        if (bedTarget == null)
+        {
+            throw new CharacterException("bed target is null");
+        }
+        CachingLastTransform();
+        SetSleepStatus(true);
+        SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
+        SetAnimationState(TypeAnimation.Idle2);
+    }
+
+    private void SetNewTransform(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+    }
+
+    private void CachingLastTransform ()
+    {
+        lastPosition = transform.position;
+        lastQuaternion = transform.rotation;
+        Debug.Log($"Player transform cached. Position: {lastPosition} Rotation: {lastQuaternion}");
+    }
+
+   public void Awakening()
+    {
+        SetSleepStatus(false);
+        SetNewTransform(lastPosition, lastQuaternion);
+    }
+
+    private void SetSleepStatus (bool status)
+    {
+        isSleeping = status;
+        onSleep?.Invoke(isSleeping);
+        SetStateFrezze(isSleeping);
+        characterActive = !status;
+        WorldManager.Manager.NewTimeScale(status == true ? 4 : 1);
+    }
+    #endregion
 }

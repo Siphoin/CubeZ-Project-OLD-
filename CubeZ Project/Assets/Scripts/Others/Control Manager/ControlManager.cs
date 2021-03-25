@@ -10,6 +10,15 @@ public class ControlManager : ScriptableObject
 
     public KeyCode GetKeyCodeByFragment (string triggerName)
     {
+        try
+        {
         return controlFragments.Single(item => item.nameTrigger == triggerName).keyCode;
+        }
+
+        catch
+        {
+            throw new ControlManagerException($"Trigger Name {triggerName} not found");
+        }
+
     }
     }

@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28afed564305a874a8282ed00c458c0b, type: 3}
-  m_Name: ControlManager
+  m_Script: {fileID: 11500000, guid: b1f7a9c9fe4ecf54bb2184453ebdee32, type: 3}
+  m_Name: BedInteraction
   m_EditorClassIdentifier: 
-  controlFragments:
-  - nameTrigger: Interaction
-    keyCode: 102
-  - nameTrigger: Inventory
-    keyCode: 101
-  - nameTrigger: offSleep
-    keyCode: 32
+  interactionData:
+    actionsNames:
+    - Sleep

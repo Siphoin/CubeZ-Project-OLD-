@@ -37,7 +37,7 @@ public class Window : MonoBehaviour
 
     }
 
-    public void Exit()
+    public virtual void Exit()
     {
         player.ActivateCharacter();
         onExit?.Invoke(this);

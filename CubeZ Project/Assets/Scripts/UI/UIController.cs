@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
 
     private static UIController manager;
 
+    public bool On { get; set; } = true;
+
     public static UIController Manager { get => manager; }
 
     // Use this for initialization
@@ -30,7 +32,7 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && On)
         {
             for (int i = 0; i < windows.Length; i++)
             {

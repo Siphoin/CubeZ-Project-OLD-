@@ -47,11 +47,11 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
         // start system needs
         CallInvokingEveryMethod(ProgressiveHunger, hunger.speedNeed);
-        CallInvokingEveryMethod(ProgressiveSleep, sleep.speedNeed);
 
         //
         StartCoroutine(RunStatsControl());
         StartCoroutine(TemperatureStatsControl());
+        StartCoroutine(SleepStatsControl());
     }
 
 
@@ -88,10 +88,6 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         ProgressiveNeed(hunger);
     }
 
-    private void ProgressiveSleep()
-    {
-        ProgressiveNeed(sleep);
-    }
 
 
 
@@ -200,6 +196,32 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 }
             }
 
+        }
+    }
+
+    private IEnumerator SleepStatsControl ()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(sleep.speedNeed);
+
+            if (sleep.value > 0)
+            {
+                if (!character.IsSleeping)
+                {
+                   sleep.value -= 1;
+                    sleep.CallOnValueChanged();
+                }
+            }
+
+            if (sleep.value < sleep.GetDefaultValue())
+            {
+                if (character.IsSleeping)
+                {
+                    sleep.value += 1;
+                    sleep.CallOnValueChanged();
+                }
+            }
         }
     }
 
