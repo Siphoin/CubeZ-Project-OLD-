@@ -228,7 +228,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             if (raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER))
             {
                 target = raycastHit.collider.GetComponent<Character>();
-                if (!visiblePlayer)
+                if (!visiblePlayer && !target.IsSleeping)
                 {
                     float distance = Vector3.Distance(transform.position, target.transform.position);
                     if (distance <= zombieStats.distanceVisible)

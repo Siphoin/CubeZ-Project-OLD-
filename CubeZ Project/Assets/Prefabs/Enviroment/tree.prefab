@@ -45,9 +45,10 @@ GameObject:
   - component: {fileID: 8934234142263006572}
   - component: {fileID: 8934234142263006573}
   - component: {fileID: 2324345504224198324}
+  - component: {fileID: 5250082639593967967}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -144,6 +145,22 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &5250082639593967967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934234142263006575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20737ed42f9c68643a19bc895d72f3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  woodPrefab: {fileID: 573012155347542435, guid: 30c945f91ee1e4e4d97a088b536824bc,
+    type: 3}
+  treeMain: {fileID: 8934234140724653881}
+  currentHealth: 0
 --- !u!1 &8934234142348598560
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +172,6 @@ GameObject:
   - component: {fileID: 8934234142348598567}
   - component: {fileID: 8934234142348598564}
   - component: {fileID: 8934234142348598565}
-  - component: {fileID: 8934234142348598566}
   - component: {fileID: 6953873416488884449}
   m_Layer: 0
   m_Name: Cube
@@ -225,19 +241,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8934234142348598566
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8934234142348598560}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6953873416488884449
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
 [System.Serializable]
 public class BaseInventoryContainer
 {
@@ -89,5 +91,10 @@ public class BaseInventoryContainer
     public virtual bool Contains(ItemBaseData item)
     {
         return items.Contains(item);
+    }
+
+   public List<ItemBaseData> GetItemsWithTypeIgnore (TypeItem typeItem)
+    {
+        return items.Where(item => item.typeItem != typeItem).ToList();
     }
 }

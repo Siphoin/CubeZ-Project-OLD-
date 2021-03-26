@@ -14,6 +14,8 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
 
     private const string TAG_PLAYER = "MyPlayer";
     private const string TRIGGER_NAME_KEY_CODE = "Interaction";
+    private const string PATH_REQUEST_ID_LIST_RESOURCES = "Items/Resources/ResourcesIDList";
+    private const string PATH_FOLBER_ITEMS_RESOURCES = "Items/Resources/";
     private const string PATH_PREFAB_CANVAS_DISPLAY_KEY_CODE = "Prefabs/UI/CanvasDisplayKeyCode";
     
 
@@ -28,6 +30,8 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
     private CanvasDisplayKeyCode hintKeyCodePrefab;
 
     private Character enteredPlayer;
+
+    public TypeItem TypeItem { get => item.data.typeItem; }
 
 
 
@@ -55,9 +59,35 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
         {
             throw new ItemObjectException("prefab hint key code not found");
         }
+#if UNITY_EDITOR
+        CheckValidResourceItem();
+
+#endif
         dataItem = new ItemBaseData(item.data);
         dataItem.GenerateId();
 
+    }
+
+    private void CheckValidResourceItem()
+    {
+        if (item.data.typeItem == TypeItem.Resource)
+        {
+            ResourcesIDList resourcesIDList = Resources.Load<ResourcesIDList>(PATH_REQUEST_ID_LIST_RESOURCES);
+            if (resourcesIDList == null)
+            {
+                throw new ItemObjectException("Request id list resources not found");
+            }
+            ResourceItem resourceItem = Resources.Load<ResourceItem>($"{PATH_FOLBER_ITEMS_RESOURCES}{item.data.idItem}");
+
+            if (resourceItem == null)
+            {
+                throw new ItemObjectException("resource item not found");
+            }
+            if (!resourcesIDList.IDResourceRequest(resourceItem.dataResource.idResource))
+            {
+                throw new ItemObjectException("resource item not request in id resource list");
+            }
+        }
     }
 
     // Update is called once per frame

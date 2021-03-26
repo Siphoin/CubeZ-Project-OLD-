@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -120,13 +121,10 @@ public class InventoryWindow : Window
     private void LoadItems()
     {
         ClearInventoryWindow();
-        for (int i = 0; i < GameCacheManager.gameCache.inventory.Length; i++)
+        List<ItemBaseData> items = GameCacheManager.gameCache.inventory.GetItemsWithTypeIgnore(TypeItem.Resource);
+        for (int i = 0; i < items.Count; i++)
         {
-            ItemBaseData targetData = null;
-            if (GameCacheManager.gameCache.inventory.TryGet(i, out targetData))
-            {
-                CreateItemCell(targetData);
-            }
+            CreateItemCell(items[i]);
         }
     }
 

@@ -2,10 +2,9 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-[RequireComponent(typeof(TextMeshProUGUI))]
     public class TextShowNewDayUI : MonoBehaviour, IInvokerMono
 {
-    TextMeshProUGUI thisText;
+ [SerializeField]   TextMeshProUGUI thisText;
 
     [Header("Время исчезновения в секундах")]
     [SerializeField] private float timeDestroy = 5;
@@ -18,7 +17,7 @@ using UnityEngine;
     // Use this for initialization
     void Start()
         {
-        if (!TryGetComponent(out thisText))
+        if (thisText == null)
         {
             throw new TextShowNewDayUIException("Text mesh pro GUI Component not found");
         }

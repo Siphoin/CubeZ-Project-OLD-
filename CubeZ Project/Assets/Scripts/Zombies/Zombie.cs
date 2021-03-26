@@ -82,7 +82,11 @@ public class Zombie : BaseZombie
         if (collision.gameObject.tag.Contains(TAG_PLAYER))
         {
             target = collision.gameObject.GetComponent<Character>();
+            if (!target.IsSleeping)
+            {
             SetAggresiveBehavior();
+            }
+
         }
     }
 

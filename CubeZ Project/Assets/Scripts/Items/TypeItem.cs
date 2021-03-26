@@ -2,5 +2,6 @@
 {
     Food,
     Kit,
-    Weapon
+    Weapon,
+    Resource,
 }

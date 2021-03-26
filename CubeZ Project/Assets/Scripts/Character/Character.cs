@@ -22,10 +22,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
     private const string DEAD_ANIM_NAME = "Death";
     private const string KEY_CODE_OFF_SLEEP_NAME = "offSleep";
+    private const string TAG_TREE = "Tree";
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
+
+    [SerializeField] Transform skinCharacter;
 
     public CharacterData CharacterStats { get => characterData; }
 
@@ -53,6 +56,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private Vector3 lastPosition;
     private Quaternion lastQuaternion;
 
+    private Quaternion startQuuaterion;
+
     public float Speed { get => characterData.speed; }
 
     public int Health { get => healthStats.value; }
@@ -67,6 +72,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Awake()
     {
+        if (skinCharacter == null)
+        {
+            throw new CharacterException("Character skin not seted");
+        }
+
+        startQuuaterion = skinCharacter.transform.localRotation;
         characterDataSettings = Resources.Load<CharacterDataSettings>(PATH_CHARACTER_SETTINGS);
         characterData = new CharacterData(characterDataSettings.GetData());
         healthStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Health];
@@ -134,10 +145,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         if (isSleeping)
         {
+            if (ControlManagerObject.Manager != null && ControlManagerObject.Manager.ControlManager != null)
+            {
             if (Input.GetKeyDown(ControlManagerObject.Manager.ControlManager.GetKeyCodeByFragment(KEY_CODE_OFF_SLEEP_NAME)))
             {
                 Awakening();
             }
+            }
+
         }
 
     }
@@ -334,7 +349,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             }
         }
     }
-
+#region Attack System
     public void Damage()
     {
 
@@ -343,28 +358,55 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             if (raycastHit.collider.tag == ZOMBIE_TAG)
             {
-                BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
-                target.Hit(currentDamage);
-                if (CharacterUseWeapon())
-                {
-
-                    currentWeapon.dataWeapon.strength -= 1;
-                //    Debug.Log(currentWeapon.dataWeapon.strength);
-
-                    if (currentWeapon.dataWeapon.strength <= 0)
-                    {
-                        GameCacheManager.gameCache.inventory.Remove(currentWeapon.data);
-                        SetWeapon(null);
-                        ReturnToBaseDamage();
-                        
-                    }
-                }
+                DamageZombie(raycastHit);
             }
+
+            if (raycastHit.collider.tag == TAG_TREE)
+            {
+                DamageTree(raycastHit);
+            }
+
         }
 
 
     }
 
+    private void DamageZombie(RaycastHit raycastHit)
+    {
+        BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
+        target.Hit(currentDamage);
+        CheckWearWeapon();
+    }
+
+    private void DamageTree(RaycastHit raycastHit)
+    {
+        Tree target = raycastHit.collider.GetComponent<Tree>();
+        target.Hit(currentDamage);
+        Debug.Log(target.CurrentHealth);
+        CheckWearWeapon();
+    }
+
+    private void CheckWearWeapon()
+    {
+        if (CharacterUseWeapon())
+        {
+
+            currentWeapon.dataWeapon.strength -= 1;
+            //    Debug.Log(currentWeapon.dataWeapon.strength);
+
+            if (currentWeapon.dataWeapon.strength <= 0)
+            {
+                GameCacheManager.gameCache.inventory.Remove(currentWeapon.data);
+                SetWeapon(null);
+                ReturnToBaseDamage();
+
+            }
+        }
+    }
+
+
+
+    #endregion
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
@@ -384,6 +426,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             if (isSleeping)
             {
                 Awakening();
+                skinCharacter.transform.localRotation = startQuuaterion;
+                
             }
         }
 
@@ -460,33 +504,35 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("bed target is null");
         }
+        _rb.Sleep();
         CachingLastTransform();
         SetSleepStatus(true);
-        SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
+       SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
         SetAnimationState(TypeAnimation.Idle2);
     }
 
     private void SetNewTransform(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
-        transform.rotation = rotation;
+        skinCharacter.transform.localRotation = rotation;
     }
 
     private void CachingLastTransform ()
     {
         lastPosition = transform.position;
-        lastQuaternion = transform.rotation;
+        lastQuaternion = skinCharacter.transform.localRotation;
         Debug.Log($"Player transform cached. Position: {lastPosition} Rotation: {lastQuaternion}");
     }
 
    public void Awakening()
     {
         SetSleepStatus(false);
-        SetNewTransform(lastPosition, lastQuaternion);
+        SetNewTransform(lastPosition, startQuuaterion);
     }
 
     private void SetSleepStatus (bool status)
     {
+
         isSleeping = status;
         onSleep?.Invoke(isSleeping);
         SetStateFrezze(isSleeping);
@@ -494,4 +540,5 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         WorldManager.Manager.NewTimeScale(status == true ? 4 : 1);
     }
     #endregion
+
 }

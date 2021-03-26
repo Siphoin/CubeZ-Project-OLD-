@@ -29,7 +29,7 @@ using UnityEngine;
     {
         if (day == DayTimeType.Morming)
         {
-            TextShowNewDayUI newDayText = Instantiate(showDayTextPrefab, transform);
+            TextShowNewDayUI newDayText = Instantiate(showDayTextPrefab);
             newDayText.SetDay(worldManager.CurrentDay);
         }
     }
