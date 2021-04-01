@@ -13,6 +13,7 @@ public class ContainerItemsWindow : Window
 
     [SerializeField] private GridLayoutGroup gridItems;
     [SerializeField] private Button buttonGet;
+    [SerializeField] private Button buttonGetAllItems;
 
 
     private const string PATH_PREFAB_ITEM_CELL_CONTAINER_ITEMS = "Prefabs/UI/ItemCellContainerItems";
@@ -30,6 +31,11 @@ public class ContainerItemsWindow : Window
             throw new ContainerItemsWindowException("button get item not seted");
         }
 
+        if (buttonGetAllItems == null)
+        {
+            throw new ContainerItemsWindowException("button get all items not seted");
+        }
+
         itemCellContainerItemsPrefab = Resources.Load<ItemCellContainerItems>(PATH_PREFAB_ITEM_CELL_CONTAINER_ITEMS);
 
 
@@ -42,7 +48,7 @@ public class ContainerItemsWindow : Window
         LoadItems();
 
         buttonGet.onClick.AddListener(GetItem);
-        FrezzePlayer();
+        buttonGetAllItems.onClick.AddListener(GetAllItems);
     }
 
     private void SetStateInterableButtonGet(bool state)
@@ -75,6 +81,11 @@ public class ContainerItemsWindow : Window
 
     private void LoadItems ()
     {
+        if (itemsContainer.Length < 1)
+        {
+            SetStateInterableButtonGet(false);
+            
+        }
         for (int i = 0; i < itemsContainer.Length; i++)
         {
             ItemBaseData data;
@@ -94,10 +105,28 @@ public class ContainerItemsWindow : Window
         if (GameCacheManager.gameCache.inventory.TryAdd(currentSelectedItem))
         {
         itemsContainer.Remove(currentSelectedItem);
+            currentSelectedItem = itemsContainer.Get(itemsContainer.Length - 1);
             RefreshListItems();
         }
 
 
+    }
+
+    private void GetAllItems ()
+    {
+        int j = 0;
+        for (int i = 0; i < itemsContainer.Length; i++)
+        {
+            if (GameCacheManager.gameCache.inventory.TryAdd(itemsContainer.Get(i)))
+            {
+                j++;
+
+            }
+
+        }
+       
+        itemsContainer.RemoveOf(j);
+        RefreshListItems();
     }
 
     private void ClearItemsOnGrid ()

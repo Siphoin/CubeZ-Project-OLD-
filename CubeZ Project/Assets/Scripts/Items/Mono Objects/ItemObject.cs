@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDisplay
+public class ItemObject : InteractionObjectContainerItems, IObjectAddingInventory
 {
     [Header("Вращается ли объект")]
     [SerializeField] bool rotating = false;
 
-    private bool playerEntered = false;
 
 
     private const float SPEED_ROTATING = 110.0f;
@@ -15,8 +14,6 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
     private const string TAG_PLAYER = "MyPlayer";
     private const string TRIGGER_NAME_KEY_CODE = "Interaction";
     private const string PATH_REQUEST_ID_LIST_RESOURCES = "Items/Resources/ResourcesIDList";
-    private const string PATH_FOLBER_ITEMS_RESOURCES = "Items/Resources/";
-    private const string PATH_PREFAB_CANVAS_DISPLAY_KEY_CODE = "Prefabs/UI/CanvasDisplayKeyCode";
     
 
     [Header("Этот ресурс содержит предмет:")]
@@ -24,12 +21,6 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
 
     private ItemBaseData dataItem;
 
-    private KeyCode keyCodeGetItem = KeyCode.None;
-
-    private CanvasDisplayKeyCode hintActiveKeyCode;
-    private CanvasDisplayKeyCode hintKeyCodePrefab;
-
-    private Character enteredPlayer;
 
     public TypeItem TypeItem { get => item.data.typeItem; }
 
@@ -52,13 +43,9 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
         {
             throw new ItemObjectException("control manager not found!");
         }
-        keyCodeGetItem = ControlManagerObject.Manager.ControlManager.GetKeyCodeByFragment(TRIGGER_NAME_KEY_CODE);
-        hintKeyCodePrefab = Resources.Load<CanvasDisplayKeyCode>(PATH_PREFAB_CANVAS_DISPLAY_KEY_CODE);
+        Ini();
 
-        if (hintKeyCodePrefab == null)
-        {
-            throw new ItemObjectException("prefab hint key code not found");
-        }
+
 #if UNITY_EDITOR
         CheckValidResourceItem();
 
@@ -67,6 +54,7 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
         dataItem.GenerateId();
 
     }
+
 
     private void CheckValidResourceItem()
     {
@@ -98,7 +86,29 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
         transform.Rotate(rotateVector * SPEED_ROTATING * Time.deltaTime);
         }
 
+        CheckDistanceOffsetPlayer();
 
+    }
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CheckCollision(collision);
+    }
+
+    private bool TryAddItemToInventory()
+    {
+        return GameCacheManager.gameCache.inventory.TryAdd(dataItem);
+    }
+
+    public void AddItemToInventory()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void CheckDistanceOffsetPlayer()
+    {
         if (playerEntered && enteredPlayer != null)
         {
             float distance = Vector3.Distance(enteredPlayer.transform.position, transform.position);
@@ -114,65 +124,4 @@ public class ItemObject : MonoBehaviour, IObjectAddingInventory, IHintKeyCodeDis
         }
     }
 
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == TAG_PLAYER)
-        {
-            if (!collision.gameObject.TryGetComponent(out enteredPlayer))
-            {
-                throw new ItemObjectException("entered player not have component Character");
-            }
-            ShowOrDestroyHintKeyCode(true);
-        }
-    }
-
-
-
-    private void ShowOrDestroyHintKeyCode(bool state)
-    {
-        playerEntered =  state;
-
-        if (playerEntered && hintActiveKeyCode == null)
-        {
-            hintActiveKeyCode = ShowHintKeyCode(keyCodeGetItem, transform);
-        }
-
-        else if (!playerEntered && hintActiveKeyCode != null)
-        {
-            DestroyHintKeyCode();
-        }
-    }
-
-    private bool TryAddItemToInventory()
-    {
-        return GameCacheManager.gameCache.inventory.TryAdd(dataItem);
-    }
-
-    public void AddItemToInventory()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public CanvasDisplayKeyCode ShowHintKeyCode(KeyCode keyCode, Transform targetTransform)
-    {
-        CanvasDisplayKeyCode newHint = Instantiate(hintKeyCodePrefab);
-        newHint.SetKeyCode(keyCode);
-        CanvasLockAt canvasLockAt;
-        if (!newHint.TryGetComponent(out canvasLockAt))
-        {
-            throw new ItemObjectException("not found component CanvasLockAt on hint key code");
-        }
-        canvasLockAt.SetTarget(targetTransform);
-        return newHint;
-    }
-
-    public void DestroyHintKeyCode()
-    {
-        if (hintActiveKeyCode != null)
-        {
-            Destroy(hintActiveKeyCode.gameObject);
-        }
-    }
 }

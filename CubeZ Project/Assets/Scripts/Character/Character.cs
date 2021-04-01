@@ -53,6 +53,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool isSleeping = false;
 
+    private bool isFatigue = false;
+
     private Vector3 lastPosition;
     private Quaternion lastQuaternion;
 
@@ -97,6 +99,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         baseDamage = characterData.damage;
         ReturnToBaseDamage();
+
+        
 
     }
     void Start()
@@ -252,15 +256,16 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private float Walk()
     {
-        float speed = characterData.speed;
+        float speed =  isFatigue == false ? characterData.speed : characterData.speed - 1;
         SetAnimationState(TypeAnimation.Walk);
         return speed;
     }
 
     private float Run()
     {
-        float speed = characterData.speed + 1;
-        SetAnimationState(TypeAnimation.Run);
+        
+        float speed = isFatigue == false ?  characterData.speed + 1 : characterData.speed - 1;
+        SetAnimationState(isFatigue == false ? TypeAnimation.Run : TypeAnimation.Walk);
         return speed;
     }
 
@@ -538,6 +543,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         SetStateFrezze(isSleeping);
         characterActive = !status;
         WorldManager.Manager.NewTimeScale(status == true ? 4 : 1);
+    }
+
+    public void SetFatigue (bool status)
+    {
+        isFatigue = status;
     }
     #endregion
 

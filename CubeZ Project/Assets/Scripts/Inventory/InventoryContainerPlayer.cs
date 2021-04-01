@@ -45,11 +45,18 @@ public class InventoryContainerPlayer : BaseInventoryContainer
     {
         base.Add(item);
         CallEventChanges();
+
     }
 
     public override void Remove(ItemBaseData item)
     {
         base.Remove(item);
+        CallEventChanges();
+    }
+
+    public override void RemoveOf(int count)
+    {
+        base.RemoveOf(count);
         CallEventChanges();
     }
 

@@ -214,6 +214,8 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 }
             }
 
+
+
             if (sleep.value < sleep.GetDefaultValue())
             {
                 if (character.IsSleeping)
@@ -222,6 +224,8 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                     sleep.CallOnValueChanged();
                 }
             }
+
+            character.SetFatigue(sleep.value <= 0);
         }
     }
 

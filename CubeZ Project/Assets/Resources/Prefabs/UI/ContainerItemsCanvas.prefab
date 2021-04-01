@@ -365,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridItems: {fileID: 7960362373669290785}
   buttonGet: {fileID: 3282701201022183708}
+  buttonGetAllItems: {fileID: 9003657943579811854}
 --- !u!1 &5705356227039473313
 GameObject:
   m_ObjectHideFlags: 0

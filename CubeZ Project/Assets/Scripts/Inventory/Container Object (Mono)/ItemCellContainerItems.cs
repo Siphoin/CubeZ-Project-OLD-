@@ -53,6 +53,7 @@ public class ItemCellContainerItems : MonoBehaviour, IItemCell
             throw new ItemCellException("data is null");
         }
         onSelected?.Invoke(currentData);
+        Debug.Log(323);
 
     }
 

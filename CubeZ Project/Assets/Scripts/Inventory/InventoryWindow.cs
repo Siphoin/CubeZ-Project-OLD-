@@ -122,6 +122,7 @@ public class InventoryWindow : Window
     {
         ClearInventoryWindow();
         List<ItemBaseData> items = GameCacheManager.gameCache.inventory.GetItemsWithTypeIgnore(TypeItem.Resource);
+        
         for (int i = 0; i < items.Count; i++)
         {
             CreateItemCell(items[i]);

@@ -19,6 +19,11 @@ public class BaseInventoryContainer
         copyClass.CopyAll(this);
     }
 
+    public BaseInventoryContainer(List<ItemBaseData> list)
+    {
+        items = list;
+    }
+
     public virtual void Add(ItemBaseData item)
     {
         item.inFastPanel = false;
@@ -27,6 +32,7 @@ public class BaseInventoryContainer
 
     public virtual void Remove(ItemBaseData item)
     {
+        
         if (!items.Contains(item))
         {
             throw new InventoryContainerException("Item not found in list items");
@@ -48,8 +54,14 @@ public class BaseInventoryContainer
 
         else
         {
-            items.Remove(items[index]);
+            items.Remove(items.ElementAt(index));
         }
+    }
+
+    public virtual void RemoveOf(int count)
+    {
+        items.RemoveRange(0, count);
+        
     }
 
     public virtual void Clear()
@@ -87,6 +99,20 @@ public class BaseInventoryContainer
 
         return items[index];
     }
+
+    public void Copy(BaseInventoryContainer targetContainer)
+    {
+        if (targetContainer == this)
+        {
+            throw new InventoryContainerException("target container equals this container");
+        }
+        for (int i = 0; i < Length; i++)
+        {
+            targetContainer.Add(items[i]);
+        }
+    }
+
+
 
     public virtual bool Contains(ItemBaseData item)
     {
