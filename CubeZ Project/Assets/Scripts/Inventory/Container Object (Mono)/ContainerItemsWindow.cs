@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,8 @@ public class ContainerItemsWindow : Window
     private ItemCellContainerItems itemCellContainerItemsPrefab;
 
     private ItemBaseData currentSelectedItem = null;
+
+    private List<ItemCellContainerItems> cells = new List<ItemCellContainerItems>(0);
 
 
     [SerializeField] private GridLayoutGroup gridItems;
@@ -77,6 +81,7 @@ public class ContainerItemsWindow : Window
         ItemCellContainerItems newItemCell = Instantiate(itemCellContainerItemsPrefab, gridItems.transform);
         newItemCell.SetData(data);
         newItemCell.onSelected += ItemSelected;
+        cells.Add(newItemCell);
     }
 
     private void LoadItems ()
@@ -94,19 +99,38 @@ public class ContainerItemsWindow : Window
         }
     }
 
-    private void ItemSelected(ItemBaseData data)
+    private void ItemSelected(ItemBaseData data, int index)
     {
         SetStateInterableButtonGet(true);
         currentSelectedItem = data;
+        MarkingItems(index);
+    }
+
+    private void MarkingItems(int index)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            ItemCellContainerItems cell = cells[i];
+            cell.SetColor(cell.CompareItemData(currentSelectedItem) == true && index == cell.transform.GetSiblingIndex() ? cell.SelectedColor : Color.white);
+        }
     }
 
     private void GetItem ()
     {
         if (GameCacheManager.gameCache.inventory.TryAdd(currentSelectedItem))
         {
-        itemsContainer.Remove(currentSelectedItem);
+            ItemCellContainerItems cellRemoving = cells.Single(item => item.CellSelected());
+            cells.Remove(cellRemoving);
+            itemsContainer.Remove(currentSelectedItem);
             currentSelectedItem = itemsContainer.Get(itemsContainer.Length - 1);
             RefreshListItems();
+            if (cells.Count > 0)
+            {
+                ItemCellContainerItems cellNext = cells[cells.Count - 1];
+            cellNext.SetColor(cellNext.SelectedColor);
+            }
+
+
         }
 
 
@@ -136,6 +160,7 @@ public class ContainerItemsWindow : Window
             GameObject obj = gridItems.transform.GetChild(i).gameObject;
             Destroy(obj);
         }
+        cells.Clear();
     }
 
     private void RefreshListItems ()

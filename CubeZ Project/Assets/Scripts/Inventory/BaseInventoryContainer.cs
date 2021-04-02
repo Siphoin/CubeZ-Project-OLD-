@@ -27,7 +27,7 @@ public class BaseInventoryContainer
     public virtual void Add(ItemBaseData item)
     {
         item.inFastPanel = false;
-        items.Add(item);
+        items.Add(new ItemBaseData(item));
     }
 
     public virtual void Remove(ItemBaseData item)

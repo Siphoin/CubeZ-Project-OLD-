@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+[RequireComponent(typeof(Image))]
 public class ItemCellContainerItems : MonoBehaviour, IItemCell
     {
 
@@ -12,13 +12,34 @@ public class ItemCellContainerItems : MonoBehaviour, IItemCell
     private ItemBaseData currentData;
 
     [SerializeField] private Image icon;
+   private Image thisImage;
+
+    [SerializeField] private Color selectedColor = Color.yellow;
 
     Color transperentColor;
 
-    public event Action<ItemBaseData> onSelected;
+    public Color SelectedColor { get => selectedColor; }
+
+    public event Action<ItemBaseData, int> onSelected;
     // Use this for initialization
     void Start()
     {
+        Ini();
+
+        IniTransperentColor();
+
+    }
+
+    private void Ini()
+    {
+        if (thisImage == null)
+        {
+        if (!TryGetComponent(out thisImage))
+        {
+            throw new ItemCellException("component image not found");
+        }
+        }
+
         if (icon == null)
         {
             throw new ItemCellException("icon is null");
@@ -28,9 +49,6 @@ public class ItemCellContainerItems : MonoBehaviour, IItemCell
         {
             throw new ItemCellException("UI controller not found");
         }
-
-        IniTransperentColor();
-
     }
 
     private void IniTransperentColor()
@@ -52,8 +70,7 @@ public class ItemCellContainerItems : MonoBehaviour, IItemCell
         {
             throw new ItemCellException("data is null");
         }
-        onSelected?.Invoke(currentData);
-        Debug.Log(323);
+        onSelected?.Invoke(currentData, transform.GetSiblingIndex());
 
     }
 
@@ -77,5 +94,27 @@ public class ItemCellContainerItems : MonoBehaviour, IItemCell
 
         currentData = data;
         LoadIcon();
+    }
+    public void SetColor (Color color)
+    {
+        Ini();
+        thisImage.color = color;
+    }
+
+
+    public bool CompareItemData (ItemBaseData b)
+    {
+        if (b == null)
+        {
+            throw new ItemCellException("data is null");
+        }
+
+        return b == currentData;
+    }
+
+    public bool CellSelected ()
+    {
+        Ini();
+        return thisImage.color == selectedColor;
     }
 }

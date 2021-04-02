@@ -23,7 +23,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string DEAD_ANIM_NAME = "Death";
     private const string KEY_CODE_OFF_SLEEP_NAME = "offSleep";
     private const string TAG_TREE = "Tree";
-
+    private const string TAG_INTERACTION_OBJECT = "InteractionObject";
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
@@ -55,6 +55,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool isFatigue = false;
 
+    private bool collisizedInteractionObject = false;
+
     private Vector3 lastPosition;
     private Quaternion lastQuaternion;
 
@@ -66,6 +68,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public bool IsDead { get => isDead; }
     public WeaponItem CurrentWeapon { get => currentWeapon; }
     public bool IsSleeping { get => isSleeping; }
+    public bool CollisizedInteractionObject { get => collisizedInteractionObject; }
 
 
 
@@ -138,6 +141,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
         if (characterActive && !isFrezzed)
         {
+            
             LookAtDirection();
         }
         else
@@ -181,12 +185,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void LookAtDirection()
     {
-        Vector3 dir = new Vector3(Input.GetAxis(HORIZONTAL_INPUT_NAME), 0.0f, Input.GetAxis(VERTICAL_INPUT_NAME)) * characterData.rotateSpeed * Time.deltaTime;
+        Vector3 dir = new Vector3(Input.GetAxis(HORIZONTAL_INPUT_NAME), 0.0f, Input.GetAxis(VERTICAL_INPUT_NAME));
 
         if (dir != Vector3.zero)
         {
-            _rb.MoveRotation(Quaternion.LookRotation(dir));
+            _rb.MoveRotation(Quaternion.LookRotation(dir * characterData.rotateSpeed * Time.deltaTime));
         }
+
     }
 
     private void FixedUpdate()
@@ -550,5 +555,26 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         isFatigue = status;
     }
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(TAG_INTERACTION_OBJECT))
+        {
+            SetStateCollisionInteractionObject(true);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(TAG_INTERACTION_OBJECT))
+        {
+            SetStateCollisionInteractionObject(false);
+        }
+    }
+
+    private void SetStateCollisionInteractionObject (bool status)
+    {
+        collisizedInteractionObject = status;
+    }
 
 }

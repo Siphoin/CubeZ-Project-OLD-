@@ -445,8 +445,8 @@ GameObject:
   - component: {fileID: 3800927215544656102}
   - component: {fileID: 3800927215544656103}
   - component: {fileID: 3800927215544656121}
-  - component: {fileID: 3800927215544656120}
   - component: {fileID: 740365472378064259}
+  - component: {fileID: 7794662414652869512}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -562,18 +562,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &3800927215544656120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800927215544656123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a8e6fe2744fdd47b493a09cecf9b69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &740365472378064259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +575,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentMeshRenderer: {fileID: 3800927216426833916}
+--- !u!114 &7794662414652869512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800927215544656123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc58944bf0658304a9e2e3f9e342dd76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameTexturesFolber: Zombie
+  generateUVMap: 1
+  minValueOffset: -10
+  maxValueOffset: -10
 --- !u!1 &3800927215565119898
 GameObject:
   m_ObjectHideFlags: 0

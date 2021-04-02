@@ -25,6 +25,12 @@ public class ContainerObject : InteractionObjectContainerItems
     void Start()
         {
         Ini();
+        if (WorldManager.Manager == null)
+        {
+            throw new ContainerObjectException("World manager not found");
+        }
+
+
 
         containerObjectsSettings = Resources.Load<ContainerObjectsSettings>(PATH_SETTINGS_CONTAINER_OBJECT);
 
@@ -43,12 +49,31 @@ public class ContainerObject : InteractionObjectContainerItems
 
         GenerateItems();
 
+        WorldManager.Manager.onDayChanged += NewGenerationItems;
+
 
 
         }
 
-        // Update is called once per frame
-        void Update()
+    private void NewGenerationItems(DayTimeType dayTime)
+    {
+        if (dayTime == DayTimeType.Morming)
+        {
+            if (containerItems.Length == 0)
+            {
+                int probability = Random.Range(0, 101);
+
+
+                if (probability >= containerObjectsSettings.ProbabilitynewGenerationValue)
+                {
+                    GenerateItems();
+                }
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
         {
         CheckDistanceOffsetPlayer();
         }
@@ -98,9 +123,12 @@ public class ContainerObject : InteractionObjectContainerItems
         {
 
            BaseInventoryContainer containerItemsTypes = ItemsManager.Manager.GetListItemsOfType(typeItem);
+
+
             for (int i = 0; i < countItems; i++)
             {
-                containerItems.Add(containerItemsTypes.Get(Random.Range(0, containerItemsTypes.Length)));
+                int randomIndex = Random.Range(0, containerItemsTypes.Length);
+                containerItems.Add(containerItemsTypes.Get(randomIndex));
             }
             Debug.Log($"New container object {name}: Count items: {countItems}: Type items: {typeItem}");
         }
