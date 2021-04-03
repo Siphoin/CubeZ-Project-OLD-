@@ -11,6 +11,10 @@ public class UIController : MonoBehaviour
 
     private static UIController manager;
 
+    private Window activeWindow = null;
+
+    private List<Window> openedWindows = new List<Window>(0);
+
     public bool On { get; set; } = true;
 
     public static UIController Manager { get => manager; }
@@ -39,7 +43,11 @@ public class UIController : MonoBehaviour
                 UIWindowFragment windowFragment = windows[i];
                 if (Input.GetKeyDown(ControlManagerObject.Manager.ControlManager.GetKeyCodeByFragment(windowFragment.buttonPressTrigger)) && !windowsCached.Contains(windowFragment.window.name + PREFIX_PREFAB))
                 {
-                    OpenWindow(windowFragment.window);
+                    if (activeWindow == null)
+                    {
+                   activeWindow = OpenWindow(windowFragment.window);
+                    }
+
                 }
             }
         }
@@ -47,6 +55,7 @@ public class UIController : MonoBehaviour
 
     private void WindowExit(Window window)
     {
+        openedWindows.Remove(window);
         windowsCached.Remove(window.name);
     }
 
@@ -57,6 +66,7 @@ public class UIController : MonoBehaviour
         Window window = Instantiate(targetFragment.window);
         window.onExit += WindowExit;
         windowsCached.Add(window.name);
+        CacheWindow(window);
         return window;
 
     }
@@ -67,6 +77,7 @@ public class UIController : MonoBehaviour
         Window newWindow = Instantiate(targetFragment.window);
         newWindow.onExit += WindowExit;
         windowsCached.Add(newWindow.name);
+        CacheWindow(windowTarget);
         return newWindow;
 
     }
@@ -74,6 +85,19 @@ public class UIController : MonoBehaviour
     public bool ContainsWindow(string windowName)
     {
         return windowsCached.Contains(windowName + PREFIX_PREFAB);
+    }
+
+    public void CloseAllWindows ()
+    {
+        for (int i = 0; i < openedWindows.Count; i++)
+        {
+            openedWindows[i].Exit();
+        }
+    }
+
+    private void CacheWindow (Window window)
+    {
+        openedWindows.Add(window);
     }
 
 }

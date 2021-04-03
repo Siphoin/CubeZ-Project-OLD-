@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[RequireComponent(typeof(Canvas))]
 public class CanvasDisplayKeyCode : MonoBehaviour
     {
 
@@ -10,8 +10,12 @@ public class CanvasDisplayKeyCode : MonoBehaviour
     [SerializeField] TextMeshProUGUI textKeyCode;
     [SerializeField] Image image;
 
+    private Canvas canvas;
+
     private Color transperentColor;
     private Color defaultColor;
+
+
 
 
     // Use this for initialization
@@ -25,6 +29,11 @@ public class CanvasDisplayKeyCode : MonoBehaviour
         if (image == null)
         {
             throw new CanvasDisplayKeyCodeException("image is null");
+        }
+
+        if (!TryGetComponent(out canvas))
+        {
+
         }
         var alphaColor = image.color;
         alphaColor.a = 0;

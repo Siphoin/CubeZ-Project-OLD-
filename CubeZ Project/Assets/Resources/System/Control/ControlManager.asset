@@ -19,3 +19,5 @@ MonoBehaviour:
     keyCode: 101
   - nameTrigger: offSleep
     keyCode: 32
+  - nameTrigger: ResourcesWindow
+    keyCode: 114

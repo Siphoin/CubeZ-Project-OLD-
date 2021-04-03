@@ -32,7 +32,7 @@ using UnityEngine;
         }
 
 
-    protected void CheckCollision(Collision collision)
+    protected bool CheckCollision(Collision collision)
     {
         if (collision.gameObject.tag == TAG_PLAYER)
         {
@@ -42,6 +42,13 @@ using UnityEngine;
             }
             ShowOrDestroyHintKeyCode(true);
         }
+
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
 
     protected void ShowOrDestroyHintKeyCode(bool state)

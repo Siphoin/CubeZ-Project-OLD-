@@ -14,10 +14,6 @@ public class BaseInventoryContainer
         items = new List<ItemBaseData>(0);
     }
 
-    public BaseInventoryContainer(BaseInventoryContainer copyClass)
-    {
-        copyClass.CopyAll(this);
-    }
 
     public BaseInventoryContainer(List<ItemBaseData> list)
     {
@@ -122,5 +118,10 @@ public class BaseInventoryContainer
    public List<ItemBaseData> GetItemsWithTypeIgnore (TypeItem typeItem)
     {
         return items.Where(item => item.typeItem != typeItem).ToList();
+    }
+
+    public List<ItemBaseData> GetItemsWithType(TypeItem typeItem)
+    {
+        return items.Where(item => item.typeItem == typeItem).ToList();
     }
 }

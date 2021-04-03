@@ -12,6 +12,8 @@ public class CanvasLockAt : MonoBehaviour
 
     private Vector3 oldPosition;
 
+
+
     public bool DestroyIfParentOnDestroy { get; set; } = true;
 
     private bool targetSeted = false;
@@ -61,5 +63,12 @@ public class CanvasLockAt : MonoBehaviour
 
         targetSeted = true;
         this.target = target;
+    }
+
+    public void SetOffset (Vector3 offset)
+    {
+        xOffset = offset.x;
+        yOffset = offset.y;
+        zOffset = offset.z;
     }
 }

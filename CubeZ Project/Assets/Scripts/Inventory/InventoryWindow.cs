@@ -6,43 +6,48 @@ using UnityEngine.UI;
 
 public class InventoryWindow : Window
 {
-    private const string PATH_ITEMCELL_PREFAB = "Prefabs/UI/ItemCell";
-    private const string PATH_ITEMCELL_EMTRY_PREFAB = "Prefabs/UI/ItemCellEmtry";
-    private const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
-    private const string PATH_ITEMS_DATA = "Items/";
+    protected const string PATH_ITEMCELL_PREFAB = "Prefabs/UI/ItemCell";
+    protected const string PATH_ITEMCELL_EMTRY_PREFAB = "Prefabs/UI/ItemCellEmtry";
+    protected const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
+    protected const string PATH_ITEMS_DATA = "Items/";
 
     [Header("Окно характеристик предмета")]
-    [SerializeField] GameObject infoItem;
+    [SerializeField] protected GameObject infoItem;
 
     [Header("Текст описания предмета")]
-    [SerializeField] TextMeshProUGUI textDescriptionItem;
+    [SerializeField] protected TextMeshProUGUI textDescriptionItem;
 
     [Header("Текст имени предмета")]
-    [SerializeField] TextMeshProUGUI textNameItem;
+    [SerializeField] protected TextMeshProUGUI textNameItem;
 
     [Header("Иконка предмета в информации предмета")]
-    [SerializeField] Image icoInfoItem;
+    [SerializeField] protected Image icoInfoItem;
 
     [Header("Грид предметов")]
-    [SerializeField] GridLayoutGroup gridItems;
+    [SerializeField] protected GridLayoutGroup gridItems;
 
     [Header("Грид пустых ячеек")]
-    [SerializeField] GridLayoutGroup gridItemsEmtry;
+    [SerializeField] protected GridLayoutGroup gridItemsEmtry;
 
-    private ItemCell itemCellPrefab;
-    private ItemCellEmtry itemCellEmtryPrefab;
+    protected  ItemCell itemCellPrefab;
+    protected ItemCellEmtry itemCellEmtryPrefab;
 
-    private InventoryPlayerSettings inventoryPlayerSettings;
+    protected InventoryPlayerSettings inventoryPlayerSettings;
 
     [Header("Грид ячеек быстрого доступа")]
 
     [SerializeField] VerticalLayoutGroup gridsItemsFastPanels;
 
 
-    private ItemBaseData currentItemData = null;
+    protected ItemBaseData currentItemData = null;
 
     // Use this for initialization
     void Awake()
+    {
+        IniInventory();
+    }
+
+    public virtual void IniInventory()
     {
         FrezzePlayer();
         if (infoItem == null)
@@ -113,12 +118,12 @@ public class InventoryWindow : Window
 
     }
 
-    private void SetStateInfoItem(bool state)
+    protected void SetStateInfoItem(bool state)
     {
         infoItem.SetActive(state);
     }
 
-    private void LoadItems()
+    public virtual void LoadItems()
     {
         ClearInventoryWindow();
         List<ItemBaseData> items = GameCacheManager.gameCache.inventory.GetItemsWithTypeIgnore(TypeItem.Resource);
@@ -129,7 +134,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void LoadEmtryCells()
+    protected void LoadEmtryCells()
     {
         for (int i = 0; i < inventoryPlayerSettings.data.maxCountItems; i++)
         {
@@ -137,7 +142,7 @@ public class InventoryWindow : Window
         }
     }
 
-    private void CreateItemCell(ItemBaseData data)
+    protected void CreateItemCell(ItemBaseData data)
     {
         if (data == null)
         {
@@ -189,14 +194,22 @@ public class InventoryWindow : Window
         }
     }
 
-    private void ClearInventoryWindow()
+    protected void ClearInventoryWindow()
     {
         SetStateInfoItem(false);
         for (int i = 0; i < gridItems.transform.childCount; i++)
         {
             Destroy(gridItems.transform.GetChild(i).gameObject);
         }
+        if (gridsItemsFastPanels != null)
+        {
+            ClearFastPanel();
+        }
 
+    }
+
+    private void ClearFastPanel()
+    {
         for (int i = 0; i < gridsItemsFastPanels.transform.childCount; i++)
         {
             Transform rectTransformCell = gridsItemsFastPanels.transform.GetChild(i);

@@ -18,6 +18,8 @@ TagManager:
   - ZombieSpawner
   - Tree
   - InteractionObject
+  - MyPlayerArea
+  - PlayerArea
   layers:
   - Default
   - TransparentFX
