@@ -2,16 +2,31 @@
 using System.Collections;
 using UnityEngine;
 
-    public class Door : InteractionObjectContainerItems
+
+[RequireComponent(typeof(Collider))]
+    public class Door : InteractionObjectContainerItems, IGeterHit
     {
     private bool isOpened = false;
     private Vector3 offsetKeyHint = new Vector3(-0.8F, 1, 1);
 
     public event Action<bool> onDoorInteraction;
 
+    public event Action<string> onDead;
+
     [SerializeField] Animator doorAnimator;
 
-    public bool IsOpened { get => isOpened;}
+    private DoorSettings doorSettings;
+
+    private Collider colliderDoor;
+
+    private const string PATH_DOOR_SETTINGS = "Props/Door/DoorSettings";
+    private const string TAG_DEAD_DOOR = "DeadDoor";
+
+  [SerializeField, ReadOnlyField]  private HealthData healthData = new HealthData();
+
+    public int Health { get => healthData.Value; }
+
+    public bool IsOpened { get => isOpened; }
 
     // Use this for initialization
     void Start()
@@ -21,10 +36,42 @@ using UnityEngine;
             throw new DoorException("door animator not seted");
         }
         Ini();
+
+        doorSettings = Resources.Load<DoorSettings>(PATH_DOOR_SETTINGS);
+
+        if (doorSettings == null)
+        {
+            throw new DoorException("door settings not found");
         }
 
-        // Update is called once per frame
-        void Update()
+        colliderDoor = GetComponent<Collider>();
+
+        healthData = new HealthData(doorSettings.StartHealth);
+        healthData.onHealthChanged += NewHealthValue;
+
+        Debug.Log($"New Door ini: ({name}) Start Health: {healthData.StartValue}");
+        }
+
+    private void NewHealthValue()
+    {
+        if (healthData.Value <= 0)
+        {
+            Dead();
+        }
+    }
+
+    private void Dead()
+    {
+        colliderDoor.enabled = false;
+        PlayAnimationDoor(DoorAnimationType.DoorDead);
+        tag = TAG_DEAD_DOOR;
+        healthData.onHealthChanged -= NewHealthValue;
+        DestroyHintKeyCode();
+        Destroy(this);
+    }
+
+    // Update is called once per frame
+    void Update()
         {
         CheckDistanceOffsetPlayer();
         }
@@ -67,5 +114,10 @@ using UnityEngine;
     private void PlayAnimationDoor (DoorAnimationType animationType)
     {
         doorAnimator.Play(animationType.ToString());
+    }
+
+    public void Hit(int hitValue, bool playHitAnim = true)
+    {
+        healthData.Damage(hitValue);
     }
 }

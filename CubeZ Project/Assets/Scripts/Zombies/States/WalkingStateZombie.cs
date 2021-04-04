@@ -27,8 +27,8 @@ class WalkingStateZombie : IStateBehavior
             yield return new WaitForSeconds(Random.Range(12, 14));
             if (!owner.VisiblePlayer)
             {
-
-                var newPos = NavMeshManager.GenerateRandomPath(owner.transform.position);
+                Vector3 targetPosWalking = owner.InHouse == false ? owner.transform.position : owner.HouseAreaBounds.center / 2;
+                var newPos = NavMeshManager.GenerateRandomPath(targetPosWalking);
                 newPos.y = owner.transform.position.y;
                 owner.SetTargetPoint(newPos);
             }

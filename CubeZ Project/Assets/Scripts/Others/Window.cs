@@ -39,7 +39,11 @@ public class Window : MonoBehaviour
 
     public virtual void Exit()
     {
+        if (player != null)
+        {
         player.ActivateCharacter();
+        }
+
         onExit?.Invoke(this);
         Destroy(gameObject);
     }

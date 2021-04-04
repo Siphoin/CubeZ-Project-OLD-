@@ -46,10 +46,20 @@ public class ZombieSpawner : MonoBehaviour
         }
         worldManager = WorldManager.Manager;
         settingsZombie = WorldManager.Manager.SettingsZombie;
+
+
         zombieData = new SettingsZombieData(settingsZombie.GetData());
+
+
         maxCountTypesSpawn = (int)Enum.GetValues(typeof(TypeSpawnZombie)).Cast<TypeSpawnZombie>().Max();
+
+
         maxCountZombieinWorld = zombieData.countZombiesWorld;
+
+
         Debug.Log($"spawner zombies on. Count types zombies as {zombiesVariants.Length}");
+
+
         StartCoroutine(Spawn());
 
        

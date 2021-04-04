@@ -3,4 +3,5 @@
     DoorStart,
     DoorOpen,
     DoorExit,
+    DoorDead,
 }

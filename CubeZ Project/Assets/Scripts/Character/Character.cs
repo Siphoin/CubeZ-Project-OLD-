@@ -11,6 +11,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private Rigidbody _rb;
     private CharacterData characterData;
 
+    BoxCollider boxCollider;
+
     private WeaponItem currentWeapon = null;
 
 
@@ -22,8 +24,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
     private const string DEAD_ANIM_NAME = "Death";
     private const string KEY_CODE_OFF_SLEEP_NAME = "offSleep";
+
+
     private const string TAG_TREE = "Tree";
     private const string TAG_INTERACTION_OBJECT = "InteractionObject";
+    private const string TAG_DOOR = "Door";
+
+
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
@@ -96,6 +103,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         if (characterData.speed <= 0)
         {
             throw new CharacterException("Speed <= 0");
+        }
+
+        if (!TryGetComponent(out boxCollider))
+        {
+            throw new CharacterException("Box Colider component not found on Character");
         }
 
 
@@ -376,6 +388,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
                 DamageTree(raycastHit);
             }
 
+            if (raycastHit.collider.tag == TAG_DOOR)
+            {
+                DamageDoor(raycastHit);
+            }
+
         }
 
 
@@ -393,6 +410,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         Tree target = raycastHit.collider.GetComponent<Tree>();
         target.Hit(currentDamage);
         Debug.Log(target.CurrentHealth);
+        CheckWearWeapon();
+    }
+
+    private void DamageDoor(RaycastHit raycastHit)
+    {
+        Door target = raycastHit.collider.GetComponent<Door>();
+        target.Hit(currentDamage);
+        Debug.Log(target.Health);
         CheckWearWeapon();
     }
 
@@ -462,6 +487,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         onDead?.Invoke();
         animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
+        boxCollider.enabled = false;
         gameObject.AddComponent<CharacterRebel>();
         enabled = false;
     }

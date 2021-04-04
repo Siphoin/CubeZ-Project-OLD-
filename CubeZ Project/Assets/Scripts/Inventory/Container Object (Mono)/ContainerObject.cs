@@ -25,6 +25,8 @@ public class ContainerObject : InteractionObjectContainerItems
     void Start()
         {
         Ini();
+
+
         if (WorldManager.Manager == null)
         {
             throw new ContainerObjectException("World manager not found");
@@ -61,7 +63,7 @@ public class ContainerObject : InteractionObjectContainerItems
         {
             if (containerItems.Length == 0)
             {
-                int probability = Random.Range(0, 101);
+                int probability = ProbabilityUtility.GenerateProbalityInt();
 
 
                 if (probability >= containerObjectsSettings.ProbabilitynewGenerationValue)

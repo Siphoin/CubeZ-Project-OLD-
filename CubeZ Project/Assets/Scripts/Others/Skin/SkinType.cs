@@ -2,5 +2,7 @@
 {
     Hair,
     Clothe,
-    Bed,    
+    Bed,
+    Roof,
+    Wall,
 }

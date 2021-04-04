@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IGeterHit, IInvokerMono
 {
     protected Character target = null;
-
+    protected IGeterHit otherTarget = null;
 
 
 
@@ -23,11 +23,6 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private Animator animator;
 
 
-    public float FastSpeed { get => zombieStats.speed * 2; }
-    public IStateBehavior CurrentStateBehavior { get => currentStateBehavior; }
-    public bool VisiblePlayer { get => visiblePlayer; }
-    public Character Target { get => target; }
-    public float DistanceVisible { get => zombieStats.distanceVisible; }
 
     protected Rigidbody rb;
 
@@ -40,6 +35,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private const string TAG_DEAD_ZOMBIE = "DeadZombie";
 
     private const string ANIM_DEATH_NAME = "Death";
+
+    protected const string TAG_HOUSE = "HouseArea";
 
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
@@ -54,9 +51,22 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private ZombieAnimatorObserver animatorObserver;
 
     private bool isDead = false;
+    protected bool inHouse = false;
+
     private SettingsZombieData zombieData;
 
     public event Action onRemove;
+
+  protected  HouseArea houseAreaEntered;
+
+    public float FastSpeed { get => zombieStats.speed * 2; }
+    public IStateBehavior CurrentStateBehavior { get => currentStateBehavior; }
+    public bool VisiblePlayer { get => visiblePlayer; }
+    public Character Target { get => target; }
+
+    public Bounds HouseAreaBounds { get => houseAreaEntered.GetBounds(); }
+    public float DistanceVisible { get => zombieStats.distanceVisible; }
+    public bool InHouse { get => inHouse; }
 
     // Use this for initialization
     void Start()
@@ -202,6 +212,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
 
         }
+
+        if (otherTarget != null)
+        {
+            otherTarget.Hit(zombieStats.damage);
+        }
     }
 
     public void SetTargetPoint(Vector3 point)
@@ -225,10 +240,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         RaycastHit raycastHit;
         if (Physics.Raycast(transform.position, transform.forward, out raycastHit))
         {
-            if (raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER))
+            if (ValidTagsPlayer(ref raycastHit))
             {
                 target = raycastHit.collider.GetComponent<Character>();
-                if (!visiblePlayer && !target.IsSleeping)
+                if (!visiblePlayer)
                 {
                     float distance = Vector3.Distance(transform.position, target.transform.position);
                     if (distance <= zombieStats.distanceVisible)
@@ -244,7 +259,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     }
 
-
+    private  bool ValidTagsPlayer(ref RaycastHit raycastHit)
+    {
+        return raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER) && !raycastHit.collider.tag.Contains("Area");
+    }
 
     public void SetAnimationState(TypeAnimation type)
     {

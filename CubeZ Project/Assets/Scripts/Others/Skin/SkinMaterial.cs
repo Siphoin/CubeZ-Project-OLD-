@@ -10,7 +10,7 @@ public class SkinMaterial : MonoBehaviour
     public SkinType SkinType { get => skinType; }
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         Ini();
     }

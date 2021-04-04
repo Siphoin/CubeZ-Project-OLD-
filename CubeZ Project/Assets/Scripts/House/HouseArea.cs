@@ -5,38 +5,103 @@ using UnityEngine;
 public class HouseArea : MonoBehaviour
     {
     public event Action<bool> onPlayerEnteredHouse;
+    public event Action<bool> onOtherPlayerEnteredHouse;
+    public event Action<bool> onZombieEnteredHouse;
+
 
     private const string TAG_PLAYER = "MyPlayerArea";
-        // Use this for initialization
-        void Start()
-        {
+    private const string TAG_PLAYER_AREA = "PlayerArea";
+    private const string TAG_ZOMBIE = "ZombieArea";
 
-        }
+    private BoxCollider boxCollider;
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-    private void OnTriggerEnter(Collider other)
+    // Use this for initialization
+    void Start()
     {
-        if (other.CompareTag(TAG_PLAYER))
+        Ini();
+    }
+
+    private void Ini()
+    {
+        if (boxCollider != null)
         {
-            CallEvent(true);
+            return;
+        }
+
+
+        if (!TryGetComponent(out boxCollider))
+        {
+            throw new HouseAreaException("not found component BoxColider");
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(TAG_PLAYER))
+    // Update is called once per frame
+    void Update()
         {
-            CallEvent(false);
-        }
-    }
 
-    private void CallEvent (bool state)
+        }
+    private void CallEventPlayerLocal(bool state)
     {
         onPlayerEnteredHouse?.Invoke(state);
     }
+
+
+    private void CallEventPlayer(bool state)
+    {
+        onOtherPlayerEnteredHouse?.Invoke(state);
+    }
+
+    private void CallEventZombie(bool state)
+    {
+        onZombieEnteredHouse?.Invoke(state);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(TAG_ZOMBIE))
+        {
+            CallEventZombie(true);
+            return;
+        }
+        if (other.CompareTag(TAG_PLAYER))
+        {
+            CallEventPlayerLocal(true);
+            return;
+        }
+
+        if (other.tag.Contains(TAG_PLAYER_AREA))
+        {
+            CallEventPlayer(true);
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(TAG_ZOMBIE))
+        {
+            CallEventZombie(false);
+            return;
+        }
+
+
+        if (other.CompareTag(TAG_PLAYER))
+        {
+            CallEventPlayerLocal(false);
+            return;
+        }
+
+        if (other.tag.Contains(TAG_PLAYER_AREA))
+        {
+            CallEventPlayer(false);
+        }
+    }
+
+    public Bounds GetBounds ()
+    {
+        Ini();
+        return boxCollider.bounds;
+    }
+
 
 }

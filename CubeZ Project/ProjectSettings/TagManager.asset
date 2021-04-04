@@ -20,6 +20,10 @@ TagManager:
   - InteractionObject
   - MyPlayerArea
   - PlayerArea
+  - Door
+  - DeadDoor
+  - ZombieArea
+  - HouseArea
   layers:
   - Default
   - TransparentFX

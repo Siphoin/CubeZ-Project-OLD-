@@ -6,7 +6,7 @@ public class ContainerObjectsSettings : ScriptableObject
     [SerializeField] private int maxCountItemsOfContainer = 12;
 
     [Header("Вероятность генерации новых предметов в контейнере каждый день (в %)")]
-    [SerializeField] private int probabilitynewGenerationValue = 50;
+    [SerializeField, Range(0, 100)] private int probabilitynewGenerationValue = 50;
 
     public int MaxCountItemsOfContainer { get => maxCountItemsOfContainer; }
     public int ProbabilitynewGenerationValue { get => probabilitynewGenerationValue; }
