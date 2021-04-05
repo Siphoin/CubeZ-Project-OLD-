@@ -38,6 +38,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected const string TAG_HOUSE = "HouseArea";
 
+    protected const string TAG_WALL = "Wall";
+
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;

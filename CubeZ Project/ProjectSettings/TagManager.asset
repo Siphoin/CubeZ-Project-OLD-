@@ -24,6 +24,7 @@ TagManager:
   - DeadDoor
   - ZombieArea
   - HouseArea
+  - Wall
   layers:
   - Default
   - TransparentFX

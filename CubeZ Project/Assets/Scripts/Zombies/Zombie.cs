@@ -125,11 +125,15 @@ public class Zombie : BaseZombie
             inHouse = true;
 
         }
-
-        if (CurrentStateBehavior is WalkingStateZombie)
+        if (collision.gameObject.CompareTag(TAG_WALL))
         {
-            SetTargetPoint(transform.position);
+
+        SetTargetPoint(transform.position);
+            Debug.Log("wall");
+
         }
+
+        
 
 
     }

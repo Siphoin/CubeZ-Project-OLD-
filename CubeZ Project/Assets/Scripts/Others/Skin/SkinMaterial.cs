@@ -19,7 +19,11 @@ public class SkinMaterial : MonoBehaviour
     {
         if (!TryGetComponent(out rendererMaterial))
         {
+            if (this is SkinArrayMaterial == false)
+            {
             throw new SkinMaterialException("not found component Renderer");
+            }
+
         }
         RandomizeColorMaterial();
     }
