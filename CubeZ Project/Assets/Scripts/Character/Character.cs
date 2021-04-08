@@ -19,7 +19,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string VERTICAL_INPUT_NAME = "Vertical";
     private const string HORIZONTAL_INPUT_NAME = "Horizontal";
     private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
-    private const string ZOMBIE_TAG = "Zombie";
     private const string ATTACK_NAME_ANIM = "AttackGeneric";
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
     private const string DEAD_ANIM_NAME = "Death";
@@ -29,13 +28,18 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string TAG_TREE = "Tree";
     private const string TAG_INTERACTION_OBJECT = "InteractionObject";
     private const string TAG_DOOR = "Door";
+    private const string ZOMBIE_TAG = "Zombie";
+    private const string FIRE_TAG = "FireArea";
+
 
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
-
+    [Header("Тело персонажа")]
     [SerializeField] Transform skinCharacter;
+    [Header("Триггер персонажп")]
+    [SerializeField] CharacterTrigger characterTrigger;
 
     public CharacterData CharacterStats { get => characterData; }
 
@@ -64,6 +68,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool collisizedInteractionObject = false;
 
+    private bool inFireArea = false;
+
     private Vector3 lastPosition;
     private Quaternion lastQuaternion;
 
@@ -76,6 +82,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public WeaponItem CurrentWeapon { get => currentWeapon; }
     public bool IsSleeping { get => isSleeping; }
     public bool CollisizedInteractionObject { get => collisizedInteractionObject; }
+    public bool InFireArea { get => inFireArea; }
 
 
 
@@ -115,9 +122,37 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         baseDamage = characterData.damage;
         ReturnToBaseDamage();
 
-        
+        characterTrigger.onEnter += CharacterEnterOnTrigger;
+        characterTrigger.onExit += CharacterExitOnTrigger;
+
 
     }
+
+    private void CharacterEnterOnTrigger(string tag)
+    {
+        if (tag == this.tag)
+        {
+            return;
+        }
+        if (tag == FIRE_TAG)
+        {
+            inFireArea  = true;
+        }
+        
+    }
+
+    private void CharacterExitOnTrigger(string tag)
+    {
+        if (tag == this.tag)
+        {
+            return;
+        }
+        if (tag == FIRE_TAG)
+        {
+            inFireArea = false;
+        }
+    }
+
     void Start()
     {
 
@@ -445,15 +480,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
-        if (healthStats.value - hitValue > 0)
-        {
-            healthStats.value -= hitValue;
+          healthStats.value = Mathf.Clamp(healthStats.value - hitValue, 0, 100);
             if (playHitAnim)
             {
                 if (Random.Range(0, 10) > 7)
                 {
                     SetAnimationState(TypeAnimation.GetHit);
-
 
                     characterActive = true;
                 }
@@ -464,10 +496,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
                 skinCharacter.transform.localRotation = startQuuaterion;
                 
             }
-        }
 
 
-        else
+
+        if (healthStats.value <= 0)
         {
             isDead = true;
             healthStats.value = 0;
@@ -596,6 +628,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             SetStateCollisionInteractionObject(false);
         }
+
+
     }
 
     private void SetStateCollisionInteractionObject (bool status)

@@ -19,6 +19,11 @@ public class Zombie : BaseZombie
     {
         UpdateState();
         agent.speed = visiblePlayer == true ? FastSpeed : zombieStats.speed;
+
+        if (animationState == TypeAnimation.ZombieAttackGeneric)
+        {
+            agent.speed = 0;
+        }
         if (!visiblePlayer)
         {
             float distance = Vector3.Distance(transform.position, targetPoint);

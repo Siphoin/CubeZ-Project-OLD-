@@ -25,6 +25,7 @@ TagManager:
   - ZombieArea
   - HouseArea
   - Wall
+  - FireArea
   layers:
   - Default
   - TransparentFX

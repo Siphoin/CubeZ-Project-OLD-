@@ -9,6 +9,8 @@ using UnityEngine;
 
     [SerializeField, ReadOnlyField] private int currentHealth;
 
+    private int startHealth = 0;
+
 
     TreeData treeData = null;
 
@@ -17,19 +19,10 @@ using UnityEngine;
 
     public int CurrentHealth { get => currentHealth; }
 
-    public void Hit(int hitValue, bool playHitAnim = true)
-    {
-        currentHealth -= hitValue;
-        if (currentHealth <= 0)
-        {
-            CreateWoodItemObject();
-            Destroy(treeMain);
-        }
-    }
-
     // Use this for initialization
     void Start()
     {
+
         if (treeMain == null)
         {
             throw new TreeException("tree main not seted");
@@ -45,7 +38,19 @@ using UnityEngine;
         }
 
         LoadTreeData();
+        startHealth = treeData.startHealth;
     }
+
+    public void Hit(int hitValue, bool playHitAnim = true)
+    {
+        currentHealth -= Mathf.Clamp(currentHealth - hitValue, 0, startHealth);
+        if (currentHealth <= 0)
+        {
+            CreateWoodItemObject();
+            Destroy(treeMain);
+        }
+    }
+
 
     private void LoadTreeData()
     {

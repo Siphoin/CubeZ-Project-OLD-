@@ -55,6 +55,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private bool isDead = false;
     protected bool inHouse = false;
 
+    private int startHealth = 0;
+
     private SettingsZombieData zombieData;
 
     public event Action onRemove;
@@ -62,6 +64,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
   protected  HouseArea houseAreaEntered;
 
     public float FastSpeed { get => zombieStats.speed * 2; }
+    public int StartHealth { get => startHealth; }
     public IStateBehavior CurrentStateBehavior { get => currentStateBehavior; }
     public bool VisiblePlayer { get => visiblePlayer; }
     public Character Target { get => target; }
@@ -113,6 +116,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         WalkingBack();
 
         animatorObserver.onAttackEvent += Damage;
+
+        startHealth = zombieStats.health;
 
 
 
@@ -319,9 +324,7 @@ Quaternion root = Quaternion.LookRotation(direction);
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
-        if (zombieStats.health - hitValue > 0)
-        {
-            zombieStats.health -= hitValue;
+        zombieStats.health = Mathf.Clamp(zombieStats.health - hitValue, 0, startHealth);
             if (playHitAnim)
             {
                 if (Random.Range(0, 10) > 7)
@@ -332,9 +335,9 @@ Quaternion root = Quaternion.LookRotation(direction);
             }
 
 
-        }
+        
 
-        else
+        if (zombieStats.health <= 0)
         {
             isDead = true;
             zombieStats.health = 0;

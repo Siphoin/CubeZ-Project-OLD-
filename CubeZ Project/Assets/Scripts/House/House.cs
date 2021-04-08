@@ -68,8 +68,7 @@ public class House : MonoBehaviour
             doors[i].onDoorInteraction += DoorOpened;
         }
         defaultColotRoof = roof.material.color;
-        houseArea.onPlayerEnteredHouse += HouseEnteredLocalPlayer;
-        houseArea.onOtherPlayerEnteredHouse += HouseEnteredOtherPlayer;
+        SubcribeEvents();
         try
         {
             zombieSpawner = GameObject.FindGameObjectWithTag(TAG_ZOMBIE_SPAWNER).GetComponent<ZombieSpawner>();
@@ -87,6 +86,18 @@ public class House : MonoBehaviour
 
     }
 
+    private void SubcribeEvents()
+    {
+        houseArea.onPlayerEnteredHouse += HouseEnteredLocalPlayer;
+        houseArea.onOtherPlayerEnteredHouse += HouseEnteredOtherPlayer;
+        houseArea.onZombieEnteredHouse += HouseEnteredZombie;
+    }
+
+    private void HouseEnteredZombie(bool status)
+    {
+        AccountingCountZombies(status);
+    }
+
     private void NewGenerationZombie(DayTimeType dayTime)
     {
         if (dayTime == DayTimeType.Morming)
@@ -99,6 +110,7 @@ public class House : MonoBehaviour
     {
         viewed = status;
         AccountingCountPlayers(status);
+        StopAllCoroutines();
         StartCoroutine(LerpingColorRoof());
     }
 
@@ -114,7 +126,11 @@ public class House : MonoBehaviour
     private void AccountingCountPlayers (bool status)
     {
         houseData.countPlayersOnHouse += status == true ? 1 : -1;
-     //   Debug.Log(houseData.countPlayersOnHouse);
+    }
+
+    private void AccountingCountZombies (bool status)
+    {
+        houseData.countZombiesOnHouse += status == true ? 1 : -1;
     }
 
     private IEnumerator SpawnZombies ()
@@ -158,7 +174,7 @@ public class House : MonoBehaviour
     
     private IEnumerator LerpingColorRoof ()
     {
-        float aValue = 0;
+        float aValue = roof.material.color.a;
         float bValue = 0;
 
         float lerpValue = 0;
@@ -166,18 +182,17 @@ public class House : MonoBehaviour
 
         if (viewed)
         {
-            aValue = 1f;
             bValue = 0f;
         }
 
         else
         {
-            aValue = 0f;
             bValue = 1f;
         }
 
-
+      
         var alphaColor = defaultColotRoof;
+        alphaColor.a = roof.material.color.a;
         while (true)
         {
             float fpsRate = 1.0f / 60.0F;

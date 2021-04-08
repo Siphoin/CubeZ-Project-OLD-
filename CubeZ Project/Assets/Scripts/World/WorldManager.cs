@@ -62,7 +62,7 @@ public class WorldManager : MonoBehaviour
     int oldTemperature = 20;
 
     public event Action<DayTimeType> onDayChanged;
-
+    public event Action<WeatherType> onWeatherChanged;
     public event Action onTemperatureChanged;
     public string TemperatureString { get => currentTemperature + " °C"; }
     public int TemperatureValue { get => currentTemperature; }
@@ -342,7 +342,11 @@ public class WorldManager : MonoBehaviour
         {
             SetActiveFog(false);
         }
+
+
         currentWeather = weatherType;
+
+
         if (weatherType == WeatherType.Sun)
         {
             return;
@@ -368,7 +372,7 @@ public class WorldManager : MonoBehaviour
         }
 
         activeWeather = Instantiate(newWeather);
-
+        onWeatherChanged?.Invoke(currentWeather);
     }
 
     private void SetActiveFog(bool active)

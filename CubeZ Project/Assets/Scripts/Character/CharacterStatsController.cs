@@ -171,9 +171,9 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
         while (true)
         {
             yield return new WaitForSeconds(temperatureBody.speedNeed);
-            if (worldManager.TemperatureValue < character.CharacterStats.optimalTemperatureBody)
+            if (worldManager.TemperatureValue < character.CharacterStats.optimalTemperatureBody && !character.InFireArea)
             {
-                if (temperatureBody.value > 0)
+                if (temperatureBody.value > 0 && character)
                 {
                     temperatureBody.value -= 1;
                     temperatureBody.CallOnValueChanged();

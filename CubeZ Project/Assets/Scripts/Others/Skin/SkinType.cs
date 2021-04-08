@@ -5,4 +5,6 @@
     Bed,
     Roof,
     Wall,
+    BodyHuman,
+    Eyes,
 }
