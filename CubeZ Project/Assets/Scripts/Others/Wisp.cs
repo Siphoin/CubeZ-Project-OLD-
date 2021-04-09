@@ -1,35 +1,44 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(NavMeshAgent))]
     public class Wisp : MonoBehaviour, IInvokerMono
     {
-   
+    [Header("Минимальная задержка нахождения нового пути")]
+    [SerializeField] float minWaitNewPath = 1;
+
+    [Header("Максимальная задержка нахождения нового пути")]
+    [SerializeField] float maxWaitNewPath = 12;
     private Vector3 targetPoint;
+
+    private NavMeshAgent agent;
 
 
 
     // Use this for initialization
     void Start()
         {
-        NewTargetPoint();
-        targetPoint = transform.position;
+        if (minWaitNewPath <= 0 || maxWaitNewPath <= 0)
+        {
+            throw new WispException("minWaitPath or maxWaitPath not must be <= 0!");
         }
+
+        if (minWaitNewPath >= maxWaitNewPath)
+        {
+            throw new WispException("minWaitPath  not must be >= maxWaitNewPath");
+        }
+
+
+        agent = GetComponent<NavMeshAgent>();
+        NewTargetPoint();
+    }
 
         // Update is called once per frame
         void Update()
         {
-        float distance = Vector3.Distance(transform.position, targetPoint);
-        if (distance > 1f)
-        {
-            try
-            {
-                transform.position += (transform.position - targetPoint).normalized * 2 * Time.deltaTime;
-            }
-            catch
-            {
-            }
-        }
         }
 
     public void CallInvokingEveryMethod(Action method, float time)
@@ -47,7 +56,8 @@ using UnityEngine;
         
         Vector3 newPoint = NavMeshManager.GenerateRandomPath(transform.position);
         targetPoint = newPoint;
-        CallInvokingMethod(NewTargetPoint, 5);
+        agent.SetDestination(targetPoint);
+        CallInvokingMethod(NewTargetPoint, Random.Range(minWaitNewPath, maxWaitNewPath + 1));
     }
 
 }
