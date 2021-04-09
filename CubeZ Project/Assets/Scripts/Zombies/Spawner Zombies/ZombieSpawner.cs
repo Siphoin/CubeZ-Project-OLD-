@@ -78,9 +78,15 @@ public class ZombieSpawner : MonoBehaviour
             
             float time = Random.Range(zombieData.minTimeSpawnZombie, zombieData.maxTimeSpawnZombie + 1.0f);
             yield return new WaitForSeconds(time);
+
+
             int countZombies = Random.Range(1, zombieData.maxZombiesCountInHorde + 1);
-            if (zombieinWorld + countZombies < maxCountZombieinWorld)
+            countZombies = Mathf.Clamp(zombieinWorld + countZombies, 0, maxCountZombieinWorld);
+            if (countZombies + zombieinWorld > maxCountZombieinWorld)
             {
+                countZombies = maxCountZombieinWorld - zombieinWorld;
+            }
+            Debug.Log(countZombies);
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
             Vector3 center = NavMeshManager.GenerateRandomPath(worldManager.GetRandomPointWithRandomPlane());
             if (countZombies > 1)
@@ -112,7 +118,7 @@ public class ZombieSpawner : MonoBehaviour
             }
            
 
-        }
+        
     }
 
     private void CreateZombie (Vector3 position)
