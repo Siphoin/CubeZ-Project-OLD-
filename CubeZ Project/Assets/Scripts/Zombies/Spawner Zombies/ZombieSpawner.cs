@@ -80,13 +80,7 @@ public class ZombieSpawner : MonoBehaviour
             yield return new WaitForSeconds(time);
 
 
-            int countZombies = Random.Range(1, zombieData.maxZombiesCountInHorde + 1);
-            countZombies = Mathf.Clamp(zombieinWorld + countZombies, 0, maxCountZombieinWorld);
-            if (countZombies + zombieinWorld > maxCountZombieinWorld)
-            {
-                countZombies = maxCountZombieinWorld - zombieinWorld;
-            }
-            Debug.Log(countZombies);
+            int countZombies = Random.Range(0, maxCountZombieinWorld - zombieinWorld + 1);
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
             Vector3 center = NavMeshManager.GenerateRandomPath(worldManager.GetRandomPointWithRandomPlane());
             if (countZombies > 1)
@@ -113,8 +107,11 @@ public class ZombieSpawner : MonoBehaviour
                             throw new ZombieSpawnerException("Type spawn is invalid");
                 }
             }
-
+            if (countZombies > 0)
+            {
             Debug.Log($"Spawned {countZombies} zombies. Count zombies in World {zombieinWorld}");
+            }
+
             }
            
 
@@ -124,14 +121,21 @@ public class ZombieSpawner : MonoBehaviour
     private void CreateZombie (Vector3 position)
     {
         BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
+
         BaseZombie newZombie = Instantiate(selectedPrefab);
-        newZombie.transform.position = position;
+
+
+        SetPosionZombie(position, newZombie);
+
+
         float maxAngle = 180.0f;
         float selectedAngle = Random.Range(maxAngle * -1.0f, maxAngle + 1.0f);
         var quaternion = Quaternion.identity;
-       quaternion.y = selectedAngle;
-        newZombie.transform.rotation = quaternion;
-        newZombie.onRemove += ZombieRemoved;
+
+
+        quaternion.y = selectedAngle;
+        SetAngleZombie(quaternion, newZombie);
+        SubcribeRemoveZombie(newZombie);
         IncrementZombieCountCurrent();
 
     
@@ -151,16 +155,31 @@ public class ZombieSpawner : MonoBehaviour
     {
         BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
         BaseZombie newZombie = Instantiate(selectedPrefab);
-        newZombie.transform.position = position;
-        float maxAngle = 180.0f;
-        float selectedAngle = Random.Range(maxAngle * -1.0f, maxAngle + 1.0f);
-        newZombie.transform.rotation = quaternion;
-        newZombie.onRemove += ZombieRemoved;
+
+
+        SetPosionZombie(position, newZombie);
+        SetAngleZombie(quaternion, newZombie);
+        SubcribeRemoveZombie(newZombie);
+
+
         IncrementZombieCountCurrent();
         return newZombie;
 
 
     }
 
+    private void SubcribeRemoveZombie(BaseZombie newZombie)
+    {
+        newZombie.onRemove += ZombieRemoved;
+    }
 
+    private  void SetAngleZombie(Quaternion quaternion, BaseZombie newZombie)
+    {
+        newZombie.transform.rotation = quaternion;
+    }
+
+    private  void SetPosionZombie(Vector3 position, BaseZombie newZombie)
+    {
+        newZombie.transform.position = position;
+    }
 }
