@@ -29,6 +29,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string TAG_INTERACTION_OBJECT = "InteractionObject";
     private const string TAG_DOOR = "Door";
     private const string ZOMBIE_TAG = "Zombie";
+    private const string ZOMBIE_AREA_TAG = "ZombieArea";
     private const string FIRE_TAG = "FireArea";
 
 
@@ -38,7 +39,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
     [Header("Тело персонажа")]
     [SerializeField] Transform skinCharacter;
-    [Header("Триггер персонажп")]
+    [Header("Триггер персонажа")]
     [SerializeField] CharacterTrigger characterTrigger;
 
     public CharacterData CharacterStats { get => characterData; }
@@ -186,16 +187,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-        if (characterActive && !isFrezzed)
-        {
-            
-            LookAtDirection();
-        }
-        else
-        {
-            _rb.velocity = Vector3.zero;
 
-        }
+
         ActionsCharactersCheck();
 
         if (isSleeping)
@@ -211,6 +204,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
 
     }
+
+    
 
     private void ActionsCharactersCheck()
     {
@@ -247,8 +242,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
+
+        else
+        {
+            _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
+        }
         if (characterActive && !isFrezzed)
         {
+            LookAtDirection();
             Control();
         }
 
@@ -407,16 +408,36 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 #region Attack System
+
+
     public void Damage()
     {
 
         RaycastHit raycastHit;
-        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
+
+
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 2))
         {
+
+            if (raycastHit.collider.tag == ZOMBIE_AREA_TAG)
+            {
+                BaseZombie targetZombie = null;
+
+                if (!raycastHit.collider.transform.parent.TryGetComponent(out targetZombie))
+                {
+                    throw new CharacterException("parent zombie area component BaseZombie not found");
+                }
+
+                DamageZombie(targetZombie);
+                return;
+            }
+
+
             if (raycastHit.collider.tag == ZOMBIE_TAG)
             {
                 DamageZombie(raycastHit);
             }
+
 
             if (raycastHit.collider.tag == TAG_TREE)
             {
@@ -436,6 +457,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void DamageZombie(RaycastHit raycastHit)
     {
         BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
+        target.Hit(currentDamage);
+        CheckWearWeapon();
+    }
+
+    private void DamageZombie(BaseZombie target)
+    {
         target.Hit(currentDamage);
         CheckWearWeapon();
     }
@@ -462,7 +489,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
 
             currentWeapon.dataWeapon.strength -= 1;
-            //    Debug.Log(currentWeapon.dataWeapon.strength);
 
             if (currentWeapon.dataWeapon.strength <= 0)
             {
@@ -566,6 +592,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     }
 
     #region Sleep System
+
+
     public void Sleep(Bed bedTarget)
     {
         if (bedTarget == null)
@@ -612,6 +640,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         isFatigue = status;
     }
+
+
     #endregion
 
     private void OnCollisionEnter(Collision collision)

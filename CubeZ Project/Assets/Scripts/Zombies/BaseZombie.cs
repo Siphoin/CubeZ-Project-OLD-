@@ -325,6 +325,7 @@ Quaternion root = Quaternion.LookRotation(direction);
     public void Hit(int hitValue, bool playHitAnim = true)
     {
         zombieStats.health = Mathf.Clamp(zombieStats.health - hitValue, 0, startHealth);
+        Debug.Log(zombieStats.health);
             if (playHitAnim)
             {
                 if (Random.Range(0, 10) > 7)

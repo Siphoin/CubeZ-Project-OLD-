@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent))]
-    public class Wisp : MonoBehaviour, IInvokerMono
+    public class Wisp : MonoBehaviour, IInvokerMono, IRemoveObject
     {
     [Header("Минимальная задержка нахождения нового пути")]
     [SerializeField] float minWaitNewPath = 1;
@@ -15,6 +15,8 @@ using Random = UnityEngine.Random;
     private Vector3 targetPoint;
 
     private NavMeshAgent agent;
+
+    public event Action<Wisp> onRemove;
 
 
 
@@ -32,7 +34,12 @@ using Random = UnityEngine.Random;
         }
 
 
-        agent = GetComponent<NavMeshAgent>();
+        if (!TryGetComponent(out agent))
+        {
+            throw new WispException("not found component Nav Mesh Agent");
+        }
+
+
         NewTargetPoint();
     }
 
@@ -53,11 +60,17 @@ using Random = UnityEngine.Random;
 
     private void NewTargetPoint ()
     {
-        
         Vector3 newPoint = NavMeshManager.GenerateRandomPath(transform.position);
         targetPoint = newPoint;
         agent.SetDestination(targetPoint);
         CallInvokingMethod(NewTargetPoint, Random.Range(minWaitNewPath, maxWaitNewPath + 1));
     }
+
+    public void Remove ()
+    {
+        onRemove?.Invoke(this);
+        Destroy(gameObject);
+    }
+
 
 }

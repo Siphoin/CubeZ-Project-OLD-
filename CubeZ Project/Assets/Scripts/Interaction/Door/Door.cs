@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
     public class Door : InteractionObjectContainerItems, IGeterHit
     {
-    private bool isOpened = false;
     private Vector3 offsetKeyHint = new Vector3(-0.8F, 1, 1);
 
     public event Action<bool> onDoorInteraction;
@@ -22,11 +21,11 @@ using UnityEngine;
     private const string PATH_DOOR_SETTINGS = "Props/Door/DoorSettings";
     private const string TAG_DEAD_DOOR = "DeadDoor";
 
-  [SerializeField, ReadOnlyField]  private HealthData healthData = new HealthData();
+    [SerializeField] DoorData doorData = new DoorData();
 
-    public int Health { get => healthData.Value; }
+    public int Health { get => doorData.healthData.Value; }
 
-    public bool IsOpened { get => isOpened; }
+    public bool IsOpened { get => doorData.isOpened; }
 
     // Use this for initialization
     void Start()
@@ -46,15 +45,23 @@ using UnityEngine;
 
         colliderDoor = GetComponent<Collider>();
 
-        healthData = new HealthData(doorSettings.StartHealth);
-        healthData.onHealthChanged += NewHealthValue;
+        doorData.healthData = new HealthData(doorSettings.StartHealth);
+        doorData.healthData.onHealthChanged += NewHealthValue;
 
-        Debug.Log($"New Door ini: ({name}) Start Health: {healthData.StartValue}");
+
+#if UNITY_EDITOR
+        Debug.Log($"New Door ini: ({name}) Start Health: {doorData.healthData.StartValue}");
+#endif
+
+        int probality = ProbabilityUtility.GenerateProbalityInt();
+
+        doorData.isBlocked = probality >= doorSettings.ProbabilityDoorBlocked;
+
         }
 
     private void NewHealthValue()
     {
-        if (healthData.Value <= 0)
+        if (doorData.healthData.Value <= 0)
         {
             Dead();
         }
@@ -65,7 +72,7 @@ using UnityEngine;
         colliderDoor.enabled = false;
         PlayAnimationDoor(DoorAnimationType.DoorDead);
         tag = TAG_DEAD_DOOR;
-        healthData.onHealthChanged -= NewHealthValue;
+        doorData.healthData.onHealthChanged -= NewHealthValue;
         DestroyHintKeyCode();
         Destroy(this);
     }
@@ -82,7 +89,7 @@ using UnityEngine;
         {
             hintActiveKeyCode.GetComponent<CanvasLockAt>().SetOffset(offsetKeyHint);
 
-            if (isOpened)
+            if (doorData.isOpened || doorData.isBlocked)
             {
                 Destroy(hintActiveKeyCode.gameObject);
             }
@@ -92,6 +99,8 @@ using UnityEngine;
 
     public override void CheckDistanceOffsetPlayer()
     {
+
+
         if (playerEntered && enteredPlayer != null)
         {
             float distance = Vector3.Distance(enteredPlayer.transform.position, transform.position);
@@ -99,11 +108,10 @@ using UnityEngine;
             {
                 ShowOrDestroyHintKeyCode(false);
             }
-
             if (Input.GetKeyDown(keyCodeGetItem))
             {
-                isOpened = !isOpened;
-                PlayAnimationDoor(isOpened == true ? DoorAnimationType.DoorOpen : DoorAnimationType.DoorExit);
+                doorData.isOpened = !doorData.isOpened;
+                PlayAnimationDoor(doorData.isOpened == true ? DoorAnimationType.DoorOpen : DoorAnimationType.DoorExit);
                 DestroyHintKeyCode();
                 onDoorInteraction?.Invoke(enteredPlayer.transform.position.x < transform.position.x);
 
@@ -118,6 +126,6 @@ using UnityEngine;
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
-        healthData.Damage(hitValue);
+        doorData.healthData.Damage(hitValue);
     }
 }
