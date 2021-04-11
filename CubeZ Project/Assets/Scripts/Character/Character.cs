@@ -220,6 +220,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
 
 
+
         ActionsCharactersCheck();
 
         if (isSleeping)
@@ -280,10 +281,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             return;
         }
 
-        else
-        {
-            _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
-        }
         if (characterActive && !isFrezzed)
         {
             LookAtDirection();
