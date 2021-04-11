@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     maxDistanceVisible: 10
-    maxSpeed: 3
-    maxHealth: 100
-    maxDamage: 20
+    maxSpeed: 2
+    maxHealth: 45
+    maxDamage: 10
     maxZombiesCountInHorde: 4
     minTimeSpawnZombie: 5
     maxTimeSpawnZombie: 10

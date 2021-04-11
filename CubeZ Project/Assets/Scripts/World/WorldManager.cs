@@ -67,6 +67,7 @@ public class WorldManager : MonoBehaviour
     public string TemperatureString { get => currentTemperature + " °C"; }
     public int TemperatureValue { get => currentTemperature; }
     public int CurrentDay { get => currentDay; }
+    public WeatherType CurrentWeather { get => currentWeather; }
 
     //
 
@@ -349,6 +350,7 @@ public class WorldManager : MonoBehaviour
 
         if (weatherType == WeatherType.Sun)
         {
+            onWeatherChanged?.Invoke(weatherType);
             return;
         }
         ParticleSystem newWeather = null;

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(BoxCollider))]
 public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStats, IGeterHit, IInvokerMono
 {
     protected Character target = null;
@@ -39,7 +40,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     protected const string TAG_HOUSE = "HouseArea";
 
     protected const string TAG_WALL = "Wall";
-
+    private const string TAG_PLAYER_AREA = "PlayerArea";
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
@@ -62,6 +63,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public event Action onRemove;
 
   protected  HouseArea houseAreaEntered;
+
+    private BoxCollider boxCollider;
 
     public float FastSpeed { get => zombieStats.speed * 2; }
     public int StartHealth { get => startHealth; }
@@ -118,6 +121,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         animatorObserver.onAttackEvent += Damage;
 
         startHealth = zombieStats.health;
+
+        if (!TryGetComponent(out boxCollider))
+        {
+            throw new ZombieException("zombie not have box colider component");
+        }
 
 
 
@@ -205,6 +213,21 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             RaycastHit raycastHit;
             if (Physics.Raycast(transform.position, transform.forward, out raycastHit, DistanceVisible))
             {
+                if (raycastHit.collider.tag.Contains(TAG_PLAYER_AREA))
+                {
+                    Character character = null;
+
+                    if (!raycastHit.collider.transform.parent.TryGetComponent(out character))
+                    {
+                        throw new ZombieException("player area object parent not have component Character");
+                    }
+                    character.Hit(zombieStats.damage);
+
+
+                    return;
+
+
+                }
                 if (raycastHit.collider.gameObject == target.gameObject)
                 {
                     target.Hit(zombieStats.damage);
@@ -303,7 +326,6 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     protected void LockToTarget()
     {
         float distancetoPoint = Vector3.Distance(transform.position, targetPoint);
-    //    Debug.Log(distancetoPoint);
         if (distancetoPoint > 0.2f)
         {
 
@@ -325,7 +347,6 @@ Quaternion root = Quaternion.LookRotation(direction);
     public void Hit(int hitValue, bool playHitAnim = true)
     {
         zombieStats.health = Mathf.Clamp(zombieStats.health - hitValue, 0, startHealth);
-        Debug.Log(zombieStats.health);
             if (playHitAnim)
             {
                 if (Random.Range(0, 10) > 7)
@@ -360,6 +381,7 @@ Quaternion root = Quaternion.LookRotation(direction);
         timerDestroy.timeDestroy = zombieData.timeRemove;
         animator.Play(ANIM_DEATH_NAME);
         rb.isKinematic = true;
+        boxCollider.enabled = false;
         enabled = false;
     }
 

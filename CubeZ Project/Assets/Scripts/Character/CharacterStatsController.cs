@@ -254,11 +254,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 throw new CharacterStatsControllerException("invalid type need");
         }
 
-        targetNeed.value += value;
-        if (targetNeed.value > targetNeed.GetDefaultValue())
-        {
-            targetNeed.value = targetNeed.GetDefaultValue();
-        }
+        targetNeed.value = Mathf.Clamp(targetNeed.value += value, 0, targetNeed.GetDefaultValue());
         targetNeed.CallOnValueChanged();
     }
 

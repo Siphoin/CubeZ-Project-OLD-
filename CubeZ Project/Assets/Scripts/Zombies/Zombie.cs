@@ -22,7 +22,7 @@ public class Zombie : BaseZombie
 
         if (animationState == TypeAnimation.ZombieAttackGeneric)
         {
-            agent.speed = 0;
+            agent.velocity = Vector3.zero;
         }
         if (!visiblePlayer)
         {
@@ -134,7 +134,6 @@ public class Zombie : BaseZombie
         {
 
         SetTargetPoint(transform.position);
-            Debug.Log("wall");
 
         }
 

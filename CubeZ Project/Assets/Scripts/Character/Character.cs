@@ -33,6 +33,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string FIRE_TAG = "FireArea";
 
 
+    private const string NAME_KEY_CODE_SIT_DOWN = "SitdownCharacter";
+
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
@@ -42,7 +44,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     [Header("Триггер персонажа")]
     [SerializeField] CharacterTrigger characterTrigger;
 
-    public CharacterData CharacterStats { get => characterData; }
+    ControlManager controlManager;
 
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
@@ -55,6 +57,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public event Action<ItemBaseData> onWeaponChanged;
 
     public event Action onDead;
+
+    public event Action onDamage;
 
     public event Action<bool> onSleep;
 
@@ -72,18 +76,25 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private bool inFireArea = false;
 
     private Vector3 lastPosition;
-    private Quaternion lastQuaternion;
 
+    private Quaternion lastQuaternion;
     private Quaternion startQuuaterion;
 
     public float Speed { get => characterData.speed; }
 
     public int Health { get => healthStats.value; }
-    public bool IsDead { get => isDead; }
+
+
     public WeaponItem CurrentWeapon { get => currentWeapon; }
+    public CharacterData CharacterStats { get => characterData; }
+
+
     public bool IsSleeping { get => isSleeping; }
     public bool CollisizedInteractionObject { get => collisizedInteractionObject; }
     public bool InFireArea { get => inFireArea; }
+    public bool IsDead { get => isDead; }
+
+
 
 
 
@@ -92,10 +103,18 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Awake()
     {
+        Ini();
+
+    }
+
+    private void Ini()
+    {
         if (skinCharacter == null)
         {
             throw new CharacterException("Character skin not seted");
         }
+
+
 
         startQuuaterion = skinCharacter.transform.localRotation;
         characterDataSettings = Resources.Load<CharacterDataSettings>(PATH_CHARACTER_SETTINGS);
@@ -113,6 +132,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             throw new CharacterException("Speed <= 0");
         }
 
+
         if (!TryGetComponent(out boxCollider))
         {
             throw new CharacterException("Box Colider component not found on Character");
@@ -121,12 +141,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
         baseDamage = characterData.damage;
+
         ReturnToBaseDamage();
 
         characterTrigger.onEnter += CharacterEnterOnTrigger;
         characterTrigger.onExit += CharacterExitOnTrigger;
-
-
     }
 
     private void CharacterEnterOnTrigger(string tag)
@@ -178,6 +197,18 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         _rb = GetComponent<Rigidbody>();
 
         animatorObserver.onAttackEvent += Damage;
+
+        IniKeyCodes();
+    }
+
+    private void IniKeyCodes()
+    {
+        if (ControlManagerObject.Manager == null)
+        {
+            throw new CharacterException("control manager not found");
+        }
+
+        controlManager = ControlManagerObject.Manager.ControlManager;
     }
 
     // Update is called once per frame
@@ -214,7 +245,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void StandLockInput()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.anyKeyDown)
+        {
+
+
+        if (Input.GetKeyDown(controlManager.GetKeyCodeByFragment(NAME_KEY_CODE_SIT_DOWN)))
         {
             characterActive = !characterActive;
             if (characterActive == false)
@@ -223,6 +258,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             }
 
         }
+        }
+
     }
 
     private void LookAtDirection()
@@ -301,10 +338,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
 
 
-
+        if (!CharacterAttackingEnabled())
+        {
         Vector3 tempVect = transform.forward;
         tempVect = tempVect.normalized * speed * Time.deltaTime;
         _rb.MovePosition(transform.position + tempVect);
+        }
+
     }
 
     private float Walk()
@@ -524,6 +564,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             }
 
 
+        if (hitValue > 0)
+        {
+        onDamage?.Invoke();
+        }
+
+
+
 
         if (healthStats.value <= 0)
         {
@@ -665,6 +712,22 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void SetStateCollisionInteractionObject (bool status)
     {
         collisizedInteractionObject = status;
+    }
+
+    private bool CharacterAttackingEnabled ()
+    {
+        int countAnimationAttack = 3;
+
+
+        for (int i = 0; i < countAnimationAttack; i++)
+        {
+            if (animator.GetBool(ATTACK_NAME_ANIM + (i + 1)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
