@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c196ae7683effa5438b9439ab015c2c5, type: 3}
-  m_Name: axe
+  m_Name: baseball_bat
   m_EditorClassIdentifier: 
   data:
     typeItem: 2
-    ItemName: Axe
-    itemDecription: "Ancient weapons of our ancestors.\n\n\n\u25CF +10 to the player's
-      base damage.\n\u25CF Strength 12."
-    icon: {fileID: 21300000, guid: 8aa7f703a3efd0a49ac44cf53cf7778a, type: 3}
-    idItem: axe
+    ItemName: Baseball Bat
+    itemDecription: "This bat was once used by a famous basketball player, but now,
+      he's probably dead. And now this bat only serves as a weapon.\n\n\n\u25CF +12
+      to the player's base damage.\n\u25CF Strength 15."
+    icon: {fileID: 21300000, guid: 7168bf77d5487374a8f83d73671715aa, type: 3}
+    idItem: baseball_bat
     inFastPanel: 0
     indexFastPanel: -1
     id: 
   dataWeapon:
-    damageBonus: 10
-    strength: 12
+    damageBonus: 12
+    strength: 15

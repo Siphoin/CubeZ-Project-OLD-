@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c196ae7683effa5438b9439ab015c2c5, type: 3}
-  m_Name: axe
+  m_Name: hammer
   m_EditorClassIdentifier: 
   data:
     typeItem: 2
-    ItemName: Axe
-    itemDecription: "Ancient weapons of our ancestors.\n\n\n\u25CF +10 to the player's
-      base damage.\n\u25CF Strength 12."
-    icon: {fileID: 21300000, guid: 8aa7f703a3efd0a49ac44cf53cf7778a, type: 3}
-    idItem: axe
+    ItemName: Hammer
+    itemDecription: "It's very easy to break your head with this thing.\n\n\n\u25CF
+      +20 to the player's base damage.\n\u25CF Strength 7."
+    icon: {fileID: 21300000, guid: 820d2e574d1f9db4bbe63f48cc86f496, type: 3}
+    idItem: hammer
     inFastPanel: 0
     indexFastPanel: -1
     id: 
   dataWeapon:
-    damageBonus: 10
-    strength: 12
+    damageBonus: 20
+    strength: 7
