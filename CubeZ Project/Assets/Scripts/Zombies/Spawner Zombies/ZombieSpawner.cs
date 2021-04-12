@@ -22,9 +22,12 @@ public class ZombieSpawner : MonoBehaviour
     private int maxCountTypesSpawn = 0;
     private int zombieinWorld = 0;
     private int maxCountZombieinWorld = 0;
+
+
+    private int currentMaxCountZombies = 0;
     // Use this for initialization
     void Start()
-        {
+    {
         if (MAX_TIME_SPAWN_ONE_ZOMBIE < 0)
         {
             throw new ZombieSpawnerException("max time spawn one zombie < 0");
@@ -56,17 +59,35 @@ public class ZombieSpawner : MonoBehaviour
 
         maxCountZombieinWorld = zombieData.countZombiesWorld;
 
+        worldManager.onDayChanged += WorldManager_onDayChanged;
+
 
         Debug.Log($"spawner zombies on. Count types zombies as {zombiesVariants.Length}");
 
+        CachingExitedsZombies();
+
+
+        IncrementValueZombiesCount();
 
         StartCoroutine(Spawn());
 
-       
     }
 
-        // Update is called once per frame
-        void Update()
+    private void CachingExitedsZombies()
+    {
+        BaseZombie[] baseZombies = FindObjectsOfType<BaseZombie>();
+        zombieinWorld += baseZombies.Length;
+
+
+        for (int i = 0; i < baseZombies.Length; i++)
+        {
+            baseZombies[i].onRemove += ZombieRemoved;
+        }
+    }
+
+
+    // Update is called once per frame
+    void Update()
         {
 
         }
@@ -80,7 +101,7 @@ public class ZombieSpawner : MonoBehaviour
             yield return new WaitForSeconds(time);
 
 
-            int countZombies = Random.Range(0, maxCountZombieinWorld - zombieinWorld + 1);
+            int countZombies = Random.Range(0, currentMaxCountZombies - zombieinWorld + 1);
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
             Vector3 center = NavMeshManager.GenerateRandomPath(worldManager.GetRandomPointWithRandomPlane());
             if (countZombies > 1)
@@ -181,5 +202,19 @@ public class ZombieSpawner : MonoBehaviour
     private  void SetPosionZombie(Vector3 position, BaseZombie newZombie)
     {
         newZombie.transform.position = position;
+    }
+
+   private void IncrementValueZombiesCount ()
+    {
+        currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies + zombieData.zombieIncrementEveryDay, zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
+        Debug.Log(currentMaxCountZombies);
+    }
+
+    private void WorldManager_onDayChanged(DayTimeType dayTime)
+    {
+        if (dayTime == DayTimeType.Morming) 
+        {
+            IncrementValueZombiesCount();
+        }
     }
 }

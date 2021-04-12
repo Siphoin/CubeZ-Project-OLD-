@@ -29,6 +29,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected TypeAnimation animationState = TypeAnimation.Idle2;
 
+    private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
+
     protected const string TAG_PLAYER = "Player";
 
     protected const string PREFIX_DEAD_PLAYER = "Dead";
@@ -40,7 +42,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     protected const string TAG_HOUSE = "HouseArea";
 
     protected const string TAG_WALL = "Wall";
+
     private const string TAG_PLAYER_AREA = "PlayerArea";
+
+
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
@@ -65,6 +70,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
   protected  HouseArea houseAreaEntered;
 
     private BoxCollider boxCollider;
+    private CharacterDataSettings characterDataSettings;
+    private CharacterData characterData;
 
     public float FastSpeed { get => zombieStats.speed * 2; }
     public int StartHealth { get => startHealth; }
@@ -95,6 +102,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         zombieStats = new ZombieStats(zombieStatsSettings.GetData());
 
         settingsZombie = WorldManager.Manager.SettingsZombie;
+
+
         if (settingsZombie == null)
         {
             throw new ZombieException("zombie settings is null");
@@ -109,7 +118,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         animator = transform.GetChild(0).GetComponent<Animator>();
         animatorObserver = transform.GetChild(0).GetComponent<ZombieAnimatorObserver>();
+
+
         SetTargetPoint(transform.position);
+
+
         RandomizeStats();
 
         // behaviors ini
@@ -128,7 +141,13 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
 
 
+        characterDataSettings = Resources.Load<CharacterDataSettings>(PATH_CHARACTER_SETTINGS);
 
+        if (characterDataSettings == null)
+        {
+            throw new ZombieException("not found character data");
+        }
+        characterData = new CharacterData(characterDataSettings.GetData());
     }
 
     private void AddBehaviors()
@@ -332,8 +351,10 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
  Vector3 direction = targetPoint - transform.position;
 
             if (!direction.NotValid()) {
+
+
 Quaternion root = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, root, 2 * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, root, characterData.rotateSpeed * Time.deltaTime);
         var rootNormal = transform.rotation;
         rootNormal.x = 0;
         rootNormal.z = 0;

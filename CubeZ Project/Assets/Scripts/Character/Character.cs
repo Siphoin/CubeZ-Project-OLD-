@@ -269,7 +269,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         if (dir != Vector3.zero)
         {
-            _rb.MoveRotation(Quaternion.LookRotation(dir * characterData.rotateSpeed * Time.deltaTime));
+            Quaternion root = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, root, characterData.rotateSpeed * Time.deltaTime);
         }
 
     }
