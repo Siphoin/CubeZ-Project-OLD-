@@ -8,8 +8,14 @@ using Random = UnityEngine.Random;
 public class ItemsManager : MonoBehaviour
     {
     private static ItemsManager manager = null;
+
+
     private const string PATH_ITEMS_FOLBER = "Items/";
     private const string PREFIX_FOLBER_CATEGORY_ITEMS = "s";
+
+    private bool init = false;
+
+
     List<BaseItem> allItemsOfTheGame = new List<BaseItem>(0);
 
     public static ItemsManager Manager { get => manager; }
@@ -33,6 +39,12 @@ public class ItemsManager : MonoBehaviour
 
     private  void Ini()
     {
+        if (init)
+        {
+            throw new ItemsManagerException("items manager has ben init");
+        }
+
+
         Array enumsValues = Enum.GetValues(typeof(TypeItem)).Cast<TypeItem>().ToArray();
         for (int i = 0; i < enumsValues.Length; i++)
         {
@@ -42,8 +54,23 @@ public class ItemsManager : MonoBehaviour
                 allItemsOfTheGame.Add(categoryItems[j]);
             }
         }
-
+        ShufferItemsList();
         Debug.Log($"Loaded {allItemsOfTheGame.Count} items");
+
+
+        init = true;
+    }
+
+    private void ShufferItemsList()
+    {
+        for (int i = allItemsOfTheGame.Count - 1; i >= 1; i--)
+        {
+            System.Random random = new System.Random();
+            int j = random.Next(i + 1);
+            var temp = allItemsOfTheGame[j];
+            allItemsOfTheGame[j] = allItemsOfTheGame[i];
+            allItemsOfTheGame[i] = temp;
+        }
     }
 
     // Update is called once per frame

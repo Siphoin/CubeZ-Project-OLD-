@@ -44,7 +44,7 @@ using UnityEngine;
 
         if (other.tag == FIRE_TAG)
         {
-            if (!other.TryGetComponent(out enteredFire))
+            if (!other.gameObject.transform.parent.TryGetComponent(out enteredFire))
             {
                 throw new CharacterTriggerException("entered fire not have component Fire");
             }

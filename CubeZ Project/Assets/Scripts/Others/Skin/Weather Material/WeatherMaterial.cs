@@ -65,4 +65,10 @@ public class WeatherMaterial : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+
+        WorldManager.Manager.onWeatherChanged -= Manager_onWeatherChanged;
     }
+
+}

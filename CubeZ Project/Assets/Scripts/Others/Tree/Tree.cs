@@ -43,7 +43,9 @@ using UnityEngine;
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
-        currentHealth -= Mathf.Clamp(currentHealth - hitValue, 0, startHealth);
+        currentHealth = Mathf.Clamp(currentHealth - hitValue, 0, startHealth);
+
+
         if (currentHealth <= 0)
         {
             CreateWoodItemObject();
@@ -69,9 +71,4 @@ using UnityEngine;
         Instantiate(woodPrefab).transform.position = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-        {
-
-        }
     }

@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 1286302668180762502}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: HouseArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -323,8 +323,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.028860785, y: 0.024907365, z: 0.13198058}
-  m_Center: {x: -0.0039372193, y: -0.000916278, z: 0.006417373}
+  m_Size: {x: 0.017255588, y: 0.022603381, z: 0.13198058}
+  m_Center: {x: 0.00072665844, y: -0.0010861318, z: 0.0064173737}
 --- !u!114 &1286302668180762502
 MonoBehaviour:
   m_ObjectHideFlags: 0
