@@ -264,6 +264,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         if (otherTarget != null)
         {
+            
             otherTarget.Hit(zombieStats.damage);
         }
     }

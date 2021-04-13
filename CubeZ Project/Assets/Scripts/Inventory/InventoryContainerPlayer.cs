@@ -106,8 +106,37 @@ public class InventoryContainerPlayer : BaseInventoryContainer
 
     }
 
-    public bool TryRemoveItemsWithCountOfType (TypeItem typeItem, int count)
+    public bool TryRemoveItemsWithCountOfType (string typeId, int count)
     {
+        if (Length < count)
+        {
+            return false;
+        }
+
+
+        List<ItemBaseData> whereList = items.Where(item => item.idItem == typeId).ToList();
+
+
+        if (count > whereList.Count)
+        {
+            return false;
+        }
+
+        List<ItemBaseData> oldList = items.Where(item => item.idItem != typeId).ToList();
+
+
+        whereList.RemoveRange(0, count);
+        whereList.Concat(items);
+
+
+        items = whereList;
+
+        for (int i = 0; i < oldList.Count; i++)
+        {
+            Add(oldList[i]);
+        }
+
+
         return true;
     }
 }
