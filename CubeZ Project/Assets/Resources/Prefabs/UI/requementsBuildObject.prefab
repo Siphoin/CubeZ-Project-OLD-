@@ -222,5 +222,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47acfe6e3bfd58e4d8ae8ade69e1a535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  textRequements: {fileID: 0}
+  icon: {fileID: 8889934961833499704}
+  textRequements: {fileID: 3344939483486327497}

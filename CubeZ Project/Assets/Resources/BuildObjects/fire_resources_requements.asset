@@ -17,3 +17,5 @@ MonoBehaviour:
   - typeResource: {fileID: 11400000, guid: d4ac73947f4c26c4ea316f398baba98f, type: 2}
     requirementsValue: 5
   icoBuildObject: {fileID: 21300000, guid: b5de53173db4c5541acf7f450c19c3ae, type: 3}
+  prefabBuildObject: {fileID: 1235136568407290130, guid: 2d0714a8ebf42e2499580d518674ad47,
+    type: 3}

@@ -484,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6160517861327549855}
   - component: {fileID: 1235136568407290130}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -549,6 +549,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuildObjectTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 1376180423147268580, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1376180423147268580, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1376180423147268580, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
+        type: 3}
+      propertyPath: m_TagString
+      value: BuildArea
       objectReference: {fileID: 0}
     - target: {fileID: 6543980636902939853, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
         type: 3}
