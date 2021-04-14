@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cda27f5db6d244b880d6e7e091ce9b, type: 3}
+  m_Name: table_resources_requements
+  m_EditorClassIdentifier: 
+  nameBuildObject: Table 1
+  requirementsResources:
+  - typeResource: {fileID: 11400000, guid: d4ac73947f4c26c4ea316f398baba98f, type: 2}
+    requirementsValue: 4
+  icoBuildObject: {fileID: 21300000, guid: 4486f21cef7a2bd47a48e6df778b5f1f, type: 3}
+  prefabBuildObject: {fileID: 4885989628914264482, guid: 15172128989ab284791e7ab5ad803f85,
+    type: 3}
+  category: 2

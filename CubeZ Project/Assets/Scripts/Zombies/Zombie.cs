@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Zombie : BaseZombie
 {
     private const string TAG_DOOR = "Door";
+    private const string TAG_WALL = "WallDynamic";
     // Use this for initialization
     void Start()
     {
@@ -105,19 +106,12 @@ public class Zombie : BaseZombie
 
         if (collision.gameObject.CompareTag(TAG_DOOR))
         {
+            ColissionDoor(collision);
+        }
 
-            Door door = null;
-            if (!collision.gameObject.TryGetComponent(out door))
-            {
-                throw new ZombieException("colized door tot have component Door");
-            }
-            if (!door.IsOpened)
-            {
-            otherTarget = door;
-            }
-
-            
-            target = null;
+        if (collision.gameObject.CompareTag(TAG_WALL))
+        {
+            ColissionWall(collision);
         }
 
         if (collision.gameObject.CompareTag(TAG_HOUSE))
@@ -140,6 +134,40 @@ public class Zombie : BaseZombie
         
 
 
+    }
+
+    private void ColissionDoor(Collision collision)
+    {
+        Door door = null;
+
+
+        if (!collision.gameObject.TryGetComponent(out door))
+        {
+            throw new ZombieException("colized door tot have component Door");
+        }
+        if (!door.IsOpened)
+        {
+            otherTarget = door;
+        }
+
+
+        target = null;
+    }
+
+    private void ColissionWall(Collision collision)
+    {
+        Wall wall = null;
+
+
+        if (!collision.gameObject.TryGetComponent(out wall))
+        {
+            throw new ZombieException("colized door tot have component Wall");
+        }
+            otherTarget = wall;
+        
+
+
+        target = null;
     }
 
     private void OnCollisionExit(Collision collision)

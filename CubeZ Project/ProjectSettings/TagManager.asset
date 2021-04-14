@@ -27,6 +27,7 @@ TagManager:
   - Wall
   - FireArea
   - BuildArea
+  - WallDynamic
   layers:
   - Default
   - TransparentFX

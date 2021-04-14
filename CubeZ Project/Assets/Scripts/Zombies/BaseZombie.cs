@@ -264,8 +264,15 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         if (otherTarget != null)
         {
-            
-            otherTarget.Hit(zombieStats.damage);
+            try
+            {
+                otherTarget.Hit(zombieStats.damage);
+            }
+            catch 
+            {
+                otherTarget = null;
+                SetWalkingBehavior();
+            }
         }
     }
 

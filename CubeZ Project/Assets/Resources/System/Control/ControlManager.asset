@@ -23,3 +23,5 @@ MonoBehaviour:
     keyCode: 114
   - nameTrigger: SitdownCharacter
     keyCode: 99
+  - nameTrigger: BuildWindow
+    keyCode: 98

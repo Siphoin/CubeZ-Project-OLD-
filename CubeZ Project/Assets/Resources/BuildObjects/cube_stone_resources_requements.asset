@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cda27f5db6d244b880d6e7e091ce9b, type: 3}
+  m_Name: cube_stone_resources_requements
+  m_EditorClassIdentifier: 
+  nameBuildObject: Simple Stone Cube Wall
+  requirementsResources:
+  - typeResource: {fileID: 11400000, guid: 75454f2d5e42f04408f75c3bd89050f9, type: 2}
+    requirementsValue: 1
+  icoBuildObject: {fileID: 21300000, guid: 8e329063a59096649b9926aa3d0b9a69, type: 3}
+  prefabBuildObject: {fileID: 3078721589159583816, guid: e09cc0c2dae305848ac3f88cfe698dee,
+    type: 3}
+  category: 1

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 
 public class InventoryContainerPlayer : BaseInventoryContainer
 {
     private InventoryPlayerSettingsData settingsData;
     public event Action<List<ItemBaseData>> onListItemsChanged;
+    public event Action<string> onItemOfTypeAdded;
+
     public InventoryContainerPlayer(InventoryContainerPlayer copyClass, InventoryPlayerSettingsData settingsData)
     {
         copyClass.CopyAll(this);
@@ -46,6 +48,7 @@ public class InventoryContainerPlayer : BaseInventoryContainer
     {
         base.Add(item);
         CallEventChanges();
+        onItemOfTypeAdded?.Invoke(items[Length - 1].idItem);
 
     }
 
@@ -138,5 +141,25 @@ public class InventoryContainerPlayer : BaseInventoryContainer
 
 
         return true;
+    }
+
+    public int CountItemOfID (string id)
+    {
+        return items.Count(a => a.idItem == id);
+    }
+
+   public bool NotEnoughValueTypeItem (BuildObjectData buildObjectData)
+    {
+        for (int i = 0; i < buildObjectData.RequirementsResources.Length; i++)
+        {
+            int countItemsExits = items.Count(item => item.idItem == buildObjectData.RequirementsResources[i].typeResource.data.idItem);
+
+            if (countItemsExits < buildObjectData.RequirementsResources[i].requirementsValue)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
