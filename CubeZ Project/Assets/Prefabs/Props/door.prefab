@@ -186,6 +186,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 7217087224992673865}
+  doorSoundExit: {fileID: 8300000, guid: 3d352d3db5cb93d44a7dd44648ccaab2, type: 3}
+  doorSoundOpen: {fileID: 8300000, guid: fbccb472f00092741816d124ab7aef09, type: 3}
   doorData:
     isOpened: 0
     isBlocked: 0

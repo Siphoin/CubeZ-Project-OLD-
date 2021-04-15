@@ -56,6 +56,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     private IStateBehavior currentStateBehavior;
 
+    public event Action<IStateBehavior> onNewBehavior;
+
     private ZombieAnimatorObserver animatorObserver;
 
     private bool isDead = false;
@@ -63,11 +65,14 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     private int startHealth = 0;
 
+    private int countCallWalkingBehavior = 0;
+
     private SettingsZombieData zombieData;
 
     public event Action onRemove;
+    public event Action onDeath;
 
-  protected  HouseArea houseAreaEntered;
+    protected  HouseArea houseAreaEntered;
 
     private BoxCollider boxCollider;
     private CharacterDataSettings characterDataSettings;
@@ -82,6 +87,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public Bounds HouseAreaBounds { get => houseAreaEntered.GetBounds(); }
     public float DistanceVisible { get => zombieStats.distanceVisible; }
     public bool InHouse { get => inHouse; }
+    public bool IsDead { get => isDead; }
+    public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
 
     // Use this for initialization
     void Start()
@@ -212,6 +219,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         currentStateBehavior = stateBehavior;
         currentStateBehavior.Enter();
+        onNewBehavior?.Invoke(currentStateBehavior);
     }
 
     protected void UpdateState()
@@ -340,6 +348,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         visiblePlayer = false;
         SetBehavior(behaviorMap[typeof(WalkingStateZombie)]);
         StartCoroutine(behaviorMap[typeof(WalkingStateZombie)].UpdateWaiting());
+        countCallWalkingBehavior++;
     }
 
 
@@ -406,6 +415,7 @@ Quaternion root = Quaternion.LookRotation(direction);
 
     private void Dead()
     {
+        onDeath?.Invoke();
         TimerDestroy timerDestroy = gameObject.AddComponent<TimerDestroy>();
         timerDestroy.timeDestroy = zombieData.timeRemove;
         animator.Play(ANIM_DEATH_NAME);
