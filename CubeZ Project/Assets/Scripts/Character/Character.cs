@@ -320,7 +320,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             Control();
         }
 
-        Debug.Log(walkAudioObject.GetAudioSource().isPlaying);
 
     }
 
