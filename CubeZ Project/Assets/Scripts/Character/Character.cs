@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,6 +15,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     BoxCollider boxCollider;
 
     private WeaponItem currentWeapon = null;
+
+    private AudioObject walkAudioObject = null;
+
+    private AudioObject getItemAudioObject = null;
+
+    private AudioDataManager audioManager = null;
+
+    private Dictionary<string, AudioClip> clipsCharacter = new Dictionary<string, AudioClip>();
 
 
     private const string VERTICAL_INPUT_NAME = "Vertical";
@@ -34,6 +43,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
     private const string NAME_KEY_CODE_SIT_DOWN = "SitdownCharacter";
+
+    private const string NAME_FOLBER_AUDIO_CHARACTER = "Audio/character";
+
+    
 
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
@@ -109,6 +122,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Ini()
     {
+
+        if (AudioDataManager.Manager == null)
+        {
+            throw new CharacterException("audio manager not found");
+        }
+
+        
+
         if (skinCharacter == null)
         {
             throw new CharacterException("Character skin not seted");
@@ -146,7 +167,18 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         characterTrigger.onEnter += CharacterEnterOnTrigger;
         characterTrigger.onExit += CharacterExitOnTrigger;
+
+
+        audioManager = AudioDataManager.Manager;
+
+        LoadAudio();
+
+
+        CreateAudioObjectWalk();
+
+        GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
     }
+
 
     private void CharacterEnterOnTrigger(string tag)
     {
@@ -288,6 +320,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             Control();
         }
 
+        Debug.Log(walkAudioObject.GetAudioSource().isPlaying);
+
     }
 
     private void Control()
@@ -312,7 +346,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
                 else
                 {
-
+                   StopWalkSound();
                     SetAnimationState(TypeAnimation.Idle2);
                 }
 
@@ -349,6 +383,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         float speed =  isFatigue == false ? characterData.speed : characterData.speed - 1;
         SetAnimationState(TypeAnimation.Walk);
+        PlayWalkSound();
         return speed;
     }
 
@@ -357,6 +392,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         
         float speed = isFatigue == false ?  characterData.speed + 1 : characterData.speed - 1;
         SetAnimationState(isFatigue == false ? TypeAnimation.Run : TypeAnimation.Walk);
+        PlayWalkSound();
         return speed;
     }
 
@@ -544,27 +580,30 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
-          healthStats.value = Mathf.Clamp(healthStats.value - hitValue, 0, 100);
-            if (playHitAnim)
-            {
-                if (Random.Range(0, 10) > 7)
-                {
-                    SetAnimationState(TypeAnimation.GetHit);
+        healthStats.value = Mathf.Clamp(healthStats.value - hitValue, 0, 100);
 
-                    characterActive = true;
-                }
-            }
-            if (isSleeping)
+        PlayFXPlayer("character_damage");
+
+        if (playHitAnim)
+        {
+            if (Random.Range(0, 10) > 7)
             {
-                Awakening();
-                skinCharacter.transform.localRotation = startQuuaterion;
-                
+                SetAnimationState(TypeAnimation.GetHit);
+
+                characterActive = true;
             }
+        }
+        if (isSleeping)
+        {
+            Awakening();
+            skinCharacter.transform.localRotation = startQuuaterion;
+
+        }
 
 
         if (hitValue > 0)
         {
-        onDamage?.Invoke();
+            onDamage?.Invoke();
         }
 
 
@@ -585,8 +624,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         healthStats.CallOnValueChanged();
     }
 
+
     private void Dead()
     {
+        PlayFXPlayer("character_death");
         onDead?.Invoke();
         animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
@@ -727,5 +768,56 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         return false;
     }
+
+    #region Audio
+
+    private void LoadAudio ()
+    {
+        AudioClip[] clips = Resources.LoadAll<AudioClip>(NAME_FOLBER_AUDIO_CHARACTER);
+
+        for (int i = 0; i < clips.Length; i++)
+        {
+            clipsCharacter.Add(clips[i].name, clips[i]);
+        }
+    }
+
+    private void CreateAudioObjectWalk ()
+    {
+        walkAudioObject = audioManager.CreateAudioObject(transform.position, clipsCharacter["character_walking"]);
+        walkAudioObject.transform.SetParent(transform);
+        walkAudioObject.GetAudioSource().loop = true;
+        walkAudioObject.name = "AudioCharacter";
+    }
+
+    private void StopWalkSound ()
+    {
+            AudioSource audioSource = walkAudioObject.GetAudioSource();
+            audioSource.Stop();
+        
+    }
+
+    private void PlayWalkSound()
+    {
+            AudioSource audioSource = walkAudioObject.GetAudioSource();
+            audioSource.Play();
+        
+    }
+
+    private AudioObject PlayFXPlayer(string audioName)
+    {
+        AudioObject audioObject = audioManager.CreateAudioObject(transform.position, clipsCharacter[audioName]);
+        audioObject.GetAudioSource().Play();
+        audioObject.RemoveIfNotPlaying = true;
+        return audioObject;
+    }
+
+    private void PlaySoundGetItem(string idItem)
+    {
+        if (getItemAudioObject == null)
+        {
+            getItemAudioObject = PlayFXPlayer("character_get_item");
+        }
+    }
+    #endregion
 
 }

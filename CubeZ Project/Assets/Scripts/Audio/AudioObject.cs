@@ -48,7 +48,7 @@ using UnityEngine;
             case AudioType.Music:
                 dataManager.onMusicVolumeChanged += ChangeVolume;
 
-                ChangeVolume(dataManager.GetVolumeFX());
+                ChangeVolume(dataManager.GetVolumeMusic());
                 break;
             default:
                 throw new AudioObjecException($"invalid type audio: {typeAudio}");
@@ -104,10 +104,6 @@ using UnityEngine;
         }
 
         return audioSource;
-    }
-
-    private void Update()
-    {
     }
 
     private void OnDestroy()

@@ -23,6 +23,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     private Animator animator;
 
+    private WorldManager worldManager;
+
+
+    
+
 
 
     protected Rigidbody rb;
@@ -71,6 +76,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     public event Action onRemove;
     public event Action onDeath;
+    public event Action onAttack;
 
     protected  HouseArea houseAreaEntered;
 
@@ -88,6 +94,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public float DistanceVisible { get => zombieStats.distanceVisible; }
     public bool InHouse { get => inHouse; }
     public bool IsDead { get => isDead; }
+
+    public bool IsWalking { get => agent != null && agent.velocity != Vector3.zero; }
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
 
     // Use this for initialization
@@ -101,6 +109,15 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     }
     protected void Ini()
     {
+        if (WorldManager.Manager == null)
+        {
+            throw new ZombieException("world manager not found");
+        }
+
+        worldManager = WorldManager.Manager;
+
+        worldManager.onDayChanged += NewDay;
+
 
         if (zombieStatsSettings == null)
         {
@@ -155,6 +172,24 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             throw new ZombieException("not found character data");
         }
         characterData = new CharacterData(characterDataSettings.GetData());
+
+        if (worldManager.CurrentDayTime == DayTimeType.Night)
+        {
+            BuffStatsZombie();
+        }
+    }
+
+    private void NewDay (DayTimeType dayTime)
+    {
+        if (dayTime == DayTimeType.Night)
+        {
+            BuffStatsZombie();
+        }
+
+        else if (dayTime == DayTimeType.Morming)
+        {
+            DeBuffStatsZombie();
+        }
     }
 
     private void AddBehaviors()
@@ -258,6 +293,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
                 if (raycastHit.collider.gameObject == target.gameObject)
                 {
                     target.Hit(zombieStats.damage);
+                    SendEventAttack();
 
                 }
 
@@ -274,7 +310,9 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         {
             try
             {
+
                 otherTarget.Hit(zombieStats.damage);
+                SendEventAttack();
             }
             catch 
             {
@@ -282,6 +320,11 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
                 SetWalkingBehavior();
             }
         }
+    }
+
+    private void SendEventAttack()
+    {
+        onAttack?.Invoke();
     }
 
     public void SetTargetPoint(Vector3 point)
@@ -415,6 +458,7 @@ Quaternion root = Quaternion.LookRotation(direction);
 
     private void Dead()
     {
+        worldManager.onDayChanged -= NewDay;
         onDeath?.Invoke();
         TimerDestroy timerDestroy = gameObject.AddComponent<TimerDestroy>();
         timerDestroy.timeDestroy = zombieData.timeRemove;
@@ -442,6 +486,18 @@ Quaternion root = Quaternion.LookRotation(direction);
     protected void CallRemoveEvent ()
     {
         onRemove?.Invoke();
+    }
+
+    private void BuffStatsZombie ()
+    {
+        zombieStats.distanceVisible *= zombieData.incrementPowerZombieOnlyNight;
+        zombieStats.damage *= zombieData.incrementPowerZombieOnlyNight;
+    }
+
+    private void DeBuffStatsZombie()
+    {
+        zombieStats.distanceVisible /= zombieData.incrementPowerZombieOnlyNight;
+        zombieStats.damage /= zombieData.incrementPowerZombieOnlyNight;
     }
 
 }

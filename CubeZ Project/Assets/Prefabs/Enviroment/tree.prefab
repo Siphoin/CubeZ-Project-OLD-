@@ -160,6 +160,7 @@ MonoBehaviour:
   woodPrefab: {fileID: 573012155347542435, guid: 30c945f91ee1e4e4d97a088b536824bc,
     type: 3}
   treeMain: {fileID: 8934234140724653881}
+  audioClipAxe: {fileID: 8300000, guid: 7fbe0fa0f7266b94e8b0fa033003415a, type: 3}
   currentHealth: 0
 --- !u!1 &8934234142348598560
 GameObject:

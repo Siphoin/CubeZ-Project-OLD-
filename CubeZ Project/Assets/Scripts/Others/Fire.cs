@@ -105,7 +105,7 @@ public class Fire : MonoBehaviour
             yield return new WaitForSeconds(rate);
             lerpValue += rate;
             lightFire.intensity = MathfExtensions.LerpRound(lightFire.intensity, 0, lerpValue / 1000f, ROUND_VALUE);
-            triggerColiderFire.radius = lightFire.intensity / 10;
+            triggerColiderFire.radius = lightFire.intensity / 5;
 
 
             settingsPartivles.maxParticles = (int)MathfExtensions.LerpRound(countParticlesStart, 0, lerpValue, ROUND_VALUE);

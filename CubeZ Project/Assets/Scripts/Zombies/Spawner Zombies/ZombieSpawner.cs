@@ -23,8 +23,10 @@ public class ZombieSpawner : MonoBehaviour
     private int zombieinWorld = 0;
     private int maxCountZombieinWorld = 0;
 
-
+    [SerializeField, ReadOnlyField]
     private int currentMaxCountZombies = 0;
+
+    
     // Use this for initialization
     void Start()
     {
@@ -48,6 +50,7 @@ public class ZombieSpawner : MonoBehaviour
             throw new ZombieSpawnerException("world manager not found");
         }
         worldManager = WorldManager.Manager;
+
         settingsZombie = WorldManager.Manager.SettingsZombie;
 
 
@@ -72,6 +75,7 @@ public class ZombieSpawner : MonoBehaviour
         StartCoroutine(Spawn());
 
     }
+
 
     private void CachingExitedsZombies()
     {
@@ -207,13 +211,18 @@ public class ZombieSpawner : MonoBehaviour
    private void IncrementValueZombiesCount ()
     {
         currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies + zombieData.zombieIncrementEveryDay, zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
-        Debug.Log(currentMaxCountZombies);
     }
 
     private void WorldManager_onDayChanged(DayTimeType dayTime)
     {
-        if (dayTime == DayTimeType.Morming) 
+        if (dayTime == DayTimeType.Night)
         {
+            currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies + (currentMaxCountZombies * 3), zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
+        }
+
+        else if (dayTime == DayTimeType.Morming)
+        {
+            currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies - (currentMaxCountZombies * 3), zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
             IncrementValueZombiesCount();
         }
     }

@@ -7,6 +7,9 @@ using UnityEngine;
     [Header("Главный объект дерева")]
     [SerializeField] GameObject treeMain;
 
+    [Header("Звук рубки дерева")]
+    [SerializeField] AudioClip audioClipAxe;
+
     [SerializeField, ReadOnlyField] private int currentHealth;
 
     private int startHealth = 0;
@@ -51,8 +54,19 @@ using UnityEngine;
             CreateWoodItemObject();
             Destroy(treeMain);
         }
+
+        if (AudioDataManager.Manager != null && audioClipAxe != null)
+        {
+            PlaySoundAxe();
+        }
     }
 
+    private void PlaySoundAxe()
+    {
+        AudioObject audioObject = AudioDataManager.Manager.CreateAudioObject(transform.position, audioClipAxe);
+        audioObject.RemoveIfNotPlaying = true;
+        audioObject.GetAudioSource().Play();
+    }
 
     private void LoadTreeData()
     {

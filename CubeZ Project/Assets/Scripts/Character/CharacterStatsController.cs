@@ -220,7 +220,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
             {
                 if (character.IsSleeping)
                 {
-                    sleep.value += 1;
+                    sleep.value += 2;
                     sleep.CallOnValueChanged();
                 }
             }

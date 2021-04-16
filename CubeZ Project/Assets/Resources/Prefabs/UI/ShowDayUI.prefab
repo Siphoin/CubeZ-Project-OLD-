@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1240205184835028460}
   - component: {fileID: 5846988011802109887}
   - component: {fileID: 2847716028762949299}
+  - component: {fileID: 357867794580410819}
   m_Layer: 5
   m_Name: ShowDayUI
   m_TagString: Untagged
@@ -123,6 +124,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisText: {fileID: 2551481347848817073}
   timeDestroy: 5
+--- !u!114 &357867794580410819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240205184835028451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbd343bab58800478ebc4a4a76e58ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDestroy: 10
 --- !u!1 &8131299018462385084
 GameObject:
   m_ObjectHideFlags: 0

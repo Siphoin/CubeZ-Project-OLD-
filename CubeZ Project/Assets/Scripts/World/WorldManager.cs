@@ -68,6 +68,7 @@ public class WorldManager : MonoBehaviour
     public int TemperatureValue { get => currentTemperature; }
     public int CurrentDay { get => currentDay; }
     public WeatherType CurrentWeather { get => currentWeather; }
+    public DayTimeType CurrentDayTime { get => dayTimeType; }
 
     //
 

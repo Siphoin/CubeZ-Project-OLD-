@@ -30,6 +30,9 @@ public class SettingsZombieData
 
     [Header("Максиальное кол-во зомби в мире")]
     public int countZombiesWorld = 100;
+
+    [Header("Увеличение статов зомби ночью")]
+    public int incrementPowerZombieOnlyNight = 2;
     public SettingsZombieData()
     {
 

@@ -19,21 +19,40 @@ using Random = UnityEngine.Random;
 
     private const string NAME_AGRESSIVE_SOUNDS = "agressive";
     private const string NAME_WALKING_SOUNDS = "walking";
+    private const string NAME_ATTACK_SOUNDS = "attack";
+
+
     private const string NAME_DEATH_SOUND = "death/zombie_death";
+
+    private const string PATH_CHARACTER_AUDIO_WALK = "Audio/character/character_walking";
 
     private AudioClip[] agressiveClips;
     private AudioClip[] walkingClips;
+    private AudioClip[] attackClips;
 
     private AudioClip deathClip;
+
+    private AudioClip walkClip;
+
+    private AudioObject audioObjectWalk;
 
 
 
     [SerializeField] private AudioSource audioSource;
 
+    private AudioDataManager audioManager;
+
 
     // Use this for initialization
     void Start()
         {
+
+        if (AudioDataManager.Manager == null)
+        {
+            throw new AudioZombieException("audio manager not found");
+        }
+
+        audioManager = AudioDataManager.Manager;
 
 
         if (audioSource == null)
@@ -56,12 +75,28 @@ using Random = UnityEngine.Random;
             throw new AudioZombieException("agressuive clips not found");
         }
 
+        attackClips = GetSounds(NAME_ATTACK_SOUNDS);
+
+        if (attackClips.Length == 0)
+        {
+            throw new AudioZombieException("attack clips not found");
+        }
+
         deathClip = GetSound(NAME_DEATH_SOUND);
 
         if (deathClip == null)
         {
             throw new AudioZombieException("death clip not found");
         }
+
+        walkClip = Resources.Load<AudioClip>(PATH_CHARACTER_AUDIO_WALK);
+
+        if (walkClip == null)
+        {
+            throw new AudioZombieException("walk clip not found");
+        }
+
+
         if (!TryGetComponent(out zombie))
         {
             throw new AudioZombieException("not found component Base Zombie");
@@ -70,17 +105,27 @@ using Random = UnityEngine.Random;
 
         zombie.onNewBehavior += NewBehavior;
         zombie.onDeath += ZombieDead;
+        zombie.onAttack += PlayAttackSound;
 
         audioSource.pitch = Random.Range(minPitchVoice, maxPitchVoice);
+
+        CreateWalkAudioObject();
         }
+
+    private void PlayAttackSound()
+    {
+        AudioObject audioObject = audioManager.CreateAudioObject(transform.position, attackClips[Random.Range(0, attackClips.Length)]);
+        audioObject.GetAudioSource().Play();
+        audioObject.RemoveIfNotPlaying = true;
+    }
 
     private void ZombieDead()
     {
         zombie.onNewBehavior -= NewBehavior;
         zombie.onDeath -= ZombieDead;
+        zombie.onAttack -= PlayAttackSound;
 
             audioSource.clip = deathClip;
-
             audioSource.Play();
         
     }
@@ -143,8 +188,33 @@ using Random = UnityEngine.Random;
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CreateWalkAudioObject ()
+    {
+        audioObjectWalk = audioManager.CreateAudioObject(transform.position, walkClip);
+        audioObjectWalk.transform.SetParent(transform);
+        audioObjectWalk.GetAudioSource().loop = true;
+
+        audioObjectWalk.name = "AudioZombieWalk";
+
+    }
+
+    private void Update()
+    {
+        if (zombie.IsWalking)
         {
+            if (!audioObjectWalk.GetAudioSource().isPlaying)
+            {
+                audioObjectWalk.GetAudioSource().Play();
+            }
+        }
+
+        else
+        {
+            if (audioObjectWalk.GetAudioSource().isPlaying)
+            {
+                audioObjectWalk.GetAudioSource().Stop();
+            }
         }
     }
+
+}
