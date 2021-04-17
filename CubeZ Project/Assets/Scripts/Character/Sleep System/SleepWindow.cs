@@ -64,13 +64,8 @@ public class SleepWindow : Window
         SetColorBackground(alphaColorBackground);
 
         LerpingColor(true);
-        SetStateUIControllerEnabled(false);
     }
 
-    private static void SetStateUIControllerEnabled(bool enabled)
-    {
-        UIController.Manager.On = enabled;
-    }
 
     private void Awake()
     {
@@ -150,7 +145,6 @@ public class SleepWindow : Window
     public override void Exit()
     {
         PlayerManager.Manager.Player.onSleep -= PlayerSleeping;
-        SetStateUIControllerEnabled(true);
         base.Exit();
     }
 
@@ -158,7 +152,6 @@ public class SleepWindow : Window
     {
         try
         {
-            SetStateUIControllerEnabled(true);
         }
         catch
         {

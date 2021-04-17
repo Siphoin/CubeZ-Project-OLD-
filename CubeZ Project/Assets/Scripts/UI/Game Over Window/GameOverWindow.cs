@@ -17,7 +17,6 @@ using UnityEngine;
         }
         try
         {
-            UIController.Manager.CloseAllWindows();
             UIController.Manager.On = false;
         }
         catch

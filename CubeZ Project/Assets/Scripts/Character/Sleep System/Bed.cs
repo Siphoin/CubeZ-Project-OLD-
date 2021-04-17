@@ -100,11 +100,6 @@ using UnityEngine;
     private void SleepPlayer ()
     {
         PlayerManager.Manager.Player.Sleep(this);
-        if (UIController.Manager != null)
-        {
-            UIController.Manager.CloseAllWindows();
-            UIController.Manager.On = false;
-        }
         DestroyInteractionMenu();
     }
     #region NOT_USED_CODE

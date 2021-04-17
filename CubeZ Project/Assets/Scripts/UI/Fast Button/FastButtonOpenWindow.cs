@@ -34,6 +34,10 @@ using UnityEngine.UI;
 
     private void OpenWindow()
     {
+        if (UIController.Manager == null)
+        {
+            throw new System.Exception("ui controller not found");
+        }
         if (UIController.Manager.ActiveWindow != null)
         {
             return;

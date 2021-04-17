@@ -705,6 +705,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         SetSleepStatus(true);
        SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
         SetAnimationState(TypeAnimation.Idle2);
+        UIController.Manager.On = false;
     }
 
     private void SetNewTransform(Vector3 position, Quaternion rotation)
@@ -724,6 +725,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         SetSleepStatus(false);
         SetNewTransform(lastPosition, startQuuaterion);
+        UIController.Manager.On = true;
     }
 
     private void SetSleepStatus (bool status)
