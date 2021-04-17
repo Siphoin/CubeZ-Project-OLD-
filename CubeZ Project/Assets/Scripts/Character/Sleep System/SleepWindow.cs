@@ -154,4 +154,16 @@ public class SleepWindow : Window
         base.Exit();
     }
 
+    private void OnDestroy()
+    {
+        try
+        {
+            SetStateUIControllerEnabled(true);
+        }
+        catch
+        {
+
+        }
+    }
+
 }

@@ -36,6 +36,7 @@ using UnityEngine;
 
     public void BackToMainMenu ()
     {
+        UIController.Manager.On = true;
         Loading.LoadScene(NAME_SCENE_MAIN_MENU);
     }
     }

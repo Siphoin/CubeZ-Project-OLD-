@@ -14,10 +14,12 @@ public class UIController : MonoBehaviour
     private Window activeWindow = null;
 
     private List<Window> openedWindows = new List<Window>(0);
-
-    public bool On { get; set; } = true;
+    [Header("Включен")]
+[SerializeField, ReadOnlyField]    private bool on = true;
 
     public static UIController Manager { get => manager; }
+    public bool On { get => on; set => on = value; }
+    public Window ActiveWindow { get => activeWindow; }
 
     // Use this for initialization
     void Awake()
@@ -67,17 +69,21 @@ public class UIController : MonoBehaviour
         window.onExit += WindowExit;
         windowsCached.Add(window.name);
         CacheWindow(window);
+        activeWindow = window;
         return window;
 
     }
 
     public Window OpenWindow(Window windowTarget)
     {
+
+
         UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == windowTarget.name);
         Window newWindow = Instantiate(targetFragment.window);
         newWindow.onExit += WindowExit;
         windowsCached.Add(newWindow.name);
         CacheWindow(windowTarget);
+        activeWindow = newWindow;
         return newWindow;
 
     }

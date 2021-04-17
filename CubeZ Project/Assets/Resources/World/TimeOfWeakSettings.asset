@@ -23,7 +23,7 @@ MonoBehaviour:
     startedHour: 11
     intensityDay: 3
     intensityNight: 1
-    valueIntensityLerping: 120
+    valueIntensityLerping: 240
     weatherSettings:
       minValueNewWeatherTime: 15
       maxValueNewWeatherTime: 120
@@ -33,3 +33,4 @@ MonoBehaviour:
       maxTemperatureValue: 50
       rainTemperatureDecrementValue: 2
       snowTemperatureDecrementValue: 12
+    startDay: 1

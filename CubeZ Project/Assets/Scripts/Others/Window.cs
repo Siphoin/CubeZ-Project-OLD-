@@ -45,6 +45,14 @@ public class Window : MonoBehaviour
         }
 
         onExit?.Invoke(this);
-        Destroy(gameObject);
+
+        try
+        {
+            Destroy(gameObject);
+        }
+        catch
+        {
+
+        }
     }
 }

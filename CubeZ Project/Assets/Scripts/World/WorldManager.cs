@@ -318,13 +318,18 @@ public class WorldManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(timeOfWeakData.weatherSettings.minValueNewWeatherTime, timeOfWeakData.weatherSettings.maxValueNewWeatherTime + 1));
-            WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
+
+            if (ProbabilityUtility.GenerateProbalityInt() > 50)
+            {
+WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
             if (currentWeather != newWeather)
             {
                 DestroyLastCreatedwWeather();
                 yield return new WaitForSeconds(6);
                 SetNewWeather(newWeather);
             }
+            }
+            
         }
     }
 

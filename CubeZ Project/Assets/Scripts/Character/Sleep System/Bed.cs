@@ -103,6 +103,7 @@ using UnityEngine;
         if (UIController.Manager != null)
         {
             UIController.Manager.CloseAllWindows();
+            UIController.Manager.On = false;
         }
         DestroyInteractionMenu();
     }
