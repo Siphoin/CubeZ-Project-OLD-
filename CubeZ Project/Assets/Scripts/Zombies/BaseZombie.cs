@@ -95,8 +95,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public bool InHouse { get => inHouse; }
     public bool IsDead { get => isDead; }
 
+    
+
     public bool IsWalking { get => agent != null && agent.velocity != Vector3.zero; }
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
+
+    public int CurrentHealth { get => zombieStats.health; }
 
     // Use this for initialization
     void Start()

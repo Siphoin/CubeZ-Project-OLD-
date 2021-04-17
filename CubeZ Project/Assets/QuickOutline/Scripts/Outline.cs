@@ -91,7 +91,7 @@ public class Outline : MonoBehaviour
 
     void Awake()
     {
-
+        enabled = false;
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
 
@@ -156,6 +156,8 @@ public class Outline : MonoBehaviour
 
     void OnDisable()
     {
+        try
+        {
         foreach (var renderer in renderers)
         {
 
@@ -167,6 +169,13 @@ public class Outline : MonoBehaviour
 
             renderer.materials = materials.ToArray();
         }
+        }
+
+
+        catch
+        {
+        }
+
     }
 
     void OnDestroy()

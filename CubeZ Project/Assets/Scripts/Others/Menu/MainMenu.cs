@@ -24,7 +24,7 @@ using TMPro;
 
         public void SelectMap ()
         {
-
+        Loading.LoadScene("map1");
         }
 
             public void ContinueSession ()

@@ -21,6 +21,13 @@ using UnityEngine;
         {
             throw new GCZombieException("not found Colider component on parent mesh renderer");
         }
+
+        if (WorldManager.Manager == null)
+        {
+            throw new GCZombieException("world manager not found");
+        }
+
+
         timeDestroy = WorldManager.Manager.SettingsZombie.GetData().timeRemoveonGCZombie;
         StartCoroutine(DestroyObjectOfTime());
         }

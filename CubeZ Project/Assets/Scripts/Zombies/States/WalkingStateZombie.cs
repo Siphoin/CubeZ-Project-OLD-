@@ -22,16 +22,18 @@ class WalkingStateZombie : IStateBehavior
 
     public IEnumerator UpdateWaiting()
     {
+        if (owner.CountCallWalkingBehavior > 1)
+        {
+            owner.CountCallWalkingBehavior--;
+            yield break;
+        }
+
+
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(12, 14));
 
 
-            if (owner.CountCallWalkingBehavior > 1)
-            {
-                owner.CountCallWalkingBehavior--;
-                yield break;
-            }
             if (!owner.VisiblePlayer)
             {
                 Vector3 targetPosWalking = owner.InHouse == false ? owner.transform.position : owner.HouseAreaBounds.center / 2;

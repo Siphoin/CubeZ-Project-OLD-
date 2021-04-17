@@ -123,10 +123,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void Ini()
     {
 
-        if (AudioDataManager.Manager == null)
-        {
-            throw new CharacterException("audio manager not found");
-        }
 
         
 
@@ -169,12 +165,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         characterTrigger.onExit += CharacterExitOnTrigger;
 
 
-        audioManager = AudioDataManager.Manager;
 
         LoadAudio();
 
 
-        CreateAudioObjectWalk();
 
         GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
     }
@@ -229,6 +223,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         _rb = GetComponent<Rigidbody>();
 
         animatorObserver.onAttackEvent += Damage;
+
+        if (AudioDataManager.Manager == null)
+        {
+            throw new CharacterException("audio manager not found");
+        }
+
+        audioManager = AudioDataManager.Manager;
+
+        CreateAudioObjectWalk();
 
         IniKeyCodes();
     }
@@ -531,12 +534,24 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         BaseZombie target = raycastHit.collider.GetComponent<BaseZombie>();
         target.Hit(currentDamage);
+
+        if (target.CurrentHealth <= 0 && PlayerManager.Manager.Player == this)
+        {
+            GameCacheManager.gameCache.zombieKils++;
+        }
         CheckWearWeapon();
     }
 
     private void DamageZombie(BaseZombie target)
     {
         target.Hit(currentDamage);
+
+
+        if (target.CurrentHealth <= 0 && PlayerManager.Manager.Player == this)
+        {
+            GameCacheManager.gameCache.zombieKils++;
+            Debug.Log(GameCacheManager.gameCache.zombieKils);
+        }
         CheckWearWeapon();
     }
 
