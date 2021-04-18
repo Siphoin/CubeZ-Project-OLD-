@@ -1,22 +1,35 @@
 ﻿using System;
 using UnityEngine;
-[RequireComponent(typeof(BoxCollider))]
-    public class CharacterTrigger : MonoBehaviour
+[RequireComponent(typeof(SphereCollider))]
+    public class CharacterTrigger : MonoBehaviour, IObjectArea
     {
     public event Action<string> onEnter;
     public event Action<string> onExit;
 
   private  Fire enteredFire = null;
 
+    private SphereCollider sphereCollider;
+
     private const string FIRE_TAG = "FireArea";
+
+
 
     // Use this for initialization
     void Start()
-        {
-        }
+    {
+        Ini();
+    }
 
-        // Update is called once per frame
-        void Update()
+    private void Ini()
+    {
+        if (!TryGetComponent(out sphereCollider))
+        {
+            throw new CharacterTriggerException($"{name} not have component Sphere Colider");
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
         {
         }
 
@@ -68,5 +81,25 @@ using UnityEngine;
         action?.Invoke(tag);
 
 
+    }
+
+    public void SetRadius(float raduis)
+    {
+        if (sphereCollider == null)
+        {
+            Ini();
+        }
+
+        sphereCollider.radius = raduis;
+    }
+
+    public float GetRadius ()
+    {
+        if (sphereCollider == null)
+        {
+            Ini();
+        }
+
+        return sphereCollider.radius;
     }
 }

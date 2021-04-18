@@ -10,6 +10,7 @@
     Run,
     ZombieWalk,
     GetHit,
+    Gethit,
     Spell1,
     Spell2,
     Spell3,

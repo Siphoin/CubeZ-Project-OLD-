@@ -19,11 +19,20 @@ public class ContainerItemsWindow : Window
     [SerializeField] private Button buttonGet;
     [SerializeField] private Button buttonGetAllItems;
 
+    private static ContainerItemsWindow activeContainerItemsWindow = null;
+
 
     private const string PATH_PREFAB_ITEM_CELL_CONTAINER_ITEMS = "Prefabs/UI/ItemCellContainerItems";
     // Use this for initialization
     void Start()
     {
+        if (activeContainerItemsWindow != null)
+        {
+            activeContainerItemsWindow.Exit();
+        }
+
+        activeContainerItemsWindow = this;
+
 
         if (gridItems == null)
         {

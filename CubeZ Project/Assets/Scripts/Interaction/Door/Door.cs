@@ -20,6 +20,9 @@ using UnityEngine;
     [Header("Звук открытия двери")]
     [SerializeField] AudioClip doorSoundOpen;
 
+    [Header("Звук смерти двери")]
+    [SerializeField] AudioClip doorSoundDead;
+
     private DoorSettings doorSettings;
 
     private Collider colliderDoor;
@@ -72,6 +75,7 @@ using UnityEngine;
     {
         if (doorData.healthData.Value <= 0)
         {
+            PlaySoundDoor(doorSoundDead);
             Dead();
         }
     }
@@ -120,7 +124,7 @@ using UnityEngine;
             if (Input.GetKeyDown(keyCodeGetItem))
             {
                 doorData.isOpened = !doorData.isOpened;
-                PlaySoundDoor();
+                PlaySoundDoor(IsOpened == true ? doorSoundOpen : doorSoundExit);
                 PlayAnimationDoor(doorData.isOpened == true ? DoorAnimationType.DoorOpen : DoorAnimationType.DoorExit);
                 DestroyHintKeyCode();
                 onDoorInteraction?.Invoke(enteredPlayer.transform.position.x < transform.position.x);
@@ -139,14 +143,16 @@ using UnityEngine;
         doorData.healthData.Damage(hitValue);
     }
 
-    private void PlaySoundDoor ()
+    private void PlaySoundDoor (AudioClip clip)
     {
         if (activeAudioObject == null)
         {
-    activeAudioObject = AudioDataManager.Manager.CreateAudioObject(transform.position, IsOpened == true ? doorSoundOpen : doorSoundExit);
+    activeAudioObject = AudioDataManager.Manager.CreateAudioObject(transform.position, clip);
         activeAudioObject.GetAudioSource().Play();
         activeAudioObject.RemoveIfNotPlaying = true;
         }
 
     }
+
+    
 }

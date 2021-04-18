@@ -24,8 +24,8 @@ using UnityEngine;
 
         }
 
-        textResultSession.text = $"Time Session: {GameCacheManager.gameCache.timeSession.ToLongTimeString()}\nZombies killed: {GameCacheManager.gameCache.zombieKils}";
-        GameCacheManager.StartNewGameSession();
+        textResultSession.text = $"Time Session: {GameCacheManager.gameCache.timeSession.ToLongTimeString()}\nZombies killed: {GameCacheManager.gameCache.zombieKils}\nDay survive: {GameCacheManager.gameCache.day - 1}";
+       GameCacheManager.StartNewGameSession();
         }
 
     public void QuitToWindows ()

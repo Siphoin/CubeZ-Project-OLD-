@@ -14,6 +14,7 @@ public class ZombieSpawner : MonoBehaviour
     private const float MAX_TIME_SPAWN_ONE_ZOMBIE = 1.0F;
     private const float RADIUS_HORDE = 1.5f;
 
+
     private SettingsZombieData zombieData;
     private SettingsZombie settingsZombie;
 
@@ -217,12 +218,14 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (dayTime == DayTimeType.Night)
         {
-            currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies + (currentMaxCountZombies * 3), zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
+            currentMaxCountZombies *= zombieData.zombieIncrementNight;
         }
 
         else if (dayTime == DayTimeType.Morming)
         {
-            currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies - (currentMaxCountZombies * 3), zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
+            currentMaxCountZombies  /= zombieData.zombieIncrementNight;
+
+
             IncrementValueZombiesCount();
         }
     }

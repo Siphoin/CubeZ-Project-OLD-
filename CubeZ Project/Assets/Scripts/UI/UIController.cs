@@ -92,9 +92,9 @@ public class UIController : MonoBehaviour
 
     public void CloseAllWindows ()
     {
-        for (int i = 0; i < openedWindows.Count; i++)
+        if (activeWindow != null)
         {
-            openedWindows[i].Exit();
+            activeWindow.Exit();
         }
     }
 

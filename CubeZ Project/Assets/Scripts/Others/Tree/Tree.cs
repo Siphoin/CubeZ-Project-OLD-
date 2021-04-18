@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
     public class Tree : MonoBehaviour, IGeterHit
@@ -16,6 +17,8 @@ using UnityEngine;
 
 
     TreeData treeData = null;
+
+    public event Action onDead;
 
 
     private const string PATH_TREE_SETTINGS = "Trees/TreeSettings";
@@ -51,6 +54,7 @@ using UnityEngine;
 
         if (currentHealth <= 0)
         {
+            onDead?.Invoke();
             CreateWoodItemObject();
             Destroy(treeMain);
         }

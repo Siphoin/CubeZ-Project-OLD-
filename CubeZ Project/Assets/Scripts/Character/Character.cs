@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,7 +31,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
     private const string ATTACK_NAME_ANIM = "AttackGeneric";
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
+
     private const string DEAD_ANIM_NAME = "Death";
+    private const string NAME_ANIM_DEATH_CHARACTER = "character_death";
     private const string KEY_CODE_OFF_SLEEP_NAME = "offSleep";
 
 
@@ -46,8 +49,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private const string NAME_FOLBER_AUDIO_CHARACTER = "Audio/character";
 
-    
-
 
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
@@ -57,7 +58,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     [Header("Триггер персонажа")]
     [SerializeField] CharacterTrigger characterTrigger;
 
-    ControlManager controlManager;
+  private  ControlManager controlManager;
+
+    private UIController UIControl;
 
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
@@ -88,10 +91,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool inFireArea = false;
 
+
     private Vector3 lastPosition;
 
     private Quaternion lastQuaternion;
     private Quaternion startQuuaterion;
+
+    private float defaultRaduisCharacterTrigger;
 
     public float Speed { get => characterData.speed; }
 
@@ -163,7 +169,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         characterTrigger.onEnter += CharacterEnterOnTrigger;
         characterTrigger.onExit += CharacterExitOnTrigger;
-
+        defaultRaduisCharacterTrigger = characterTrigger.GetRadius();
 
 
         LoadAudio();
@@ -206,6 +212,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         CheckValidStats();
 
 #endif
+
+        if (UIController.Manager == null)
+        {
+            throw new CharacterException("UI Controller not found");
+        }
         if (ControlManagerObject.Manager == null)
         {
             throw new CharacterException("Control manager object not found");
@@ -230,6 +241,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
 
         audioManager = AudioDataManager.Manager;
+
+        UIControl = UIController.Manager;
+
 
         CreateAudioObjectWalk();
 
@@ -279,6 +293,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         StandLockInput();
     }
 
+    private void SetCharacterMoveOppositive ()
+    {
+        characterActive = !characterActive;
+    }
+
     private void StandLockInput()
     {
         if (Input.anyKeyDown)
@@ -287,12 +306,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         if (Input.GetKeyDown(controlManager.GetKeyCodeByFragment(NAME_KEY_CODE_SIT_DOWN)))
         {
-            characterActive = !characterActive;
-            if (characterActive == false)
-            {
-                SetAnimationState(TypeAnimation.SitandLook);
-            }
-
+                SetCharacterMoveOppositive();            
+                SetAnimationState(characterActive == false ? TypeAnimation.SitandLook : TypeAnimation.Idle2);
         }
         }
 
@@ -316,8 +331,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-
-        if (characterActive && !isFrezzed)
+        if (characterActive && !isFrezzed && CanMove())
         {
             LookAtDirection();
             Control();
@@ -336,7 +350,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             if (!Input.GetKey(KeyCode.LeftShift))
             {
+                PlayWalkSound();
                 speed = Walk();
+                characterTrigger.SetRadius(defaultRaduisCharacterTrigger);
             }
 
             else
@@ -344,11 +360,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
                 if (runStats.value > 0)
                 {
                     speed = Run();
+                    characterTrigger.SetRadius(defaultRaduisCharacterTrigger * 2);
                 }
 
                 else
                 {
-                   StopWalkSound();
+                    characterTrigger.SetRadius(defaultRaduisCharacterTrigger);
                     SetAnimationState(TypeAnimation.Idle2);
                 }
 
@@ -357,9 +374,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
 
+
         else
         {
-
+            StopWalkSound();
             SetAnimationState(TypeAnimation.Idle2);
 
             if (Input.GetMouseButtonDown(0))
@@ -386,6 +404,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         float speed =  isFatigue == false ? characterData.speed : characterData.speed - 1;
         SetAnimationState(TypeAnimation.Walk);
         PlayWalkSound();
+        characterTrigger.SetRadius(defaultRaduisCharacterTrigger * 2);
         return speed;
     }
 
@@ -492,7 +511,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         RaycastHit raycastHit;
 
 
-        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 2))
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
         {
 
             if (raycastHit.collider.tag == ZOMBIE_AREA_TAG)
@@ -641,13 +660,27 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Dead()
     {
-        PlayFXPlayer("character_death");
+        PlayFXPlayer(NAME_ANIM_DEATH_CHARACTER);
         onDead?.Invoke();
         animator.Play(DEAD_ANIM_NAME);
         _rb.isKinematic = true;
         boxCollider.enabled = false;
         gameObject.AddComponent<CharacterRebel>();
         enabled = false;
+    }
+
+    private bool CanMove ()
+    {
+        TypeAnimation[] typesAnimations = new TypeAnimation[]
+        {
+            TypeAnimation.AttackGeneric1,
+            TypeAnimation.AttackGeneric2,
+            TypeAnimation.AttackGeneric3,
+            TypeAnimation.SitandLook,
+            TypeAnimation.Gethit,
+        };
+
+        return !typesAnimations.Any(t => t.ToString() == animator.GetCurrentClipPlayed().name);
     }
 
     public bool CharacterIsStand()
@@ -700,12 +733,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("bed target is null");
         }
-        _rb.Sleep();
         CachingLastTransform();
         SetSleepStatus(true);
        SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
         SetAnimationState(TypeAnimation.Idle2);
-        UIController.Manager.On = false;
+        UIControl.On = false;
+        UIControl.CloseAllWindows();
     }
 
     private void SetNewTransform(Vector3 position, Quaternion rotation)
@@ -725,7 +758,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         SetSleepStatus(false);
         SetNewTransform(lastPosition, startQuuaterion);
-        UIController.Manager.On = true;
+        UIControl.On = true;
     }
 
     private void SetSleepStatus (bool status)

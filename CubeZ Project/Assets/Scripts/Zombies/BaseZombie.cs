@@ -21,12 +21,17 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     protected NavMeshAgent agent;
 
 
-    private Animator animator;
+    protected Animator animator;
 
     private WorldManager worldManager;
 
 
-    
+    private int[] hashesAnimationAttackZombie = new int[]
+    {
+        -827840423,
+        -224906799,
+        -617844629,
+    };
 
 
 
@@ -53,7 +58,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
+
+    [Header("Информация о статах зомби")]
     [SerializeField] private ZombieStatsSettings zombieStatsSettings;
+
+    [Header("Zombie Area компонент")]
+    [SerializeField] private ZombieArea zombieArea;
 
     protected ZombieStats zombieStats;
 
@@ -101,6 +111,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
 
     public int CurrentHealth { get => zombieStats.health; }
+    public int[] HashesAnimationAttackZombie { get => hashesAnimationAttackZombie; }
 
     // Use this for initialization
     void Start()
@@ -113,6 +124,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     }
     protected void Ini()
     {
+        if (zombieArea == null)
+        {
+
+        }
+
+
         if (WorldManager.Manager == null)
         {
             throw new ZombieException("world manager not found");
@@ -137,6 +154,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             throw new ZombieException("zombie settings is null");
         }
         zombieData = new SettingsZombieData(settingsZombie.GetData());
+
+        
 #if UNITY_EDITOR
         CheckValidStats();
 
@@ -181,6 +200,21 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         {
             BuffStatsZombie();
         }
+
+
+        zombieArea.SetRadius(zombieStats.distanceVisible / 2);
+        zombieArea.onCharacterVisible += ZombieArea_onCharacterVisible;
+    }
+
+    private void ZombieArea_onCharacterVisible(Character character)
+    {
+        if (target == null)
+        {
+        target = character;
+        visiblePlayer = true;
+        SetAggresiveBehavior();
+        }
+
     }
 
     private void NewDay (DayTimeType dayTime)
@@ -316,6 +350,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             {
 
                 otherTarget.Hit(zombieStats.damage);
+                CheckHealthOtherTarget();
                 SendEventAttack();
             }
             catch 
@@ -502,6 +537,29 @@ Quaternion root = Quaternion.LookRotation(direction);
     {
         zombieStats.distanceVisible /= zombieData.incrementPowerZombieOnlyNight;
         zombieStats.damage /= zombieData.incrementPowerZombieOnlyNight;
+    }
+
+    private void CheckHealthOtherTarget ()
+    {
+        if (otherTarget is Door)
+        {
+            Door door = (Door)otherTarget;
+
+
+            if (door.Health <= 0)
+            {
+                otherTarget = null;
+                return;
+            }
+
+            Wall wall = (Wall)otherTarget;
+
+            if (wall.CurrentHealth <= 0)
+            {
+                otherTarget = null;
+                return;
+            }
+        }
     }
 
 }

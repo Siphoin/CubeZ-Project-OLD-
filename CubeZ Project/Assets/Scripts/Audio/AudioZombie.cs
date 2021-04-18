@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BaseZombie))]
-    public class AudioZombie : MonoBehaviour
+    public class AudioZombie : MonoBehaviour, IInvokerMono
     {
     private BaseZombie zombie;
 
@@ -41,6 +41,8 @@ using Random = UnityEngine.Random;
     [SerializeField] private AudioSource audioSource;
 
     private AudioDataManager audioManager;
+
+    private int countCallCorotinueWalkingSound = 0;
 
 
     // Use this for initialization
@@ -110,7 +112,9 @@ using Random = UnityEngine.Random;
         audioSource.pitch = Random.Range(minPitchVoice, maxPitchVoice);
 
         CreateWalkAudioObject();
-        }
+
+        CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+    }
 
     private void PlayAttackSound()
     {
@@ -132,23 +136,22 @@ using Random = UnityEngine.Random;
 
     private void NewBehavior(IStateBehavior behavior)
     {
+        CancelInvoke();
+
+
         if (behavior is WalkingStateZombie)
         {
-            StartCoroutine(RandomVoicePlaying());
+            CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+            
         }
 
         if (behavior is AggresiveStateZombie)
         {
-            StopAllCoroutines();
 
 
             if (!audioSource.isPlaying)
             {
-                AudioClip clip = agressiveClips[Random.Range(0, agressiveClips.Length)];
-
-                audioSource.clip = clip;
-
-                audioSource.Play();
+                PlayRandomSoundWithArrayClips(agressiveClips);
             }
         }
 
@@ -163,29 +166,6 @@ using Random = UnityEngine.Random;
     private AudioClip GetSound (string nameFolber)
     {
         return Resources.Load<AudioClip>(NAME_FOLBER_SOUNDS + nameFolber);
-    }
-
-    private IEnumerator RandomVoicePlaying()
-    {
-        while (true)
-        {
-
-            float seconds = Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f);
-
-            if (zombie.CurrentStateBehavior is WalkingStateZombie == false)
-            {
-                yield break;
-            }
-
-            yield return new WaitForSeconds(seconds);
-
-            AudioClip clip = walkingClips[Random.Range(0, walkingClips.Length)];
-
-            audioSource.clip = clip;
-            audioSource.Play();
-
-
-        }
     }
 
     private void CreateWalkAudioObject ()
@@ -217,4 +197,39 @@ using Random = UnityEngine.Random;
         }
     }
 
+    private void PlayRandomSoundWithArrayClips (AudioClip[] clips)
+    {
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+
+        audioSource.clip = clip;
+
+        audioSource.Play();
+    }
+
+    private void RandomVoice ()
+    {
+
+        if (zombie.CurrentStateBehavior is WalkingStateZombie == false)
+        {
+            return;
+        }
+        PlayRandomSoundWithArrayClips(walkingClips);
+
+        if (zombie.CurrentStateBehavior is WalkingStateZombie)
+        {
+            CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+        }
+
+
+    }
+
+    public void CallInvokingEveryMethod(Action method, float time)
+    {
+        InvokeRepeating(method.Method.Name, time, time);
+    }
+
+    public void CallInvokingMethod(Action method, float time)
+    {
+        Invoke(method.Method.Name, time);
+    }
 }

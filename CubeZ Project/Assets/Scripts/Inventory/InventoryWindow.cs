@@ -11,6 +11,8 @@ public class InventoryWindow : Window
     protected const string PATH_CHARACTER_INVENTORY_SETTINGS = "Character/InventoryPlayerSettings";
     protected const string PATH_ITEMS_DATA = "Items/";
 
+    private const string NAME_FOLBER_PATH_EAT_AUDIO = "Audio/character/character_eat";
+
     [Header("Окно характеристик предмета")]
     [SerializeField] protected GameObject infoItem;
 
@@ -31,6 +33,11 @@ public class InventoryWindow : Window
 
     protected  ItemCell itemCellPrefab;
     protected ItemCellEmtry itemCellEmtryPrefab;
+
+    private AudioClip eatCharacterClip;
+
+
+  
 
     protected InventoryPlayerSettings inventoryPlayerSettings;
 
@@ -84,6 +91,13 @@ public class InventoryWindow : Window
             throw new InventoryWindowException("grid items emtry is null");
         }
 
+
+        eatCharacterClip = Resources.Load<AudioClip>(NAME_FOLBER_PATH_EAT_AUDIO);
+
+        if (eatCharacterClip == null)
+        {
+            throw new InventoryWindowException("clip eat character not found");
+        }
 
         itemCellPrefab = Resources.Load<ItemCell>(PATH_ITEMCELL_PREFAB);
 
@@ -245,6 +259,16 @@ public class InventoryWindow : Window
 
     private void UseFood()
     {
+        if (PlayerManager.Manager == null)
+        {
+            throw new InventoryWindowException("player manager not found");
+        }
+
+        if (PlayerManager.Manager.Player == null)
+        {
+            throw new InventoryWindowException("player not found");
+        }
+
         CharacterStatsDataNeed statsHunger = PlayerManager.Manager.PlayerStats.Hunger;
         if (statsHunger.value >= statsHunger.GetDefaultValue())
         {
@@ -254,6 +278,16 @@ public class InventoryWindow : Window
         FoodParams foodItem = Resources.Load<FoodItem>(path).dataFood;
         AddPlayerValueStatsToNeed(currentItemData.typeItem, foodItem.satietyRange);
         RemoveItem();
+
+        if (AudioDataManager.Manager == null)
+        {
+                throw new InventoryWindowException("audio manager not found");
+            
+        }
+
+        AudioObject audioObject = AudioDataManager.Manager.CreateAudioObject(PlayerManager.Manager.Player.transform.position, eatCharacterClip);
+        audioObject.GetAudioSource().Play();
+        audioObject.RemoveIfNotPlaying = true;
     }
 
     private void UseKit()

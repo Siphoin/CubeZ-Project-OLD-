@@ -188,6 +188,7 @@ MonoBehaviour:
   doorAnimator: {fileID: 7217087224992673865}
   doorSoundExit: {fileID: 8300000, guid: 3d352d3db5cb93d44a7dd44648ccaab2, type: 3}
   doorSoundOpen: {fileID: 8300000, guid: fbccb472f00092741816d124ab7aef09, type: 3}
+  doorSoundDead: {fileID: 8300000, guid: 397f8767206be5f48b62569029cc4d98, type: 3}
   doorData:
     isOpened: 0
     isBlocked: 0
@@ -678,6 +679,7 @@ GameObject:
   - component: {fileID: 7179450197269057905}
   - component: {fileID: 7217087224992673865}
   - component: {fileID: 7616443718183032776}
+  - component: {fileID: 435995360414832726}
   m_Layer: 0
   m_Name: door
   m_TagString: Untagged
@@ -744,3 +746,15 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &435995360414832726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7559669408086674379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b755d7485ff34408e92288550c6215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

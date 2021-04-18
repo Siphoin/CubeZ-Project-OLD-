@@ -21,6 +21,9 @@ public class SettingsZombieData
     [Header("Коэфицент численности зомби с каждым днем")]
     public int zombieIncrementEveryDay = 2;
 
+    [Header("Коэфицент численности зомби ночью")]
+    public int zombieIncrementNight = 3;
+
     [Header("Время исчезновение трупа зомби")]
     public float timeRemove = 14;
 

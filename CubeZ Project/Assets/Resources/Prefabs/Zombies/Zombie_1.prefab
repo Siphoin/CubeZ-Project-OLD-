@@ -1479,8 +1479,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.619807, z: 1}
-  m_Center: {x: 0, y: -0.5030125, z: 0}
+  m_Size: {x: 1, y: 1.9480882, z: 1}
+  m_Center: {x: 0, y: -0.36, z: 0}
 --- !u!54 &3800927216426833913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1516,7 +1516,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 1.31
+  m_BaseOffset: 0.88
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
 --- !u!114 &3800927216426833915
@@ -1535,6 +1535,7 @@ MonoBehaviour:
   settingsZombie: {fileID: 0}
   zombieStatsSettings: {fileID: 11400000, guid: 5670f52f1ea5a9e49a69d834560e0fb2,
     type: 2}
+  zombieArea: {fileID: 5913286861641690468}
 --- !u!114 &3800927216426833894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3270,7 +3271,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3561282851082530221}
-  - component: {fileID: 9109926013881291561}
+  - component: {fileID: 3382740557108302820}
+  - component: {fileID: 5913286861641690468}
   m_Layer: 0
   m_Name: ZombieArea
   m_TagString: ZombieArea
@@ -3292,8 +3294,8 @@ Transform:
   m_Father: {fileID: 3800927216426833895}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9109926013881291561
-BoxCollider:
+--- !u!135 &3382740557108302820
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3303,5 +3305,17 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.619807, z: 1}
-  m_Center: {x: 0, y: -0.5030125, z: 0}
+  m_Radius: 1.34
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5913286861641690468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6474656412587719777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070891aeb44899f428414c24c0ba27a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

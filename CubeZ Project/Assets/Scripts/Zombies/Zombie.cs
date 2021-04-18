@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class Zombie : BaseZombie
 {
     private const string TAG_DOOR = "Door";
-    private const string TAG_WALL = "WallDynamic";
+    private const string TAG_WALL_DYNAMIC = "WallDynamic";
     // Use this for initialization
     void Start()
     {
@@ -21,6 +21,8 @@ public class Zombie : BaseZombie
         UpdateState();
         agent.speed = visiblePlayer == true ? FastSpeed : zombieStats.speed;
 
+
+        agent.isStopped = animator.GetCurrentClipPlayed().name == TypeAnimation.ZombieAttackGeneric.ToString();
         if (animationState == TypeAnimation.ZombieAttackGeneric)
         {
             agent.velocity = Vector3.zero;
@@ -109,7 +111,7 @@ public class Zombie : BaseZombie
             ColissionDoor(collision);
         }
 
-        if (collision.gameObject.CompareTag(TAG_WALL))
+        if (collision.gameObject.CompareTag(TAG_WALL_DYNAMIC))
         {
             ColissionWall(collision);
         }
@@ -126,8 +128,12 @@ public class Zombie : BaseZombie
         }
         if (collision.gameObject.CompareTag(TAG_WALL))
         {
-
+            if (!visiblePlayer)
+            {
         SetTargetPoint(transform.position);
+            agent.isStopped = true;
+            }
+
 
         }
 
@@ -184,10 +190,5 @@ public class Zombie : BaseZombie
     {
         CallRemoveEvent();
     }
-
-
-
-
-
 
 }

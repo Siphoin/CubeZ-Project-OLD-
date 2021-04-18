@@ -162,4 +162,9 @@ public class InventoryContainerPlayer : BaseInventoryContainer
 
         return false;
     }
+
+    private void Ini ()
+    {
+
+    }
 }
