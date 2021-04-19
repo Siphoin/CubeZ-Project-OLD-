@@ -20,7 +20,9 @@ MonoBehaviour:
     maxZombiesCountInHorde: 4
     minTimeSpawnZombie: 5
     maxTimeSpawnZombie: 10
-    zombieIncrementEveryDay: 2
+    zombieIncrementEveryDay: 5
+    zombieIncrementNight: 3
     timeRemove: 14
     timeRemoveonGCZombie: 180
     countZombiesWorld: 6
+    incrementPowerZombieOnlyNight: 2
