@@ -137,9 +137,15 @@ public class Zombie : BaseZombie
 
         }
 
-        
+        if (collision.gameObject.CompareTag(tag))
+        {
+            if (!visiblePlayer)
+            {
+                SetTargetPoint(NavMeshManager.GenerateRandomPath(transform.position));
+            }
 
 
+        }
     }
 
     private void ColissionDoor(Collision collision)
