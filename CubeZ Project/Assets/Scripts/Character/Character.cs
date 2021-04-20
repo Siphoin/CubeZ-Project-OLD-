@@ -176,7 +176,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
 
-        GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
     }
 
 
@@ -248,6 +247,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         CreateAudioObjectWalk();
 
         IniKeyCodes();
+
+        GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
     }
 
     private void IniKeyCodes()

@@ -368,8 +368,19 @@ WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
                 DecrementTemperature(timeOfWeakData.temperatureSettings.rainTemperatureDecrementValue);
                 break;
             case WeatherType.Snow:
+
                 newWeather = snowWeather;
-                DecrementTemperature(timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue);
+
+                int newTemperature = timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue;
+
+
+                if (currentTemperature - timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue > 0)
+                {
+                    newTemperature = (currentTemperature - currentTemperature - Random.Range(timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue, timeOfWeakData.temperatureSettings.snowTemperatureDecrementValue * 2));
+                }
+                DecrementTemperature(newTemperature);
+
+
                 break;
             case WeatherType.Fog:
                 newWeather = fogWeather;
@@ -499,6 +510,14 @@ WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
         return NavMeshManager.GenerateRandomPath(randomPlane.position);
     }
 
+
+    
+
     #endregion
+
+    private int ClampingTemperature (float value)
+    {
+        return (int)Mathf.Clamp(value, timeOfWeakData.temperatureSettings.minTemperatureValue, timeOfWeakData.temperatureSettings.minTemperatureValue);
+    }
 
 }
