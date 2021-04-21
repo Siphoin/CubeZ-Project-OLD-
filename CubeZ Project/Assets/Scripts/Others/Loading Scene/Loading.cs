@@ -11,7 +11,13 @@ public class Loading : MonoBehaviour
 
     private const string SCENE_NAME_LOADING = "loading";
 
+    private const string SCENE_NAME_HISTORY = "history";
+
+    private const string NAME_FILE_HISTORY = "history.json";
+
     private const string PATH_PREFAB_BACKGROUND_LOADING_FINISH = "Prefabs/UI/LoadingFinishAnimation";
+
+    public static string LastSceneName { get; private set; }
 
 
     [SerializeField] private TextMeshProUGUI textLoad;
@@ -21,11 +27,36 @@ public class Loading : MonoBehaviour
         void Start()
         {
         Ini();
+
+
+        if (!CacheSystem.FileExits(null, NAME_FILE_HISTORY))
+        {
+            LoadSceneHistory();
+            return;
+        }
+
+        else
+        {
+            HistoryData historyData = CacheSystem.DeserializeObject<HistoryData>(CacheSystem.GetPathAssetsData() + "localData/" + NAME_FILE_HISTORY);
+
+            if (!historyData.readed)
+            {
+                LoadSceneHistory();
+                return;
+            }
+        }
+
+
         LoadSceneAsync();
         SetStateCursorVisible(false);
 
         }
 
+    private static void LoadSceneHistory()
+    {
+        LastSceneName = sceneName;
+        SceneManager.LoadScene(SCENE_NAME_HISTORY);
+    }
 
     private IEnumerator LoadSceneProgress ()
     {
@@ -71,6 +102,7 @@ public class Loading : MonoBehaviour
 
         try
         {
+            LastSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(SCENE_NAME_LOADING);
         }
         catch 
