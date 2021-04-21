@@ -55,11 +55,8 @@ public class MapCacheManager : MonoBehaviour
         {
             
             SerializedObjectMono serializedObject = new SerializedObjectMono(cacheObject.gameObject, cacheObject.PrefabPath, cacheObject.Id);
-
-            if (!GameCacheManager.gameCache.containerCacheObjects.objectsClones.ContainsKey(cacheObject.Id))
-            {
                 GameCacheManager.gameCache.containerCacheObjects.objectsClones.Add(cacheObject.Id, serializedObject);
-            }
+            
         }
 
         else
