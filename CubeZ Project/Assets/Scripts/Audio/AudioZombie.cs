@@ -44,6 +44,8 @@ using Random = UnityEngine.Random;
 
     private int countCallCorotinueWalkingSound = 0;
 
+    private IStateBehavior lastBehaviorZombie;
+
 
     // Use this for initialization
     void Start()
@@ -136,7 +138,15 @@ using Random = UnityEngine.Random;
 
     private void NewBehavior(IStateBehavior behavior)
     {
+
+        if (lastBehaviorZombie == behavior)
+        {
+            return;
+        }
+
         CancelInvoke();
+
+        lastBehaviorZombie = behavior;
 
 
         if (behavior is WalkingStateZombie)

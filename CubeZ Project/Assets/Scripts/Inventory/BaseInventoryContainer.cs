@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using Newtonsoft;
 [System.Serializable]
 public class BaseInventoryContainer
 {
     [Newtonsoft.Json.JsonRequired]
     protected List<ItemBaseData> items = new List<ItemBaseData>(0);
-
+    [Newtonsoft.Json.JsonIgnore]
     public int Length { get => items.Count; }
 
     public BaseInventoryContainer()

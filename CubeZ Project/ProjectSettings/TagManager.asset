@@ -28,6 +28,7 @@ TagManager:
   - FireArea
   - BuildArea
   - WallDynamic
+  - InstanceObjectManager
   layers:
   - Default
   - TransparentFX

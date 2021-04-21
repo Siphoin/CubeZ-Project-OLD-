@@ -11,6 +11,7 @@ public class ItemBaseData
     [Header("Описание предмета")]
     [TextArea]
     public string itemDecription;
+    [Newtonsoft.Json .JsonIgnore]
     [Header("Иконка")]
     public Sprite icon;
 

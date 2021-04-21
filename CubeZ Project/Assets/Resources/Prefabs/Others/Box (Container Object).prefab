@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3017127511837157973}
   - component: {fileID: 3017127511837157978}
   - component: {fileID: 3017127511837157979}
+  - component: {fileID: 6961975819631049171}
   m_Layer: 0
   m_Name: Box (Container Object)
   m_TagString: InteractionObject
@@ -161,3 +162,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeItem: 0
   useSpecialTypeItems: 0
+--- !u!114 &6961975819631049171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3017127511837157976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361d7d17e0e3b644993b943c6273a43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: Prefabs/Others/Box (Container Object)
+  id: 
+  isClone: 0

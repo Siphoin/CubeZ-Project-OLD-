@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 3800927216426833894}
   - component: {fileID: 4660773410560626154}
   - component: {fileID: 2027016594886610052}
+  - component: {fileID: 3743931522743580363}
   m_Layer: 0
   m_Name: Zombie_1
   m_TagString: Zombie
@@ -1579,6 +1580,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8521147001060362086}
+--- !u!114 &3743931522743580363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800927216426833916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361d7d17e0e3b644993b943c6273a43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: Prefabs/Zombies/Zombie_1
+  id: 
+  isClone: 0
 --- !u!1 &3800927216486948776
 GameObject:
   m_ObjectHideFlags: 0
