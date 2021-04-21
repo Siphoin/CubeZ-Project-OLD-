@@ -11,7 +11,7 @@ using UnityEngine;
         // Use this for initialization
         void Start()
     {
-        CallInvokingMethod(LoadInstanceObjects, 1);
+        LoadInstanceObjects();
     }
 
     private void LoadInstanceObjects()

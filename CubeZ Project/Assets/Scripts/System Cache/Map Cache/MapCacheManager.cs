@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,8 +32,8 @@ public class MapCacheManager : MonoBehaviour
         string mapName = SceneManager.GetActiveScene().name;
 
 
-        CacheObject[] cacheObjects = FindObjectsOfType<CacheObject>();
-
+        CacheObject[] cacheObjects = FindObjectsOfType<CacheObject>().Where(item => item.IsClone).ToArray();
+       
         for (int i = 0; i < cacheObjects.Length; i++)
         {
             CacheObjectAdding(cacheObjects[i]);
@@ -50,14 +51,9 @@ public class MapCacheManager : MonoBehaviour
     }
 
     private void CacheObjectAdding (CacheObject cacheObject)
-    {
-        if (cacheObject.IsClone)
-        {
-            
+    {          
             SerializedObjectMono serializedObject = new SerializedObjectMono(cacheObject.gameObject, cacheObject.PrefabPath, cacheObject.Id);
                 GameCacheManager.gameCache.containerCacheObjects.objectsClones.Add(cacheObject.Id, serializedObject);
-            
-        }
 
     }
 }
