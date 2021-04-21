@@ -29,11 +29,9 @@ using UnityEngine;
 
     private void ObjectRemoved(string id)
         {
-            SerializeObjectInstance cacheObject = (SerializeObjectInstance)serializeObjectInstances.Select(item => item.Value.id == id);
+        SerializeObjectInstance cacheObject = serializeObjectInstances.First(i => i.Value.id == id).Value;
             cacheObject.isDead = true;
-        Debug.Log(500);
         }
-
         public Dictionary<string, SerializeObjectInstance> GetInstanceObjects ()
         {
             return serializeObjectInstances;
