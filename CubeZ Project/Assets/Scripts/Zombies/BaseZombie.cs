@@ -112,6 +112,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     public int CurrentHealth { get => zombieStats.health; }
     public int[] HashesAnimationAttackZombie { get => hashesAnimationAttackZombie; }
+    public ZombieStats ZombieStats { get => zombieStats; }
 
     // Use this for initialization
     void Start()

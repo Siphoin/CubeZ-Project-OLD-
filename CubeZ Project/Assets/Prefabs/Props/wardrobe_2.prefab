@@ -93,6 +93,8 @@ GameObject:
   - component: {fileID: 4854312512066650305}
   - component: {fileID: 7451029794644248755}
   - component: {fileID: 3951327998844576588}
+  - component: {fileID: 8841441456942347265}
+  - component: {fileID: 1599899699748412343}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -206,6 +208,34 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &8841441456942347265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497382035940623767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361d7d17e0e3b644993b943c6273a43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: Prefabs/Others/wardrobe_2
+  id: 
+  isClone: 0
+--- !u!114 &1599899699748412343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497382035940623767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87918e05fc56a8d4394c67637edc4402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &6730168761433836194
 GameObject:
   m_ObjectHideFlags: 0

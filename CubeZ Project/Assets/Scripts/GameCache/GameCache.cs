@@ -14,12 +14,17 @@ public class GameCache
 
     public string versionClient = null;
 
+    public WorldCacheData worldData = new WorldCacheData();
+
+    public PlayerStatsCache playerStats = new PlayerStatsCache();
 
     public InventoryContainerPlayer inventory = new InventoryContainerPlayer();
 
 
     #region Caching Objects
     public ContainerCacheObjects containerCacheObjects = new ContainerCacheObjects();
+
+    public ContainerDataObjects dataContainerObjects = new ContainerDataObjects();
     #endregion
     public GameCache()
     {

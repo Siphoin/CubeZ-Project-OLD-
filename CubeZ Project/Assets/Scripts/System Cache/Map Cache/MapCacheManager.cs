@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,29 +13,34 @@ public class MapCacheManager : MonoBehaviour
 
     private const string TAG_INSTANCE_OBJECT_MANAGER = "InstanceObjectManager";
 
-    InstanceObjectManager instanceObjectManager;
+    private const float AUTO_SAVE_TIME_OUT = 120f;
+
+  private  InstanceObjectManager instanceObjectManager;
+
+    public event Action onSaveSession;
         // Use this for initialization
         void Start()
         {
         instanceObjectManager = GameObject.FindGameObjectWithTag(TAG_INSTANCE_OBJECT_MANAGER).GetComponent<InstanceObjectManager>();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
+        CallInvokingEveryMethod(SaveSession, AUTO_SAVE_TIME_OUT);
 
         }
+
 
     private void OnApplicationQuit()
     {
-       
+        SaveSession();
 
+    }
 
+    private void SaveSession()
+    {
+        ClearGarbageData();
         string mapName = SceneManager.GetActiveScene().name;
 
 
         CacheObject[] cacheObjects = FindObjectsOfType<CacheObject>().Where(item => item.IsClone).ToArray();
-       
+
         for (int i = 0; i < cacheObjects.Length; i++)
         {
             CacheObjectAdding(cacheObjects[i]);
@@ -42,12 +49,47 @@ public class MapCacheManager : MonoBehaviour
         GameCacheManager.gameCache.versionClient = Application.version;
         GameCacheManager.gameCache.mapName = mapName;
 
+        GameCacheManager.gameCache.worldData = new WorldCacheData(WorldManager.Manager);
+
+        var statsPlayer = PlayerManager.Manager.Player.CharacterStats.GetDictonaryNeeds();
+
+        PlayerStatsCache playerStatsCache = new PlayerStatsCache();
+
+        foreach (var stats in statsPlayer)
+        {
+            playerStatsCache.AddStatsNeed(stats.Value.needType, stats.Value.value);
+        }
+
+        GameCacheManager.gameCache.playerStats = playerStatsCache;
 
         GameCacheManager.gameCache.containerCacheObjects.objectsInstances = instanceObjectManager.GetInstanceObjects();
 
+        ContainerDataObjects containerDataObjects = new ContainerDataObjects();
 
+        CollectorCacheObjectDataBase[] collectors = FindObjectsOfType<CollectorCacheObjectDataBase>();
+
+        for (int i = 0; i < collectors.Length; i++)
+        {
+            ICollectorCacheObjectData<CacheObjectData> collectorInterface = (ICollectorCacheObjectData<CacheObjectData>)collectors[i];
+            CollectorCacheObjectDataBase collector = collectors[i];
+            IEnumerable<CacheObjectData> data = collectorInterface.GetCollection();
+            containerDataObjects.objectsData.Add(collector.IdCollection, data);
+        }
+
+        GameCacheManager.gameCache.dataContainerObjects = containerDataObjects;
+
+
+        try
+        {
         CacheSystem.SaveSerializeObject(FOLBER_NAME, FILE_NAME, GameCacheManager.gameCache, Newtonsoft.Json.Formatting.Indented);
-        
+            onSaveSession?.Invoke();
+        }
+        catch 
+        {
+
+            
+        }
+
     }
 
     private void CacheObjectAdding (CacheObject cacheObject)
@@ -55,5 +97,22 @@ public class MapCacheManager : MonoBehaviour
             SerializedObjectMono serializedObject = new SerializedObjectMono(cacheObject.gameObject, cacheObject.PrefabPath, cacheObject.Id);
                 GameCacheManager.gameCache.containerCacheObjects.objectsClones.Add(cacheObject.Id, serializedObject);
 
+    }
+
+    private void ClearGarbageData ()
+    {
+        GameCache gameCache = GameCacheManager.gameCache;
+        gameCache.containerCacheObjects.objectsClones.Clear();
+        gameCache.dataContainerObjects.objectsData.Clear();
+    }
+
+    public void CallInvokingEveryMethod(Action method, float time)
+    {
+        InvokeRepeating(method.Method.Name, time, time);
+    }
+
+    public void CallInvokingMethod(Action method, float time)
+    {
+        Invoke(method.Method.Name, time);
     }
 }

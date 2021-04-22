@@ -73,11 +73,6 @@ public class ItemsManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-        {
-
-        }
 
     public BaseItem GetRandomItem ()
     {
@@ -96,5 +91,10 @@ public class ItemsManager : MonoBehaviour
         }
 
         return new BaseInventoryContainer(listData);
+    }
+
+    public Sprite GetIconItemById (string idItem)
+    {
+        return allItemsOfTheGame.First(item => item.data.idItem == idItem).data.icon;
     }
     }

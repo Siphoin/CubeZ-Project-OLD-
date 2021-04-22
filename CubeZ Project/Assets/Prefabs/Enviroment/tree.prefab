@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8934234140724653880}
   - component: {fileID: 5922999907290077188}
+  - component: {fileID: 2004011634180055788}
   m_Layer: 0
   m_Name: tree
   m_TagString: Untagged
@@ -48,6 +49,20 @@ MonoBehaviour:
   prefabPath: Prefabs/Enviroment/tree
   id: 
   isClone: 0
+--- !u!114 &2004011634180055788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934234140724653881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5ce422976de3449a601575669adbf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+  tree: {fileID: 5250082639593967967}
 --- !u!1 &8934234142263006575
 GameObject:
   m_ObjectHideFlags: 0

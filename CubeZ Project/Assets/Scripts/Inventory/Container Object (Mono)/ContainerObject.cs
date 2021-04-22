@@ -21,6 +21,8 @@ public class ContainerObject : InteractionObjectContainerItems
     [Header("Генерировать только определенный тип предмета")]
     [SerializeField] bool useSpecialTypeItems = false;
 
+    public BaseInventoryContainer ContainerItems { get => containerItems; }
+
     // Use this for initialization
     void Start()
         {

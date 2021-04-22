@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: startHealth
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 2029796011656289171, guid: 11ff2a97074bbc04981458e82edc7f00,
+        type: 3}
+      propertyPath: prefabPath
+      value: Prefabs/Others/cube_stone_wall
+      objectReference: {fileID: 0}
     - target: {fileID: 6345150419418173834, guid: 11ff2a97074bbc04981458e82edc7f00,
         type: 3}
       propertyPath: m_Name

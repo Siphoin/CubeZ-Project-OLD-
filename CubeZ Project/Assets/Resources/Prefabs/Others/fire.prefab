@@ -824,6 +824,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6743028111529239471}
   - component: {fileID: 6493826905686373480}
+  - component: {fileID: 551720256653105981}
+  - component: {fileID: 7545358198014792570}
   m_Layer: 0
   m_Name: fire
   m_TagString: Untagged
@@ -874,6 +876,34 @@ MonoBehaviour:
   triggerColiderFire: {fileID: 6493826906607725229}
   startSpeedParticles: 0
   startLifeTimrParticles: 5
+--- !u!114 &551720256653105981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259964981834168597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361d7d17e0e3b644993b943c6273a43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: Prefabs/Others/fire
+  id: 
+  isClone: 0
+--- !u!114 &7545358198014792570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259964981834168597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d10a62715ef284db7593c66aedf645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &6493826906028666608
 GameObject:
   m_ObjectHideFlags: 0

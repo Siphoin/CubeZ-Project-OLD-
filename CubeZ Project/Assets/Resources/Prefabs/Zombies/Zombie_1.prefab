@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 4660773410560626154}
   - component: {fileID: 2027016594886610052}
   - component: {fileID: 3743931522743580363}
+  - component: {fileID: 7575068355065017366}
   m_Layer: 0
   m_Name: Zombie_1
   m_TagString: Zombie
@@ -1595,6 +1596,19 @@ MonoBehaviour:
   prefabPath: Prefabs/Zombies/Zombie_1
   id: 
   isClone: 0
+--- !u!114 &7575068355065017366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800927216426833916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a1abda60ed76640a66229326e29820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &3800927216486948776
 GameObject:
   m_ObjectHideFlags: 0

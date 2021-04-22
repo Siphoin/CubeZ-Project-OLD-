@@ -69,6 +69,7 @@ public class WorldManager : MonoBehaviour
     public int CurrentDay { get => currentDay; }
     public WeatherType CurrentWeather { get => currentWeather; }
     public DayTimeType CurrentDayTime { get => dayTimeType; }
+    public Light DirectionLight { get => directionLight; }
 
     //
 

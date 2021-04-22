@@ -35,6 +35,9 @@ public class Fire : MonoBehaviour
     private float bonusIncrement = 1;
 
    public Action onRemove;
+
+    public int CountParticles { get => settingsPartivles.maxParticles; }
+    public float intensity { get => lightFire.intensity; }
     // Use this for initialization
     void Start()
         {

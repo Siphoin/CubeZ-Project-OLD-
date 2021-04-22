@@ -3,12 +3,23 @@
 [Serializable]
     public struct HealthData
     {
+    [Newtonsoft.Json.JsonRequired]
  [UnityEngine.SerializeField]   private int value;
+
+    [Newtonsoft.Json.JsonRequired]
     private int startValue;
 
     public event Action onHealthChanged;
 
+
+
+    [Newtonsoft.Json.JsonIgnore]
     public int Value { get => value; }
+
+
+    [Newtonsoft.Json.JsonIgnore]
+
+
     public int StartValue { get => startValue; }
 
     public HealthData (int value)

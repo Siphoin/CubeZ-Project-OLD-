@@ -38,6 +38,7 @@ using UnityEngine;
     public int Health { get => doorData.healthData.Value; }
 
     public bool IsOpened { get => doorData.isOpened; }
+    public DoorData DoorData { get => doorData; }
 
     // Use this for initialization
     void Start()
