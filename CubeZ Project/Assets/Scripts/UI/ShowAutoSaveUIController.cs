@@ -41,6 +41,6 @@ using UnityEngine;
 
     private void ShowText()
     {
-        ShowAutoSaveUI showAutoSaveUI = Instantiate(showAutoSaveUIPrefab);
+         Instantiate(showAutoSaveUIPrefab);
     }
 }

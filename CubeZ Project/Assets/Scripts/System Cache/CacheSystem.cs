@@ -48,6 +48,8 @@ using System.IO;
         }
 
         string dataFile = File.ReadAllText(path);
+
+
         try
         {
         return JsonConvert.DeserializeObject<T>(dataFile);
