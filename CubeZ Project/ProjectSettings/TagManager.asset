@@ -29,6 +29,7 @@ TagManager:
   - BuildArea
   - WallDynamic
   - InstanceObjectManager
+  - MapCacheManager
   layers:
   - Default
   - TransparentFX
