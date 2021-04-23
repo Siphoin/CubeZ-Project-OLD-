@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-[RequireComponent(typeof(InteractionObject))]
     public class Bed : InteractionObject, IInteractionObject
     {
     [Header("Точка для сна игрока")]
@@ -10,11 +9,11 @@ using UnityEngine;
     /// <summary>
     /// Точка для сна игрока
     /// </summary>
-    public Vector3 PointSleep { get => new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f) ; }
+    public Vector3 PointSleep { get => pointSleep.transform.position; }
 
     public Quaternion QuaternionSleep {
 
-        get => Quaternion.Euler(0, transform.rotation.y, -90);
+        get => pointSleep.transform.rotation;
     }
 
 
@@ -80,7 +79,7 @@ using UnityEngine;
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == TAG_PLAYER)
         {
             if (enteredPlayer == null)

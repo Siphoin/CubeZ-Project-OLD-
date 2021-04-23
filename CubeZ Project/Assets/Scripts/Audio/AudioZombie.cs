@@ -81,6 +81,7 @@ using Random = UnityEngine.Random;
 
         attackClips = GetSounds(NAME_ATTACK_SOUNDS);
 
+
         if (attackClips.Length == 0)
         {
             throw new AudioZombieException("attack clips not found");

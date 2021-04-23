@@ -18,4 +18,5 @@
     SimpleAttack,
     SitandLook,
     Death,
+    Sleep,
 }

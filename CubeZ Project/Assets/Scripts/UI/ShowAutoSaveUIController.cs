@@ -37,7 +37,8 @@ using UnityEngine;
         }
 
         mapCacheManager.onSaveSession += ShowText;
-        }
+    }
+
 
     private void ShowText()
     {

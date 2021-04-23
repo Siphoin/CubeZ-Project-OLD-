@@ -127,7 +127,7 @@ using Random = UnityEngine.Random;
 
         PlayTrack(track);
 
-        CallInvokingMethod(NewTrack, track.length + 0.1f);
+        CallInvokingMethod(NewTrack, track.length + 1f);
 
     }
 

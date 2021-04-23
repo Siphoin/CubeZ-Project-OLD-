@@ -23,9 +23,14 @@ public class MapCacheManager : MonoBehaviour
         {
         instanceObjectManager = GameObject.FindGameObjectWithTag(TAG_INSTANCE_OBJECT_MANAGER).GetComponent<InstanceObjectManager>();
         CallInvokingEveryMethod(SaveSession, AUTO_SAVE_TIME_OUT);
+        PlayerManager.Manager.Player.onDead += OffSave;
 
-        }
+    }
 
+    private void OffSave()
+    {
+        CancelInvoke();
+    }
 
     private void OnApplicationQuit()
     {
@@ -58,6 +63,11 @@ public class MapCacheManager : MonoBehaviour
         foreach (var stats in statsPlayer)
         {
             playerStatsCache.AddStatsNeed(stats.Value.needType, stats.Value.value);
+        }
+
+        if (PlayerManager.Manager.Player.CurrentWeapon != null)
+        {
+            GameCacheManager.gameCache.currentWeapon = new WeaponPlayerData(PlayerManager.Manager.Player.CurrentWeapon, GameCacheManager.gameCache.inventory.GetIndexByItem(PlayerManager.Manager.Player.CurrentWeapon.data));
         }
 
         GameCacheManager.gameCache.playerStats = playerStatsCache;

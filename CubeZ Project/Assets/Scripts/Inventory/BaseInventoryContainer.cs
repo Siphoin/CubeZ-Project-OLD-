@@ -4,10 +4,13 @@ using Newtonsoft;
 [System.Serializable]
 public class BaseInventoryContainer
 {
-    [Newtonsoft.Json.JsonRequired]
+    [Newtonsoft.Json.JsonIgnore]
     protected List<ItemBaseData> items = new List<ItemBaseData>(0);
     [Newtonsoft.Json.JsonIgnore]
     public int Length { get => items.Count; }
+    [Newtonsoft.Json.JsonRequired]
+    [Newtonsoft.Json.JsonProperty("items")]
+    private Dictionary<long, string> itemsIDList = new Dictionary<long, string>();
 
     public BaseInventoryContainer()
     {
@@ -23,7 +26,8 @@ public class BaseInventoryContainer
     public virtual void Add(ItemBaseData item)
     {
         item.inFastPanel = false;
-        items.Add(new ItemBaseData(item));
+        items.Add(item);
+        itemsIDList.Add(Length, item.idItem);
     }
 
     public virtual void Remove(ItemBaseData item)
@@ -36,6 +40,7 @@ public class BaseInventoryContainer
 
         else
         {
+            itemsIDList.Remove(items.FindIndex(i => i == item));
             items.Remove(item);
         }
     }
@@ -50,6 +55,7 @@ public class BaseInventoryContainer
 
         else
         {
+            itemsIDList.Remove(index);
             items.Remove(items.ElementAt(index));
         }
     }
@@ -80,6 +86,11 @@ public class BaseInventoryContainer
 
         item = items[index];
         return true;
+    }
+
+    public virtual int GetIndexByItem (ItemBaseData item)
+    {
+        return items.FindIndex(i => i == item);
     }
 
     public virtual ItemBaseData Get(int index)

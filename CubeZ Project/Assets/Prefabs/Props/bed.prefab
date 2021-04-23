@@ -262,8 +262,8 @@ GameObject:
   - component: {fileID: 8752640771235859334}
   - component: {fileID: 39109597549575448}
   - component: {fileID: 8470422158753685959}
-  - component: {fileID: 8610807131299111724}
   - component: {fileID: 6684975311875856959}
+  - component: {fileID: 4428302966316090928}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -332,7 +332,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8610807131299111724
+--- !u!65 &6684975311875856959
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683985552349791596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.019999998, z: 0.04138275}
+  m_Center: {x: 0, y: -1.3877788e-17, z: 0.010691376}
+--- !u!114 &4428302966316090928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,19 +360,6 @@ MonoBehaviour:
   interactionSettings: {fileID: 11400000, guid: 33581cb29a7c5ba4096b49f7999a5dad,
     type: 2}
   pointSleep: {fileID: 4828207588557692948}
---- !u!65 &6684975311875856959
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4683985552349791596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.019999998, z: 0.04138275}
-  m_Center: {x: 0, y: -1.3877788e-17, z: 0.010691376}
 --- !u!1 &5065940824564435545
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5550131263737712867}
   - component: {fileID: 5371879042478993106}
-  - component: {fileID: 5006965374373238097}
+  - component: {fileID: 6186584030693593145}
   m_Layer: 0
   m_Name: bed
   m_TagString: Untagged
@@ -418,7 +418,7 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &5006965374373238097
+--- !u!114 &6186584030693593145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -456,13 +456,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5749299999281860169}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.3, y: 0.14899, z: 0}
+  m_LocalRotation: {x: -0.6375366, y: 0.0063867704, z: 0.0052854745, w: 0.7703755}
+  m_LocalPosition: {x: -0.05, y: 2.26, z: -0.59}
   m_LocalScale: {x: 0.5970454, y: 0.5970454, z: 0.5970454}
   m_Children: []
   m_Father: {fileID: 5550131263737712867}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -79.22, y: 0.95, z: 0}
 --- !u!1 &6132896102651352012
 GameObject:
   m_ObjectHideFlags: 0

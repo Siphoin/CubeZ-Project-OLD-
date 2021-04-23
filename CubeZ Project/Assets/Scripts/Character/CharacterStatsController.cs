@@ -140,7 +140,7 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
             {
                 if (!character.IsRunning())
                 {
-                    run.value += (int)coFSpeed;
+                    run.value = Mathf.Clamp(run.value + (int)coFSpeed, 0, run.GetDefaultValue());
                     run.CallOnValueChanged();
                 }
             }

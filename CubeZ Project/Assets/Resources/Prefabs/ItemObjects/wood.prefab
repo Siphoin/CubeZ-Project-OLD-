@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 573012155347542433}
   - component: {fileID: 573012155347542434}
   - component: {fileID: 573012155347542435}
+  - component: {fileID: 5454852485059736983}
   m_Layer: 0
   m_Name: wood
   m_TagString: Untagged
@@ -144,3 +145,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotating: 1
   item: {fileID: 11400000, guid: d4ac73947f4c26c4ea316f398baba98f, type: 2}
+--- !u!114 &5454852485059736983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573012155347542492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361d7d17e0e3b644993b943c6273a43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: Prefabs/ItemsObjects/wood
+  id: 
+  isClone: 0

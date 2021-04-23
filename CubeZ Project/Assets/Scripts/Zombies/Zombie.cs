@@ -63,7 +63,7 @@ public class Zombie : BaseZombie
             SetAnimationState(TypeAnimation.ZombieAttackGeneric);
         }
 
-    
+
 
         try
         {
@@ -101,7 +101,7 @@ public class Zombie : BaseZombie
             target = collision.gameObject.GetComponent<Character>();
             if (!target.IsSleeping)
             {
-            SetAggresiveBehavior();
+                SetAggresiveBehavior();
             }
 
         }
@@ -118,7 +118,7 @@ public class Zombie : BaseZombie
 
         if (collision.gameObject.CompareTag(TAG_HOUSE))
         {
-            
+
             if (!collision.gameObject.TryGetComponent(out houseAreaEntered))
             {
                 throw new ZombieException("colized area house not have component HouseArea");
@@ -130,8 +130,8 @@ public class Zombie : BaseZombie
         {
             if (!visiblePlayer)
             {
-        SetTargetPoint(transform.position);
-            agent.isStopped = true;
+                SetTargetPoint(transform.position);
+                agent.isStopped = true;
             }
 
 
@@ -175,8 +175,8 @@ public class Zombie : BaseZombie
         {
             throw new ZombieException("colized door tot have component Wall");
         }
-            otherTarget = wall;
-        
+        otherTarget = wall;
+
 
 
         target = null;

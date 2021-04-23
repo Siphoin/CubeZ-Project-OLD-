@@ -20,6 +20,8 @@ public class GameCache
 
     public InventoryContainerPlayer inventory = new InventoryContainerPlayer();
 
+    public WeaponPlayerData currentWeapon = null;
+
 
     #region Caching Objects
     public ContainerCacheObjects containerCacheObjects = new ContainerCacheObjects();

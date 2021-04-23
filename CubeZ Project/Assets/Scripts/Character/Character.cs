@@ -734,10 +734,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("bed target is null");
         }
+        _rb.isKinematic = true;
         CachingLastTransform();
         SetSleepStatus(true);
        SetNewTransform(bedTarget.PointSleep, bedTarget.QuaternionSleep);
         SetAnimationState(TypeAnimation.Idle2);
+
         UIControl.On = false;
         UIControl.CloseAllWindows();
     }
@@ -745,18 +747,19 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void SetNewTransform(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
-        skinCharacter.transform.localRotation = rotation;
+        transform.rotation = rotation;
     }
 
     private void CachingLastTransform ()
     {
         lastPosition = transform.position;
-        lastQuaternion = skinCharacter.transform.localRotation;
+        lastQuaternion = transform.rotation;
         Debug.Log($"Player transform cached. Position: {lastPosition} Rotation: {lastQuaternion}");
     }
 
    public void Awakening()
     {
+        _rb.isKinematic = false;
         SetSleepStatus(false);
         SetNewTransform(lastPosition, startQuuaterion);
         UIControl.On = true;

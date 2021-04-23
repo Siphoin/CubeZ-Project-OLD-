@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7066d11ab4eb940a4e37a0babd9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialSnow: {r: 0.62264144, g: 0.62264144, b: 0.62264144, a: 1}
+  materialSnow: {r: 0.5188679, g: 0.4968405, b: 0.4968405, a: 1}
 --- !u!1 &336345140
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7066d11ab4eb940a4e37a0babd9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialSnow: {r: 0.62264144, g: 0.62264144, b: 0.62264144, a: 1}
+  materialSnow: {r: 0.5188679, g: 0.4968405, b: 0.4968405, a: 1}
 --- !u!1 &786070243
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7066d11ab4eb940a4e37a0babd9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialSnow: {r: 0.62264144, g: 0.62264144, b: 0.62264144, a: 1}
+  materialSnow: {r: 0.5188679, g: 0.4968405, b: 0.4968405, a: 1}
 --- !u!1 &958547726
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7066d11ab4eb940a4e37a0babd9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialSnow: {r: 0.62264144, g: 0.62264144, b: 0.62264144, a: 1}
+  materialSnow: {r: 0.5188679, g: 0.4968405, b: 0.4968405, a: 1}
 --- !u!1 &965896440
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7066d11ab4eb940a4e37a0babd9a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialSnow: {r: 0.62264144, g: 0.62264144, b: 0.62264144, a: 1}
+  materialSnow: {r: 0.5188679, g: 0.4968405, b: 0.4968405, a: 1}
 --- !u!1001 &6151566572026568638
 PrefabInstance:
   m_ObjectHideFlags: 0

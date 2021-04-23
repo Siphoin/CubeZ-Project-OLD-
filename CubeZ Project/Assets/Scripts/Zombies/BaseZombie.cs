@@ -88,7 +88,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public event Action onDeath;
     public event Action onAttack;
 
-    protected  HouseArea houseAreaEntered;
+    protected HouseArea houseAreaEntered;
 
     private BoxCollider boxCollider;
     private CharacterDataSettings characterDataSettings;
@@ -105,7 +105,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public bool InHouse { get => inHouse; }
     public bool IsDead { get => isDead; }
 
-    
+
 
     public bool IsWalking { get => agent != null && agent.velocity != Vector3.zero; }
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
@@ -156,7 +156,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
         zombieData = new SettingsZombieData(settingsZombie.GetData());
 
-        
+
 #if UNITY_EDITOR
         CheckValidStats();
 
@@ -211,14 +211,14 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     {
         if (target == null)
         {
-        target = character;
-        visiblePlayer = true;
-        SetAggresiveBehavior();
+            target = character;
+            visiblePlayer = true;
+            SetAggresiveBehavior();
         }
 
     }
 
-    private void NewDay (DayTimeType dayTime)
+    private void NewDay(DayTimeType dayTime)
     {
         if (dayTime == DayTimeType.Night)
         {
@@ -244,7 +244,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         zombieStats.damage = Random.Range(zombieStats.damage, zombieData.maxDamage);
         zombieStats.health = Random.Range(zombieStats.health, zombieData.maxHealth);
 
-     //   Debug.Log(zombieStats);
+        //   Debug.Log(zombieStats);
     }
 
     public void CheckValidStats()
@@ -354,7 +354,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
                 CheckHealthOtherTarget();
                 SendEventAttack();
             }
-            catch 
+            catch
             {
                 otherTarget = null;
                 SetWalkingBehavior();
@@ -407,7 +407,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     }
 
-    private  bool ValidTagsPlayer(ref RaycastHit raycastHit)
+    private bool ValidTagsPlayer(ref RaycastHit raycastHit)
     {
         return raycastHit.collider.tag.Contains(TAG_PLAYER) && !raycastHit.collider.tag.Contains(PREFIX_DEAD_PLAYER) && !raycastHit.collider.tag.Contains("Area");
     }
@@ -448,37 +448,38 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         if (distancetoPoint > 0.2f)
         {
 
- Vector3 direction = targetPoint - transform.position;
+            Vector3 direction = targetPoint - transform.position;
 
-            if (!direction.NotValid()) {
+            if (!direction.NotValid())
+            {
 
 
-Quaternion root = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, root, characterData.rotateSpeed * Time.deltaTime);
-        var rootNormal = transform.rotation;
-        rootNormal.x = 0;
-        rootNormal.z = 0;
-        transform.rotation = rootNormal;
+                Quaternion root = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, root, characterData.rotateSpeed * Time.deltaTime);
+                var rootNormal = transform.rotation;
+                rootNormal.x = 0;
+                rootNormal.z = 0;
+                transform.rotation = rootNormal;
             }
-        
+
         }
-       
+
     }
 
     public void Hit(int hitValue, bool playHitAnim = true)
     {
         zombieStats.health = Mathf.Clamp(zombieStats.health - hitValue, 0, startHealth);
-            if (playHitAnim)
+        if (playHitAnim)
+        {
+            if (Random.Range(0, 10) > 7)
             {
-                if (Random.Range(0, 10) > 7)
-                {
 
-                    SetAnimationState(TypeAnimation.GetHit);
-                }
+                SetAnimationState(TypeAnimation.GetHit);
             }
+        }
 
 
-        
+
 
         if (zombieStats.health <= 0)
         {
@@ -523,12 +524,12 @@ Quaternion root = Quaternion.LookRotation(direction);
         CallRemoveEvent();
     }
 
-    protected void CallRemoveEvent ()
+    protected void CallRemoveEvent()
     {
         onRemove?.Invoke();
     }
 
-    private void BuffStatsZombie ()
+    private void BuffStatsZombie()
     {
         zombieStats.distanceVisible *= zombieData.incrementPowerZombieOnlyNight;
         zombieStats.damage *= zombieData.incrementPowerZombieOnlyNight;
@@ -540,7 +541,7 @@ Quaternion root = Quaternion.LookRotation(direction);
         zombieStats.damage /= zombieData.incrementPowerZombieOnlyNight;
     }
 
-    private void CheckHealthOtherTarget ()
+    private void CheckHealthOtherTarget()
     {
         if (otherTarget is Door)
         {
@@ -564,4 +565,3 @@ Quaternion root = Quaternion.LookRotation(direction);
     }
 
 }
-

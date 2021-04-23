@@ -8,7 +8,7 @@ public class CacheObject : MonoBehaviour
 
 
     [Header("Путь до оригинала (префаб)")]
-    [SerializeField] private string prefabPath;
+    [SerializeField] private string prefabPath = "Not_Path";
     [Header("ID объекта")]
     [SerializeField, ReadOnlyField] private string id;
 
