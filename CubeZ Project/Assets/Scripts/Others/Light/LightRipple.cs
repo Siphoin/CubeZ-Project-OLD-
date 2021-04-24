@@ -33,7 +33,11 @@ using UnityEngine;
         // Update is called once per frame
         void Update()
         {
+        if (light.enabled)
+        {
         intensity = Mathf.PingPong(speed * Time.time, (int)startintensity / 1.5f);
         light.intensity = intensity;
+        }
+
         }
     }

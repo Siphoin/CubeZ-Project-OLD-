@@ -25,8 +25,11 @@ using UnityEngine;
         isMaterial = true;
         tiling = material.mainTextureScale;
         offset = material.mainTextureOffset;
-
+        if (material.mainTexture != null)
+        {
         texturePath = material.mainTexture.name;
+        }
+
         colorTexture = material.color.Serialize();
     }
 

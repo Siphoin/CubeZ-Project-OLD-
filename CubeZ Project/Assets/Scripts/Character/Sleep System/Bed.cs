@@ -79,7 +79,6 @@ using UnityEngine;
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == TAG_PLAYER)
         {
             if (enteredPlayer == null)

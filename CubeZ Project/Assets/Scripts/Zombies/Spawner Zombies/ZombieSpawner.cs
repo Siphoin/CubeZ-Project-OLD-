@@ -27,6 +27,8 @@ public class ZombieSpawner : MonoBehaviour
     [SerializeField, ReadOnlyField]
     private int currentMaxCountZombies = 0;
 
+    private GameObject zombiesContainer;
+
     
     // Use this for initialization
     void Start()
@@ -67,7 +69,7 @@ public class ZombieSpawner : MonoBehaviour
 
 
         Debug.Log($"spawner zombies on. Count types zombies as {zombiesVariants.Length}");
-
+        zombiesContainer = new GameObject("zombiesContainer");
         CachingExitedsZombies();
 
 
@@ -87,6 +89,7 @@ public class ZombieSpawner : MonoBehaviour
         for (int i = 0; i < baseZombies.Length; i++)
         {
             baseZombies[i].onRemove += ZombieRemoved;
+            baseZombies[i].transform.SetParent(zombiesContainer.transform);
         }
     }
 
@@ -150,6 +153,7 @@ public class ZombieSpawner : MonoBehaviour
 
         BaseZombie newZombie = Instantiate(selectedPrefab);
 
+        AddZombieToContainer(newZombie);
 
         SetPosionZombie(position, newZombie);
 
@@ -164,7 +168,12 @@ public class ZombieSpawner : MonoBehaviour
         SubcribeRemoveZombie(newZombie);
         IncrementZombieCountCurrent();
 
-    
+
+    }
+
+    private void AddZombieToContainer(BaseZombie newZombie)
+    {
+        newZombie.transform.SetParent(zombiesContainer.transform);
     }
 
     private void ZombieRemoved ()
@@ -182,6 +191,7 @@ public class ZombieSpawner : MonoBehaviour
         BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
         BaseZombie newZombie = Instantiate(selectedPrefab);
 
+        AddZombieToContainer(newZombie);
 
         SetPosionZombie(position, newZombie);
         SetAngleZombie(quaternion, newZombie);

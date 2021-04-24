@@ -7,4 +7,6 @@
     Wall,
     BodyHuman,
     Eyes,
+    Car,
+    PoliceCar,
 }
