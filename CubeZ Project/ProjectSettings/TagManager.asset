@@ -30,6 +30,10 @@ TagManager:
   - WallDynamic
   - InstanceObjectManager
   - MapCacheManager
+  - TrainPoint
+  - Rallway
+  - TrainDynamic
+  - WeatherBox
   layers:
   - Default
   - TransparentFX

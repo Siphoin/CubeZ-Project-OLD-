@@ -27,29 +27,15 @@ using UnityEngine;
         {
             throw new BloodSpawnerException("blood decal prefab not found");
         }
-
-
-        StartCoroutine(SpawnBlood());
-        }
-
-    private IEnumerator SpawnBlood ()
-    {
         GameObject parentBloods = new GameObject("bloodContainer");
-        int count = 0;
-        while (true)
+        for (int i = 0; i < maxCountBloodDecals; i++)
         {
-            yield return new WaitForSeconds(0.2f);
-            if (count < maxCountBloodDecals)
-            {
-                GameObject blood = Instantiate(bloodPrefab, parentBloods.transform);
-                blood.transform.position = worldManager.GetRandomPointWithRandomPlane();
-                count++;
-            }
-
-            else
-            {
-                Destroy(gameObject);
-            }
+            GameObject blood = Instantiate(bloodPrefab);
+            blood.transform.position = worldManager.GetRandomPointWithRandomPlane();
+            blood.transform.SetParent(parentBloods.transform);
         }
-    }
+
+        Destroy(gameObject);
+        }
+
     }

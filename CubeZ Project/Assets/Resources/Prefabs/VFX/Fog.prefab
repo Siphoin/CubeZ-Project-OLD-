@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1695022505604417240}
   - component: {fileID: 1695022505604417241}
   - component: {fileID: 1695022505604417242}
+  - component: {fileID: 2754515287135303857}
   m_Layer: 0
   m_Name: Fog
   m_TagString: Untagged
@@ -600,7 +601,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 5000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -865,7 +866,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 20000
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4753,3 +4754,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2754515287135303857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695022505604417243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916250aa13d93b74fa39e01162e2c234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

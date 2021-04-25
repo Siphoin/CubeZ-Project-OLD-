@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 7363673378148721110}
   - component: {fileID: 7363673378148721105}
   - component: {fileID: 7363673378148721104}
+  - component: {fileID: 6385255808345701202}
   m_Layer: 0
   m_Name: Rain
   m_TagString: Untagged
@@ -836,7 +837,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 2000
+    maxNumParticles: 5000
     size3D: 1
     rotation3D: 1
     gravityModifier:
@@ -1101,7 +1102,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 270
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4989,3 +4990,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6385255808345701202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363673378148721107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916250aa13d93b74fa39e01162e2c234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

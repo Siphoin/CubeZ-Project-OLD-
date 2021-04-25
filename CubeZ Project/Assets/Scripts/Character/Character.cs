@@ -113,6 +113,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public bool InFireArea { get => inFireArea; }
     public bool IsDead { get => isDead; }
 
+    public Bounds BoundsColider { get => boxCollider.bounds; }
+
 
 
 
