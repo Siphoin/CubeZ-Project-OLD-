@@ -94,14 +94,10 @@ public class ZombieSpawner : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-        {
-
-        }
 
     private IEnumerator Spawn ()
     {
+        yield return new WaitForSeconds(6);
         while (true)
         {
             
@@ -124,7 +120,7 @@ public class ZombieSpawner : MonoBehaviour
                 switch (typeSpawn)
                 {
                     case TypeSpawnZombie.One:
-                        Vector3 posZombie = NavMeshManager.GenerateRandomPath(center);
+                        Vector3 posZombie = worldManager.GetRandomPointWithRandomPlane();
                         CreateZombie(posZombie);
                     break;
                     case TypeSpawnZombie.Horde:

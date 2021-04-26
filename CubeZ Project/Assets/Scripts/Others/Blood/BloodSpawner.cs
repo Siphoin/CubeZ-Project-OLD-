@@ -31,7 +31,13 @@ using UnityEngine;
         for (int i = 0; i < maxCountBloodDecals; i++)
         {
             GameObject blood = Instantiate(bloodPrefab);
-            blood.transform.position = worldManager.GetRandomPointWithRandomPlane();
+
+
+            var pos = worldManager.GetRandomPointWithRandomPlane();
+            pos.y = bloodPrefab.transform.position.y;
+            blood.transform.position = pos;
+
+
             blood.transform.SetParent(parentBloods.transform);
         }
 

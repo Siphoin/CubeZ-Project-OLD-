@@ -6,7 +6,7 @@ public class HellCopterSpawnerSettings : ScriptableObject
     [Header("Минимальная задержка появления вертолета")]
     [SerializeField] private float minTimeOutSpawn = 5;
 
-    [Header("Минимальная задержка появления вертолета")]
+    [Header("Максимальная задержка появления вертолета")]
     [SerializeField] private float maxTimeOutSpawn = 10;
 
     [Header("Радиус от точки где находится случайно выбранный игрок")]

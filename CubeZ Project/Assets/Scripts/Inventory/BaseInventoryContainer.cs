@@ -5,11 +5,18 @@ using Newtonsoft;
 public class BaseInventoryContainer
 {
     [Newtonsoft.Json.JsonIgnore]
+
     protected List<ItemBaseData> items = new List<ItemBaseData>(0);
     [Newtonsoft.Json.JsonIgnore]
+
     public int Length { get => items.Count; }
+
+
     [Newtonsoft.Json.JsonRequired]
+
     [Newtonsoft.Json.JsonProperty("items")]
+
+
     private Dictionary<long, string> itemsIDList = new Dictionary<long, string>();
 
     public BaseInventoryContainer()
@@ -27,6 +34,12 @@ public class BaseInventoryContainer
     {
         item.inFastPanel = false;
         items.Add(item);
+
+
+        if (itemsIDList.ContainsKey(Length))
+        {
+            itemsIDList.Remove(Length);
+        }
         itemsIDList.Add(Length, item.idItem);
     }
 

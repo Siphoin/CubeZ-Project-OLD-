@@ -56,6 +56,9 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private const string TAG_PLAYER_AREA = "PlayerArea";
 
 
+    protected const float DISTANCE_FOR_ATTACK = 1.3f;
+
+
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
 
 
@@ -309,7 +312,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public void Damage()
     {
 
-        if (target != null && Vector3.Distance(transform.position, target.transform.position) < 1f)
+        if (target != null && Vector3.Distance(transform.position, target.transform.position) < DISTANCE_FOR_ATTACK)
         {
             RaycastHit raycastHit;
             if (Physics.Raycast(transform.position, transform.forward, out raycastHit, DistanceVisible))

@@ -1,169 +1,452 @@
 fileFormatVersion: 2
 guid: 272cb988dc8f53541a70afd07ace6ee6
-timeCreated: 1549261220
-licenseType: Pro
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: 1
-    100002: 2
-    100004: 3
-    100006: 4
-    100008: 5
-    100010: Bogie
-    100012: Bogie 1
-    100014: Bogie 2
-    100016: Bogie 3
-    100018: Bogie 4
-    100020: Bogie Front
-    100022: Chassis
-    100024: Chassis 1
-    100026: Chassis 2
-    100028: Chassis 3
-    100030: Chassis 4
-    100032: Chassis 5
-    100034: Chassis Part
-    100036: Engine
-    100038: LOD
-    100040: LOD 1
-    100042: LOD 2
-    100044: LOD 3
-    100046: LOD 4
-    100048: LOD 5
-    100050: //RootNode
-    100052: Wheel
-    100054: Wheel 1
-    100056: Wheel 2
-    100058: Wheel 3
-    100060: Wheel 4
-    100062: Wheel 5
-    400000: 1
-    400002: 2
-    400004: 3
-    400006: 4
-    400008: 5
-    400010: Bogie
-    400012: Bogie 1
-    400014: Bogie 2
-    400016: Bogie 3
-    400018: Bogie 4
-    400020: Bogie Front
-    400022: Chassis
-    400024: Chassis 1
-    400026: Chassis 2
-    400028: Chassis 3
-    400030: Chassis 4
-    400032: Chassis 5
-    400034: Chassis Part
-    400036: Engine
-    400038: LOD
-    400040: LOD 1
-    400042: LOD 2
-    400044: LOD 3
-    400046: LOD 4
-    400048: LOD 5
-    400050: //RootNode
-    400052: Wheel
-    400054: Wheel 1
-    400056: Wheel 2
-    400058: Wheel 3
-    400060: Wheel 4
-    400062: Wheel 5
-    2300000: Bogie
-    2300002: Bogie 1
-    2300004: Bogie 2
-    2300006: Bogie 3
-    2300008: Bogie 4
-    2300010: Bogie Front
-    2300012: Chassis
-    2300014: Chassis 1
-    2300016: Chassis 2
-    2300018: Chassis 3
-    2300020: Chassis 4
-    2300022: Chassis 5
-    2300024: Chassis Part
-    2300026: LOD
-    2300028: LOD 1
-    2300030: LOD 2
-    2300032: LOD 3
-    2300034: LOD 4
-    2300036: LOD 5
-    2300038: Wheel
-    2300040: Wheel 1
-    2300042: Wheel 2
-    2300044: Wheel 3
-    2300046: Wheel 4
-    2300048: Wheel 5
-    3300000: Bogie
-    3300002: Bogie 1
-    3300004: Bogie 2
-    3300006: Bogie 3
-    3300008: Bogie 4
-    3300010: Bogie Front
-    3300012: Chassis
-    3300014: Chassis 1
-    3300016: Chassis 2
-    3300018: Chassis 3
-    3300020: Chassis 4
-    3300022: Chassis 5
-    3300024: Chassis Part
-    3300026: LOD
-    3300028: LOD 1
-    3300030: LOD 2
-    3300032: LOD 3
-    3300034: LOD 4
-    3300036: LOD 5
-    3300038: Wheel
-    3300040: Wheel 1
-    3300042: Wheel 2
-    3300044: Wheel 3
-    3300046: Wheel 4
-    3300048: Wheel 5
-    4300000: Wheel
-    4300002: Bogie Front
-    4300004: LOD
-    4300006: Chassis
-    4300008: Chassis Part
-    4300010: Chassis
-    4300012: LOD
-    4300014: Bogie
-    4300016: Wheel
-    4300018: Chassis
-    4300020: LOD
-    4300022: Bogie
-    4300024: Wheel
-    4300026: Bogie
-    4300028: LOD
-    4300030: Chassis
-    4300032: Wheel
-    4300034: Bogie
-    4300036: Chassis
-    4300038: LOD
-    4300040: Wheel
-    4300042: Bogie
-    4300044: Chassis
-    4300046: LOD
-    4300048: Wheel
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: 1
+  - first:
+      1: 100002
+    second: 2
+  - first:
+      1: 100004
+    second: 3
+  - first:
+      1: 100006
+    second: 4
+  - first:
+      1: 100008
+    second: 5
+  - first:
+      1: 100010
+    second: Bogie
+  - first:
+      1: 100012
+    second: Bogie 1
+  - first:
+      1: 100014
+    second: Bogie 2
+  - first:
+      1: 100016
+    second: Bogie 3
+  - first:
+      1: 100018
+    second: Bogie 4
+  - first:
+      1: 100020
+    second: Bogie Front
+  - first:
+      1: 100022
+    second: Chassis
+  - first:
+      1: 100024
+    second: Chassis 1
+  - first:
+      1: 100026
+    second: Chassis 2
+  - first:
+      1: 100028
+    second: Chassis 3
+  - first:
+      1: 100030
+    second: Chassis 4
+  - first:
+      1: 100032
+    second: Chassis 5
+  - first:
+      1: 100034
+    second: Chassis Part
+  - first:
+      1: 100036
+    second: Engine
+  - first:
+      1: 100038
+    second: LOD
+  - first:
+      1: 100040
+    second: LOD 1
+  - first:
+      1: 100042
+    second: LOD 2
+  - first:
+      1: 100044
+    second: LOD 3
+  - first:
+      1: 100046
+    second: LOD 4
+  - first:
+      1: 100048
+    second: LOD 5
+  - first:
+      1: 100050
+    second: //RootNode
+  - first:
+      1: 100052
+    second: Wheel
+  - first:
+      1: 100054
+    second: Wheel 1
+  - first:
+      1: 100056
+    second: Wheel 2
+  - first:
+      1: 100058
+    second: Wheel 3
+  - first:
+      1: 100060
+    second: Wheel 4
+  - first:
+      1: 100062
+    second: Wheel 5
+  - first:
+      4: 400000
+    second: 1
+  - first:
+      4: 400002
+    second: 2
+  - first:
+      4: 400004
+    second: 3
+  - first:
+      4: 400006
+    second: 4
+  - first:
+      4: 400008
+    second: 5
+  - first:
+      4: 400010
+    second: Bogie
+  - first:
+      4: 400012
+    second: Bogie 1
+  - first:
+      4: 400014
+    second: Bogie 2
+  - first:
+      4: 400016
+    second: Bogie 3
+  - first:
+      4: 400018
+    second: Bogie 4
+  - first:
+      4: 400020
+    second: Bogie Front
+  - first:
+      4: 400022
+    second: Chassis
+  - first:
+      4: 400024
+    second: Chassis 1
+  - first:
+      4: 400026
+    second: Chassis 2
+  - first:
+      4: 400028
+    second: Chassis 3
+  - first:
+      4: 400030
+    second: Chassis 4
+  - first:
+      4: 400032
+    second: Chassis 5
+  - first:
+      4: 400034
+    second: Chassis Part
+  - first:
+      4: 400036
+    second: Engine
+  - first:
+      4: 400038
+    second: LOD
+  - first:
+      4: 400040
+    second: LOD 1
+  - first:
+      4: 400042
+    second: LOD 2
+  - first:
+      4: 400044
+    second: LOD 3
+  - first:
+      4: 400046
+    second: LOD 4
+  - first:
+      4: 400048
+    second: LOD 5
+  - first:
+      4: 400050
+    second: //RootNode
+  - first:
+      4: 400052
+    second: Wheel
+  - first:
+      4: 400054
+    second: Wheel 1
+  - first:
+      4: 400056
+    second: Wheel 2
+  - first:
+      4: 400058
+    second: Wheel 3
+  - first:
+      4: 400060
+    second: Wheel 4
+  - first:
+      4: 400062
+    second: Wheel 5
+  - first:
+      23: 2300000
+    second: Bogie
+  - first:
+      23: 2300002
+    second: Bogie 1
+  - first:
+      23: 2300004
+    second: Bogie 2
+  - first:
+      23: 2300006
+    second: Bogie 3
+  - first:
+      23: 2300008
+    second: Bogie 4
+  - first:
+      23: 2300010
+    second: Bogie Front
+  - first:
+      23: 2300012
+    second: Chassis
+  - first:
+      23: 2300014
+    second: Chassis 1
+  - first:
+      23: 2300016
+    second: Chassis 2
+  - first:
+      23: 2300018
+    second: Chassis 3
+  - first:
+      23: 2300020
+    second: Chassis 4
+  - first:
+      23: 2300022
+    second: Chassis 5
+  - first:
+      23: 2300024
+    second: Chassis Part
+  - first:
+      23: 2300026
+    second: LOD
+  - first:
+      23: 2300028
+    second: LOD 1
+  - first:
+      23: 2300030
+    second: LOD 2
+  - first:
+      23: 2300032
+    second: LOD 3
+  - first:
+      23: 2300034
+    second: LOD 4
+  - first:
+      23: 2300036
+    second: LOD 5
+  - first:
+      23: 2300038
+    second: Wheel
+  - first:
+      23: 2300040
+    second: Wheel 1
+  - first:
+      23: 2300042
+    second: Wheel 2
+  - first:
+      23: 2300044
+    second: Wheel 3
+  - first:
+      23: 2300046
+    second: Wheel 4
+  - first:
+      23: 2300048
+    second: Wheel 5
+  - first:
+      33: 3300000
+    second: Bogie
+  - first:
+      33: 3300002
+    second: Bogie 1
+  - first:
+      33: 3300004
+    second: Bogie 2
+  - first:
+      33: 3300006
+    second: Bogie 3
+  - first:
+      33: 3300008
+    second: Bogie 4
+  - first:
+      33: 3300010
+    second: Bogie Front
+  - first:
+      33: 3300012
+    second: Chassis
+  - first:
+      33: 3300014
+    second: Chassis 1
+  - first:
+      33: 3300016
+    second: Chassis 2
+  - first:
+      33: 3300018
+    second: Chassis 3
+  - first:
+      33: 3300020
+    second: Chassis 4
+  - first:
+      33: 3300022
+    second: Chassis 5
+  - first:
+      33: 3300024
+    second: Chassis Part
+  - first:
+      33: 3300026
+    second: LOD
+  - first:
+      33: 3300028
+    second: LOD 1
+  - first:
+      33: 3300030
+    second: LOD 2
+  - first:
+      33: 3300032
+    second: LOD 3
+  - first:
+      33: 3300034
+    second: LOD 4
+  - first:
+      33: 3300036
+    second: LOD 5
+  - first:
+      33: 3300038
+    second: Wheel
+  - first:
+      33: 3300040
+    second: Wheel 1
+  - first:
+      33: 3300042
+    second: Wheel 2
+  - first:
+      33: 3300044
+    second: Wheel 3
+  - first:
+      33: 3300046
+    second: Wheel 4
+  - first:
+      33: 3300048
+    second: Wheel 5
+  - first:
+      43: 4300000
+    second: Wheel
+  - first:
+      43: 4300002
+    second: Bogie Front
+  - first:
+      43: 4300004
+    second: LOD
+  - first:
+      43: 4300006
+    second: Chassis
+  - first:
+      43: 4300008
+    second: Chassis Part
+  - first:
+      43: 4300010
+    second: Chassis
+  - first:
+      43: 4300012
+    second: LOD
+  - first:
+      43: 4300014
+    second: Bogie
+  - first:
+      43: 4300016
+    second: Wheel
+  - first:
+      43: 4300018
+    second: Chassis
+  - first:
+      43: 4300020
+    second: LOD
+  - first:
+      43: 4300022
+    second: Bogie
+  - first:
+      43: 4300024
+    second: Wheel
+  - first:
+      43: 4300026
+    second: Bogie
+  - first:
+      43: 4300028
+    second: LOD
+  - first:
+      43: 4300030
+    second: Chassis
+  - first:
+      43: 4300032
+    second: Wheel
+  - first:
+      43: 4300034
+    second: Bogie
+  - first:
+      43: 4300036
+    second: Chassis
+  - first:
+      43: 4300038
+    second: LOD
+  - first:
+      43: 4300040
+    second: Wheel
+  - first:
+      43: 4300042
+    second: Bogie
+  - first:
+      43: 4300044
+    second: Chassis
+  - first:
+      43: 4300046
+    second: LOD
+  - first:
+      43: 4300048
+    second: Wheel
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -171,26 +454,45 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -200,14 +502,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

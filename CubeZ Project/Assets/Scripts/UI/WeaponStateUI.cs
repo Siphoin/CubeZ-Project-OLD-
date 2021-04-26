@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-    public class WeaponStateUI : MonoBehaviour
+public class WeaponStateUI : MonoBehaviour
     {
     [Header("Ячейка предмета Main Canvas")]
     [SerializeField] private ItemCellMainCanvas cellWeapon;
@@ -18,28 +16,28 @@ using UnityEngine;
             {
                 throw new WeaponStateUIException("Player not found");
             }
+
+
         if (cellWeapon == null)
         {
             throw new WeaponStateUIException("cell weapon not seted");
         }
-        SetStateVisibleWeapon(false);
+
+
+           SetStateVisibleWeapon(false);
             PlayerManager.Manager.Player.onWeaponChanged += UpdateWeaponInfo;
         }
 
         private void UpdateWeaponInfo(ItemBaseData data)
         {
-        if (data == null)
-        {
-            SetStateVisibleWeapon(false);
+        SetStateVisibleWeapon(data != null);
 
-        }
 
-        else
+        if (data != null)
         {
-            SetStateVisibleWeapon(true);
             cellWeapon.SetData(data);
         }
-        }
+    }
 
 
     private void SetStateVisibleWeapon (bool state) {

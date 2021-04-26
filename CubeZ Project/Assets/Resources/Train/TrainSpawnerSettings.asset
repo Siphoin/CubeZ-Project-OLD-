@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345702abfcf2ca848a43e09c57c0c9fe, type: 3}
   m_Name: TrainSpawnerSettings
   m_EditorClassIdentifier: 
-  minTimeOutSpawn: 5
-  maxTimeOutSpawn: 10
+  minTimeOutSpawn: 40
+  maxTimeOutSpawn: 232

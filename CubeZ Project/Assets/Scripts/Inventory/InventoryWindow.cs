@@ -190,7 +190,11 @@ public class InventoryWindow : Window
 
     public void RemoveItem()
     {
+        if (currentItemData == PlayerManager.Manager.Player.CurrentWeapon.data)
+        {
         RemoveActiveWeaponPlayer();
+        }
+
         GameCacheManager.gameCache.inventory.Remove(currentItemData);
         LoadItems();
     }

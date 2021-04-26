@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7beaeb6bfc64c424e80c530bd2530ccb, type: 3}
   m_Name: HellCopterSpawnerSettings
   m_EditorClassIdentifier: 
-  minTimeOutSpawn: 5
-  maxTimeOutSpawn: 10
+  minTimeOutSpawn: 65
+  maxTimeOutSpawn: 200
   radiusOfThePlayer: 20

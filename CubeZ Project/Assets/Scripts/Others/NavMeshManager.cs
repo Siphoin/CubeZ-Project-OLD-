@@ -5,11 +5,9 @@ public static class NavMeshManager
 {
     public static Vector3 GenerateRandomPath(Vector3 center)
     {
-        Vector3 randomPos = Random.insideUnitSphere * 2 + center;
+        Vector3 randomPos = Random.insideUnitSphere * 5 + center;
 
-        NavMeshHit hit;
-
-        NavMesh.SamplePosition(randomPos, out hit, 2, NavMesh.AllAreas);
-        return hit.position;
+       
+        return randomPos;
     }
 }

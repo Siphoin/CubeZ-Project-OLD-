@@ -46,7 +46,9 @@ public class Zombie : BaseZombie
             if (target != null && otherTarget == null)
             {
                 float distance = Vector3.Distance(transform.position, target.transform.position);
-                if (distance > 1f)
+
+
+                if (distance > DISTANCE_FOR_ATTACK)
                 {
                     SetAnimationState(TypeAnimation.Run);
                 }
