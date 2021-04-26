@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3017127511837157969}
   - component: {fileID: 3017127511837157974}
   - component: {fileID: 3017127511837157975}
-  - component: {fileID: 3017127511837157972}
   - component: {fileID: 3017127511837157973}
   - component: {fileID: 3017127511837157978}
   - component: {fileID: 3017127511837157979}
@@ -62,6 +61,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,6 +86,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3017127511837157975
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99,24 +100,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3017127511837157972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3017127511837157976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineWidth: 4.3
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!54 &3017127511837157973
 Rigidbody:
   m_ObjectHideFlags: 0
