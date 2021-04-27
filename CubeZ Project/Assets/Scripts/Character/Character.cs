@@ -50,6 +50,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string NAME_FOLBER_AUDIO_CHARACTER = "Audio/character";
 
 
+    private const int DISTANCE_FOR_ATTACK = 1;
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
@@ -287,6 +288,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         }
 
+
+
     }
 
     
@@ -513,10 +516,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         RaycastHit raycastHit;
 
-
-        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 1))
+        
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, DISTANCE_FOR_ATTACK))
         {
-
             if (raycastHit.collider.tag == ZOMBIE_AREA_TAG)
             {
                 BaseZombie targetZombie = null;

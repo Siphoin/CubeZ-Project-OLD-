@@ -30,6 +30,7 @@ public class MapCacheManager : MonoBehaviour
     private void OffSave()
     {
         CancelInvoke();
+        enabled = false;
     }
 
     private void OnApplicationQuit()

@@ -297,6 +297,8 @@ public class WorldManager : MonoBehaviour
         rainWeather = LoadWeatherVFX(WeatherType.Rain);
         snowWeather = LoadWeatherVFX(WeatherType.Snow);
         fogWeather = LoadWeatherVFX(WeatherType.Fog);
+
+
         if (fogWeather == null)
         {
             throw new WorldManagerException("fog weather vfx is null!");
