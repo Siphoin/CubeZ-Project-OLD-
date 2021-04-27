@@ -190,7 +190,7 @@ public class InventoryWindow : Window
 
     public void RemoveItem()
     {
-        if (currentItemData == PlayerManager.Manager.Player.CurrentWeapon.data)
+        if (PlayerManager.Manager.Player.CurrentWeapon != null && currentItemData == PlayerManager.Manager.Player.CurrentWeapon.data)
         {
         RemoveActiveWeaponPlayer();
         }
