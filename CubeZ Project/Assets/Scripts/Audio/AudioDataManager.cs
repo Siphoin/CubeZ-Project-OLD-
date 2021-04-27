@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -7,6 +9,7 @@ public class AudioDataManager : MonoBehaviour
     private static AudioDataManager manager;
 
     private AudioData audioData = new AudioData();
+
 
     public event Action<float> onFXVolumeChanged;
     public event Action<float> onMusicVolumeChanged;
@@ -19,7 +22,7 @@ public class AudioDataManager : MonoBehaviour
 
     // Use this for initialization
     void Awake()
-        {
+    {
         if (manager == null)
         {
             manager = this;
@@ -36,7 +39,8 @@ public class AudioDataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        }
+
+    }
 
 
     public float GetVolumeFX ()
@@ -72,6 +76,21 @@ public class AudioDataManager : MonoBehaviour
         audioObject.transform.position = position;
         audioObject.GetAudioSource().clip = clip;
         
+
         return audioObject;
     }
+
+    public void SetActiveFXAudio (bool status)
+    {
+    AudioObject[]    audioFXList = FindObjectsOfType<AudioObject>().Where(audio => audio.TypeAudio == AudioType.FX).ToArray();
+
+
+        for (int i = 0; i < audioFXList.Length; i++)
+        {
+            audioFXList[i].GetAudioSource().volume = status == false ? 0 : audioData.fxVolume;
+
+
+        }
+    }
+
 }

@@ -11,6 +11,9 @@ using UnityEngine;
     private AudioDataManager dataManager;
 
     public bool RemoveIfNotPlaying { get; set; } = false;
+    public AudioType TypeAudio { get => typeAudio; }
+
+    public event Action<AudioObject> onRemove;
 
 
     // Use this for initialization
@@ -112,6 +115,7 @@ using UnityEngine;
         try
         {
             Uncribe();
+            onRemove?.Invoke(this);
         }
         catch
         {
