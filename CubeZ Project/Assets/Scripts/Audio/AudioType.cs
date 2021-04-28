@@ -2,4 +2,5 @@
 {
     FX,
     Music,
+    NewDaySound,
 }

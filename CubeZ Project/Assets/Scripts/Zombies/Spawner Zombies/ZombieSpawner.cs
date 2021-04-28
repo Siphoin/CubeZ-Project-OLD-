@@ -107,7 +107,7 @@ public class ZombieSpawner : MonoBehaviour
 
             int countZombies = Random.Range(0, currentMaxCountZombies - zombieinWorld + 1);
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
-            Vector3 center = NavMeshManager.GenerateRandomPath(worldManager.GetRandomPointWithRandomPlane());
+            Vector3 center = worldManager.GetRandomPointWithRandomPlane();
             if (countZombies > 1)
             {
                typeSpawn = (TypeSpawnZombie)Random.Range(0, maxCountTypesSpawn + 1);

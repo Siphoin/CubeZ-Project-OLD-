@@ -22,14 +22,13 @@ public class MapCacheManager : MonoBehaviour
         void Start()
         {
         instanceObjectManager = GameObject.FindGameObjectWithTag(TAG_INSTANCE_OBJECT_MANAGER).GetComponent<InstanceObjectManager>();
-        CallInvokingEveryMethod(SaveSession, AUTO_SAVE_TIME_OUT);
         PlayerManager.Manager.Player.onDead += OffSave;
-
+        StartCoroutine(AutoSave());
     }
 
     private void OffSave()
     {
-        CancelInvoke();
+        StopAllCoroutines();
         enabled = false;
     }
 
@@ -125,5 +124,15 @@ public class MapCacheManager : MonoBehaviour
     public void CallInvokingMethod(Action method, float time)
     {
         Invoke(method.Method.Name, time);
+    }
+
+   IEnumerator AutoSave ()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(AUTO_SAVE_TIME_OUT);
+            SaveSession();
+
+        }
     }
 }

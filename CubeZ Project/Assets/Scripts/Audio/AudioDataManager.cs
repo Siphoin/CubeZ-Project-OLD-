@@ -80,17 +80,5 @@ public class AudioDataManager : MonoBehaviour
         return audioObject;
     }
 
-    public void SetActiveFXAudio (bool status)
-    {
-    AudioObject[]    audioFXList = FindObjectsOfType<AudioObject>().Where(audio => audio.TypeAudio == AudioType.FX).ToArray();
-
-
-        for (int i = 0; i < audioFXList.Length; i++)
-        {
-            audioFXList[i].GetAudioSource().volume = status == false ? 0 : audioData.fxVolume;
-
-
-        }
-    }
 
 }

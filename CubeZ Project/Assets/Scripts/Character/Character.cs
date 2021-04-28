@@ -747,7 +747,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         UIControl.On = false;
         UIControl.CloseAllWindows();
 
-        audioManager.SetActiveFXAudio(false);
     }
 
     private void SetNewTransform(Vector3 position, Quaternion rotation)
@@ -769,7 +768,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         SetSleepStatus(false);
         SetNewTransform(lastPosition, startQuuaterion);
         UIControl.On = true;
-        audioManager.SetActiveFXAudio(true);
     }
 
     private void SetSleepStatus (bool status)
