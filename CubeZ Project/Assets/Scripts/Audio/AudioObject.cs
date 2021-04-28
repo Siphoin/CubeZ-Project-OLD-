@@ -135,6 +135,13 @@ using UnityEngine;
             {
                 case AudioType.FX:
                     dataManager.onFXVolumeChanged -= ChangeVolume;
+
+                    if (localPlayer != null)
+                    {
+                        localPlayer.onSleep -= VolumeToZero;
+                    }
+
+
                     break;
                 case AudioType.Music:
                     dataManager.onMusicVolumeChanged -= ChangeVolume;
