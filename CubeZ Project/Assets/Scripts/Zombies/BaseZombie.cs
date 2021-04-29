@@ -56,7 +56,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private const string TAG_PLAYER_AREA = "PlayerArea";
 
 
-    protected const float DISTANCE_FOR_ATTACK = 0.8f;
+    protected const float DISTANCE_FOR_ATTACK = 0.9f;
 
 
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;

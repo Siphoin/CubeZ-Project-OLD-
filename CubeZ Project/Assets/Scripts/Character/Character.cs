@@ -263,7 +263,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         IniKeyCodes();
 
         GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
+        GameCacheManager.gameCache.inventory.onItemNoAdded += PlaySoundNoGetItem;
     }
+
 
     private void IniKeyCodes()
     {
@@ -805,6 +807,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         UIControl.On = false;
         UIControl.CloseAllWindows();
 
+       
+
     }
 
     private void SetNewTransform(Vector3 position, Quaternion rotation)
@@ -832,6 +836,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
 
         isSleeping = status;
+
         onSleep?.Invoke(isSleeping);
         SetStateFrezze(isSleeping);
         characterActive = !status;
@@ -934,6 +939,17 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             getItemAudioObject = PlayFXPlayer("character_get_item");
         }
     }
+
+    private void PlaySoundNoGetItem()
+    {
+        Debug.Log(323);
+        if (getItemAudioObject == null)
+        {
+            getItemAudioObject = PlayFXPlayer("character_get_item_limit");
+        }
+    }
+
+
     #endregion
 
     #region Adrenalin System

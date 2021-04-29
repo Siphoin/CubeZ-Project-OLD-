@@ -11,6 +11,10 @@ public class InventoryContainerPlayer : BaseInventoryContainer
     public event Action<List<ItemBaseData>> onListItemsChanged;
     public event Action<string> onItemOfTypeAdded;
 
+    public event Action onItemAdded;
+
+    public event Action onItemNoAdded;
+
     public InventoryContainerPlayer(InventoryContainerPlayer copyClass, InventoryPlayerSettingsData settingsData)
     {
         copyClass.CopyAll(this);
@@ -71,6 +75,11 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         onListItemsChanged?.Invoke(items);
     }
 
+    private void CallEventItemAdded()
+    {
+        onItemAdded?.Invoke();
+    }
+
     public bool TryAdd(ItemBaseData data, out ItemBaseData output)
     {
         if (settingsData == null)
@@ -81,9 +90,11 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         if (items.Count <= settingsData.maxCountItems)
         {
             Debug.Log($"Inventory player message: limit items. Max count items as {settingsData.maxCountItems}");
+            CallEventItemNoAdded();
             output = null;
             return false;
         }
+        CallEventItemAdded();
         Add(data);
         output = items[items.Count - 1];
         return true;
@@ -99,10 +110,16 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         if (items.Count >= settingsData.maxCountItems)
         {
             Debug.Log($"Inventory player message: limit items. Max count items as {settingsData.maxCountItems}");
+            CallEventItemNoAdded();
             return false;
         }
         Add(data);
         return true;
+    }
+
+    private void CallEventItemNoAdded()
+    {
+        onItemNoAdded?.Invoke();
     }
 
     public void CallEventMarkingItem()
@@ -165,8 +182,4 @@ public class InventoryContainerPlayer : BaseInventoryContainer
         return false;
     }
 
-    private void Ini ()
-    {
-
-    }
 }

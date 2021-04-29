@@ -65,59 +65,18 @@ using UnityEngine;
             CallInvokingMethod(Remove, audioSource.clip.length + 0.01f);
         }
 
-        FindLocalPlayer();
 
     }
 
-    private void FindLocalPlayer()
-    {
-        if (typeAudio != AudioType.FX)
-        {
-            return;
-        }
-
-
-
-        if (PlayerManager.Manager == null)
-        {
-            return;
-        }
-
-        else
-        {
-            localPlayer = PlayerManager.Manager.Player;
-
-            if (localPlayer != null)
-            {
-                localPlayer.onSleep += VolumeToZero;
-
-            }
-        }
-    }
 
 
 
     private void ChangeVolume (float value)
     {
-        if (localPlayer == null && typeAudio == AudioType.FX)
-        {
+
         audioSource.volume = value;
-        }
-
-        else if (localPlayer != null)
-        {
-            audioSource.volume = localPlayer.IsSleeping == false ? value : 0;
-        }
-
-       
-
     }
 
-   private void VolumeToZero (bool sleepCharacter)
-    {
-        Ini();
-        audioSource.volume = sleepCharacter == false ? dataManager.GetVolumeFX() : 0;
-    }
 
     public void Remove()
     {
@@ -135,13 +94,6 @@ using UnityEngine;
             {
                 case AudioType.FX:
                     dataManager.onFXVolumeChanged -= ChangeVolume;
-
-                    if (localPlayer != null)
-                    {
-                        localPlayer.onSleep -= VolumeToZero;
-                    }
-
-
                     break;
                 case AudioType.Music:
                     dataManager.onMusicVolumeChanged -= ChangeVolume;
@@ -167,12 +119,13 @@ using UnityEngine;
     {
         try
         {
-            Uncribe();
             onRemove?.Invoke(this);
+            Uncribe();
         }
         catch
         {
         }
+
     }
 
 }
