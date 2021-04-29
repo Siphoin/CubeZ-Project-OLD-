@@ -9,8 +9,8 @@ using Random = UnityEngine.Random;
     {
     private BaseZombie zombie;
 
-    private const float minSecondsPlayVoice = 7.0f;
-    private const float maxSecondsPlayVoice = 25.0f;
+    private const float minSecondsPlayVoice = 14.0f;
+    private const float maxSecondsPlayVoice = 180.0f;
 
     private const float minPitchVoice = 0.9f;
     private const float maxPitchVoice = 1.5f;

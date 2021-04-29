@@ -4,4 +4,5 @@
     Kit,
     Weapon,
     Resource,
+    SyringeAdrenalin,
 }

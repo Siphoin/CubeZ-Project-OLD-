@@ -256,8 +256,11 @@ public class InventoryWindow : Window
             case TypeItem.Weapon:
                 UseWeapon();
                 break;
-            default:
+            case TypeItem.SyringeAdrenalin:
+                UseSyringeAdrenalin();
                 break;
+            default:
+                throw new InventoryWindowException($"invalid type use: You must set case actions for type {currentItemData.typeItem}");
         }
     }
 
@@ -304,6 +307,20 @@ public class InventoryWindow : Window
         string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
         KitParams kittem = Resources.Load<Kittem>(path).dataKit;
         AddPlayerValueStatsToNeed(currentItemData.typeItem, kittem.regenRange);
+        RemoveItem();
+    }
+
+    private void UseSyringeAdrenalin()
+    {
+        if (PlayerManager.Manager.Player.IsAdrenalin)
+        {
+            return;
+        }
+
+
+        string path = GetPathToItem(currentItemData.typeItem, currentItemData.idItem);
+        SyringeAdrenalinParams syringeAdrenalinParams = Resources.Load<SyringeAdrenalinItem>(path).dataSyringleAdrenalin;
+        PlayerManager.Manager.Player.BuffAdrenalin(syringeAdrenalinParams);
         RemoveItem();
     }
 

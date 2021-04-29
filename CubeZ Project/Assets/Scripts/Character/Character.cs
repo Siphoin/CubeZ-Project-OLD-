@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -69,7 +70,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private int baseDamage = 6;
     private int currentDamage;
 
-    private bool characterActive = true;
+    private float currentSpeed;
+
 
     public event Action<ItemBaseData> onWeaponChanged;
 
@@ -78,6 +80,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public event Action onDamage;
 
     public event Action<bool> onSleep;
+
+    public event Action<bool> onAdrenalin;
 
 
     private bool isDead = false;
@@ -88,9 +92,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool isFatigue = false;
 
+    private bool isAdrenalin = false;
+
     private bool collisizedInteractionObject = false;
 
     private bool inFireArea = false;
+
+    private bool characterActive = true;
 
 
     private Vector3 lastPosition;
@@ -113,6 +121,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public bool CollisizedInteractionObject { get => collisizedInteractionObject; }
     public bool InFireArea { get => inFireArea; }
     public bool IsDead { get => isDead; }
+
+    public bool IsAdrenalin { get => isAdrenalin; }
 
     public Bounds BoundsColider { get => boxCollider.bounds; }
 
@@ -167,6 +177,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
         baseDamage = characterData.damage;
+        currentSpeed = characterData.speed;
 
         ReturnToBaseDamage();
 
@@ -407,7 +418,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private float Walk()
     {
-        float speed =  isFatigue == false ? characterData.speed : characterData.speed - 1;
+        float speed =  isFatigue == false ? currentSpeed : currentSpeed - 1;
         SetAnimationState(TypeAnimation.Walk);
         PlayWalkSound();
         characterTrigger.SetRadius(defaultRaduisCharacterTrigger * 2);
@@ -417,7 +428,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private float Run()
     {
         
-        float speed = isFatigue == false ?  characterData.speed + 1 : characterData.speed - 1;
+        float speed = isFatigue == false ?  currentSpeed + 1 : currentSpeed - 1;
         SetAnimationState(isFatigue == false ? TypeAnimation.Run : TypeAnimation.Walk);
         PlayWalkSound();
         return speed;
@@ -446,9 +457,46 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         currentDamage += value;
     }
 
+    public void IncrementBaseDamage(int value)
+    {
+        if (value < 0)
+        {
+            throw new CharacterException("invalid value damage");
+        }
+        currentDamage += value;
+    }
+
+
+    public void DecrementBaseDamage (int value)
+    {
+        if (value < 0)
+        {
+            throw new CharacterException("invalid value damage");
+        }
+        currentDamage -= value;
+    }
+
     public void ReturnToBaseDamage()
     {
         currentDamage = baseDamage;
+    }
+
+    public void IncrementBaseSpeed(float value)
+    {
+        if (value < 0)
+        {
+            throw new CharacterException("invalid value damage");
+        }
+        currentSpeed += value;
+    }
+
+    public void DecrementBaseSpeed(float value)
+    {
+        if (value < 0)
+        {
+            throw new CharacterException("invalid value damage");
+        }
+        currentSpeed -= value;
     }
 
     public bool CharacterUseTheWeapon(WeaponItem weapon)
@@ -620,15 +668,21 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         healthStats.value = Mathf.Clamp(healthStats.value - hitValue, 0, 100);
 
-        PlayFXPlayer("character_damage");
 
-        if (playHitAnim)
+        if (!isAdrenalin)
         {
-            if (Random.Range(0, 10) > 7)
-            {
-                SetAnimationState(TypeAnimation.GetHit);
+            PlayFXPlayer("character_damage");
 
-                characterActive = true;
+
+
+            if (playHitAnim)
+            {
+                if (Random.Range(0, 10) > 7)
+                {
+                    SetAnimationState(TypeAnimation.GetHit);
+
+                    characterActive = true;
+                }
             }
         }
         if (isSleeping)
@@ -665,6 +719,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void Dead()
     {
+        if (isAdrenalin)
+        {
+            SetStateAdrenalin(false);
+        }
         PlayFXPlayer(NAME_ANIM_DEATH_CHARACTER);
         onDead?.Invoke();
         animator.Play(DEAD_ANIM_NAME);
@@ -875,6 +933,57 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             getItemAudioObject = PlayFXPlayer("character_get_item");
         }
+    }
+    #endregion
+
+    #region Adrenalin System
+    public void BuffAdrenalin (SyringeAdrenalinParams syringeParams)
+    {
+        IncrementBaseDamage(syringeParams.bonusDamage);
+        IncrementBaseSpeed(syringeParams.bonusSpeed);
+        SetStateAdrenalin(true);
+        StartCoroutine(DurationAdrenalin(syringeParams));
+        StartCoroutine(HitAdrenalin());
+
+    }
+
+    private IEnumerator HitAdrenalin()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            if (isAdrenalin)
+            {
+        Hit(1, false);
+            }
+
+            else
+            {
+                yield break;
+            }
+        }
+
+    }
+
+    private void SetStateAdrenalin (bool status)
+    {
+        onAdrenalin?.Invoke(status);
+        isAdrenalin = status;
+    }
+
+    private IEnumerator DurationAdrenalin (SyringeAdrenalinParams syringeParams)
+    {
+        yield return new WaitForSeconds(syringeParams.duration);
+
+        DecrementBaseDamage(syringeParams.bonusDamage);
+        DecrementBaseSpeed(syringeParams.bonusSpeed);
+
+
+        SetStateAdrenalin(false);
+
+
+        yield return null;
+
     }
     #endregion
 

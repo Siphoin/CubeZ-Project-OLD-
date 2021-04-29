@@ -156,5 +156,18 @@ using Random = UnityEngine.Random;
         return arrayTarget;
     }
 
+    public AudioClip[] GetActiveTrackList ()
+    {
+        AudioClip[] clips = new AudioClip[musicList.Length];
+        musicList.CopyTo(clips, 0);
+        return clips;
+    }
+
+    public void SetTrackList (AudioClip[] tracks)
+    {
+        musicList = GetClipsWithArrayClips(musicList, tracks);
+        NewTrack();
+    }
+
 
 }

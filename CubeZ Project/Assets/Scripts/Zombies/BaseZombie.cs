@@ -56,7 +56,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private const string TAG_PLAYER_AREA = "PlayerArea";
 
 
-    protected const float DISTANCE_FOR_ATTACK = 0.9f;
+    protected const float DISTANCE_FOR_ATTACK = 0.8f;
 
 
     [SerializeField, ReadOnlyField] private SettingsZombie settingsZombie;
@@ -117,15 +117,6 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public int[] HashesAnimationAttackZombie { get => hashesAnimationAttackZombie; }
     public ZombieStats ZombieStats { get => zombieStats; }
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
     protected void Ini()
     {
         if (zombieArea == null)
