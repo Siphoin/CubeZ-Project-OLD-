@@ -36,6 +36,9 @@ public class SettingsZombieData
 
     [Header("Увеличение статов зомби ночью")]
     public int incrementPowerZombieOnlyNight = 2;
+
+    [Header("Минимальная дистанция территории спавна от игроков")]
+    public int minOffsetDistanceRandomPlane = 30;
     public SettingsZombieData()
     {
 

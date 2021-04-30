@@ -85,7 +85,7 @@ using Random = UnityEngine.Random;
         }
         StartCoroutine(LerpingVolume());
         PlayTrack(selectedTrack);
-        CallInvokingMethod(NewTrack, selectedTrack.length + 0.1f / Time.timeScale);
+        CallInvokingMethod(NewTrack, selectedTrack.length + 0.1f * Time.timeScale);
     }
 
     public void CallInvokingEveryMethod(Action method, float time)

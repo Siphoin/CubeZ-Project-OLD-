@@ -50,6 +50,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private const string NAME_FOLBER_AUDIO_CHARACTER = "Audio/character";
 
+    private const string NAME_ID_AXE = "axe";
+
 
     private const int DISTANCE_FOR_ATTACK = 1;
     private TypeAnimation animationState = TypeAnimation.Idle2;
@@ -591,7 +593,16 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
             if (raycastHit.collider.tag == TAG_TREE)
             {
+                if (CanDamageTree())
+                {
                 DamageTree(raycastHit);
+                }
+
+                else
+                {
+                    PlayFXPlayer("character_get_item_limit");
+                }
+
             }
 
             if (raycastHit.collider.tag == TAG_DOOR)
@@ -621,10 +632,9 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         target.Hit(currentDamage);
 
 
-        if (target.CurrentHealth <= 0 && PlayerManager.Manager.Player == this)
+        if (target.CurrentHealth <= 0)
         {
             GameCacheManager.gameCache.zombieKils++;
-            Debug.Log(GameCacheManager.gameCache.zombieKils);
         }
         CheckWearWeapon();
     }
@@ -633,7 +643,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         Tree target = raycastHit.collider.GetComponent<Tree>();
         target.Hit(currentDamage);
-        Debug.Log(target.CurrentHealth);
         CheckWearWeapon();
     }
 
@@ -641,7 +650,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         Door target = raycastHit.collider.GetComponent<Door>();
         target.Hit(currentDamage);
-        Debug.Log(target.Health);
         CheckWearWeapon();
     }
 
@@ -663,6 +671,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     }
 
 
+    private bool CanDamageTree ()
+    {
+        if (currentWeapon == null)
+        {
+            return false;
+        }
+
+        return currentWeapon.data.idItem.Contains(NAME_ID_AXE);
+    }
 
     #endregion
 

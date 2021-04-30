@@ -120,7 +120,7 @@ public class ZombieSpawner : MonoBehaviour
                 switch (typeSpawn)
                 {
                     case TypeSpawnZombie.One:
-                        Vector3 posZombie = worldManager.GetRandomPointWithRandomPlane();
+                        Vector3 posZombie = worldManager.GetRandomPointWithRandomPlane(true);
                         CreateZombie(posZombie);
                     break;
                     case TypeSpawnZombie.Horde:

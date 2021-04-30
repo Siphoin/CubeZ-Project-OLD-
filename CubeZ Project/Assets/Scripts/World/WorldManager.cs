@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -507,7 +508,40 @@ WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
 
     #region Path Find Mechanim 
 
-    public Vector3 GetRandomPointWithRandomPlane ()
+    public Vector3 GetRandomPointWithRandomPlane (bool useRadiusOfThePlayer = false)
+    {
+        Vector3 pos = Vector3.zero;
+
+
+        if (useRadiusOfThePlayer)
+        {
+Character[] players = FindObjectsOfType<Character>();
+
+
+        if (players.Length == 0)
+        {
+                pos = GetPointRandomPlane(planes);
+        }
+
+        else
+        {
+            Character player = players[Random.Range(0, players.Length)];
+                GameObject[] orderedPlanes = planes.OrderBy(a => Vector3.Distance(a.transform.position, player.transform.position) < settingsZombie.GetData().minOffsetDistanceRandomPlane).ToArray();
+
+                pos = GetPointRandomPlane(orderedPlanes);
+            }
+        }
+
+        else
+        {
+            pos = GetPointRandomPlane(planes);
+        }
+        
+
+        return pos;
+    }
+
+   private Vector3 GetPointRandomPlane (GameObject[] planes)
     {
         Transform randomPlane = planes[Random.Range(0, planes.Length)].transform;
         return NavMeshManager.GenerateRandomPath(randomPlane.position);
@@ -518,9 +552,5 @@ WeatherType newWeather = (WeatherType)Random.Range(0, maxRangeWeatherType);
 
     #endregion
 
-    private int ClampingTemperature (float value)
-    {
-        return (int)Mathf.Clamp(value, timeOfWeakData.temperatureSettings.minTemperatureValue, timeOfWeakData.temperatureSettings.minTemperatureValue);
-    }
 
 }

@@ -55,10 +55,6 @@ public class CarAlarmSystem : MonoBehaviour, IInvokerMono
             throw new CarAlarmSystemException("car alarm system clip not found");
         }
 
-        if (headlights.Length > 0)
-        {
-            SetStateVisibleHeadlights(false);
-        }
 
         OffTriggerAlarm();
 
