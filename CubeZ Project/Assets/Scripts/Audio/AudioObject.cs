@@ -62,7 +62,7 @@ using UnityEngine;
 
         if (RemoveIfNotPlaying)
         {
-            CallInvokingMethod(Remove, audioSource.clip.length + 0.01f);
+            CallInvokingMethod(Remove, audioSource.clip.length + 0.01f / Time.timeScale);
         }
 
 

@@ -199,6 +199,15 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         zombieArea.SetRadius(zombieStats.distanceVisible / 2);
         zombieArea.onCharacterVisible += ZombieArea_onCharacterVisible;
+        zombieArea.onCarAlarm += ZombieArea_onCarAlarm;
+    }
+
+    private void ZombieArea_onCarAlarm(Vector3 position)
+    {
+        if (!visiblePlayer)
+        {
+            SetTargetPoint(position);
+        }
     }
 
     private void ZombieArea_onCharacterVisible(Character character)

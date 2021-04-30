@@ -36,8 +36,9 @@ using Random = UnityEngine.Random;
 
 
         audioManager = AudioDataManager.Manager;
-        AudioDataManager.Manager.onFXVolumeChanged += ChangeVolume;
 
+        audioManager.onFXVolumeChanged += ChangeVolume;
+        audioManager.onMusicEnabled += SetStatusMusic;
 
         musicListCached = GetClipsWithArrayClips(musicListCached, musicList);
         NewTrack();
@@ -45,8 +46,31 @@ using Random = UnityEngine.Random;
 
     }
 
+    private void SetStatusMusic(bool enabled)
+    {
+        if (enabled)
+        {
+            if (!audioSource.isPlaying)
+            {
+                NewTrack();
+            }
+        }
+
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
+    }
+
     private void NewTrack()
     {
+        if (!audioManager.GetMusicEnabled())
+        {
+            return;
+        }
         AudioClip selectedTrack = null;
         if (musicList.Length < 2)
         {
@@ -61,7 +85,7 @@ using Random = UnityEngine.Random;
         }
         StartCoroutine(LerpingVolume());
         PlayTrack(selectedTrack);
-        CallInvokingMethod(NewTrack, selectedTrack.length + 0.1f);
+        CallInvokingMethod(NewTrack, selectedTrack.length + 0.1f / Time.timeScale);
     }
 
     public void CallInvokingEveryMethod(Action method, float time)
@@ -104,6 +128,8 @@ using Random = UnityEngine.Random;
 
     private void PlayTrack (AudioClip track)
     {
+
+
         audioSource.clip = track;
         lastAudioClip = track;
         audioSource.Play();
@@ -124,10 +150,12 @@ using Random = UnityEngine.Random;
         musicList = new AudioClip[1];
 
         musicList[0] = track;
-
+        if (audioManager.GetMusicEnabled())
+        {
         PlayTrack(track);
+        CallInvokingMethod(NewTrack, track.length + 1f / Time.timeScale);
+        }
 
-        CallInvokingMethod(NewTrack, track.length + 1f);
 
     }
 

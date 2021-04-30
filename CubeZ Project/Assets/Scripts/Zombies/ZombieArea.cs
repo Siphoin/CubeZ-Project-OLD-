@@ -6,10 +6,13 @@ public class ZombieArea : MonoBehaviour, IObjectArea
     {
     public event Action<Character> onCharacterVisible;
     public event Action<Character> onCharacterInvisible;
+    public event Action<Vector3> onCarAlarm;
 
     private HashSet<Character> charactersVisibles = new HashSet<Character>();
 
     private const string TAG_PLAYER = "PlayerArea";
+
+    private const string TAG_CAR_ALARM_AREA = "CarAlarmArea";
 
     private SphereCollider sphereCollider;
     // Use this for initialization
@@ -31,6 +34,11 @@ public class ZombieArea : MonoBehaviour, IObjectArea
         if (other.gameObject.tag.Contains(TAG_PLAYER))
         {
             CacheCharacter(other);
+        }
+
+        if (other.gameObject.tag.Contains(TAG_CAR_ALARM_AREA))
+        {
+            onCarAlarm?.Invoke(other.gameObject.transform.position);
         }
     }
 

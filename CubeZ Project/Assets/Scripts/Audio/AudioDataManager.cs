@@ -13,6 +13,7 @@ public class AudioDataManager : MonoBehaviour
 
     public event Action<float> onFXVolumeChanged;
     public event Action<float> onMusicVolumeChanged;
+    public event Action<bool> onMusicEnabled;
 
     private const string PATH_PREFAB_AUDIO_OBJECT = "Prefabs/Audio/AudioObject";
 
@@ -53,6 +54,11 @@ public class AudioDataManager : MonoBehaviour
         return audioData.musicVolume;
     }
 
+    public bool GetMusicEnabled ()
+    {
+        return audioData.musicEnabled;
+    }
+
     public void SetVolumeFX (float value)
     {
         audioData.fxVolume = ClampingVolume(value);
@@ -68,6 +74,12 @@ public class AudioDataManager : MonoBehaviour
     private float ClampingVolume (float value)
     {
         return Mathf.Clamp(value, 0.0f, 1.0f);
+    }
+
+    public void SetEnabledMusic (bool status)
+    {
+        audioData.musicEnabled = status;
+        onMusicEnabled?.Invoke(audioData.musicEnabled);
     }
 
     public AudioObject CreateAudioObject (Vector3 position, AudioClip clip = null)

@@ -34,6 +34,7 @@ TagManager:
   - Rallway
   - TrainDynamic
   - WeatherBox
+  - CarAlarmArea
   layers:
   - Default
   - TransparentFX
