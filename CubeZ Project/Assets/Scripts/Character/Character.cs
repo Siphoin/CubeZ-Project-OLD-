@@ -50,8 +50,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private const string NAME_FOLBER_AUDIO_CHARACTER = "Audio/character";
 
-    private const string NAME_ID_AXE = "axe";
-
+    private const string AXE_ID_WEAPON = "axe";
 
     private const int DISTANCE_FOR_ATTACK = 1;
     private TypeAnimation animationState = TypeAnimation.Idle2;
@@ -678,7 +677,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             return false;
         }
 
-        return currentWeapon.data.idItem.Contains(NAME_ID_AXE);
+        return currentWeapon.data.idItem.Contains(AXE_ID_WEAPON);
     }
 
     #endregion

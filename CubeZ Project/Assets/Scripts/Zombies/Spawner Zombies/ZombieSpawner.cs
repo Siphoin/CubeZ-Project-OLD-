@@ -54,7 +54,7 @@ public class ZombieSpawner : MonoBehaviour
         }
         worldManager = WorldManager.Manager;
 
-        settingsZombie = WorldManager.Manager.SettingsZombie;
+        settingsZombie = Resources.Load<SettingsZombie>("Zombie/Zombie Settings");
 
 
         zombieData = new SettingsZombieData(settingsZombie.GetData());
@@ -97,17 +97,19 @@ public class ZombieSpawner : MonoBehaviour
 
     private IEnumerator Spawn ()
     {
-        yield return new WaitForSeconds(6);
+      //  Debug.Log("Spawn zombies activated...");
         while (true)
         {
             
             float time = Random.Range(zombieData.minTimeSpawnZombie, zombieData.maxTimeSpawnZombie + 1.0f);
+         //   Debug.Log($"new spawn zombie in {time} seconds...");
             yield return new WaitForSeconds(time);
 
 
+            
             int countZombies = Random.Range(0, currentMaxCountZombies - zombieinWorld + 1);
             TypeSpawnZombie typeSpawn = TypeSpawnZombie.One;
-            Vector3 center = worldManager.GetRandomPointWithRandomPlane();
+            Vector3 center = worldManager.GetRandomPointWithRandomPlane(true);
             if (countZombies > 1)
             {
                typeSpawn = (TypeSpawnZombie)Random.Range(0, maxCountTypesSpawn + 1);

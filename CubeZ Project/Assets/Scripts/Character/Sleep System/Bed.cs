@@ -28,16 +28,6 @@ using UnityEngine;
             throw new BedException("point sleep is null");
         }
 
-        if (PlayerManager.Manager == null)
-        {
-            throw new BedException("player manager not found");
-        }
-
-
-        if (PlayerManager.Manager.Player == null)
-        {
-            throw new BedException("player not found");
-        }
     }
 
         // Update is called once per frame

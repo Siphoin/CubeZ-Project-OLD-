@@ -22,9 +22,13 @@
 
     public WorldCacheData (WorldManager worldManager)
     {
+        if (worldManager == null)
+        {
+            return;
+        }
+
+
         Light sun = worldManager.DirectionLight;
-
-
         weather = worldManager.CurrentWeather;
         dayType = worldManager.CurrentDayTime;
         angleSun = sun.gameObject.transform.rotation.eulerAngles;

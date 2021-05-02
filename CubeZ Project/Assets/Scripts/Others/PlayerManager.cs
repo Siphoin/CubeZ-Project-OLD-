@@ -12,8 +12,14 @@ public class PlayerManager : MonoBehaviour
 
     private const string TAG_PLAYER = "MyPlayer";
 
-    // Use this for initialization
-    void Awake()
+
+    private void Awake()
+    {
+        Ini();
+
+    }
+
+    private void Ini()
     {
         if (manager == null)
         {
@@ -24,19 +30,18 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        GameObject player = GameObject.FindGameObjectWithTag(TAG_PLAYER);
+    }
+
+    public void SetPlayer (Character player)
+    {
         if (player == null)
         {
-            throw new PlayerManagerException("Player not found!");
-        }
-        if (!player.TryGetComponent(out this.player))
-        {
-            throw new PlayerManagerException("Player not exits component Character");
+            throw new PlayerManagerException("player argument is null");
         }
 
-        if (!player.TryGetComponent(out playerStats))
-        {
-            throw new PlayerManagerException("Player not exits component CharacterStatsController");
-        }
+        this.player = player;
+#if UNITY_EDITOR
+        Debug.Log($"player {this.player.name} seted as my player");
+#endif
     }
 }

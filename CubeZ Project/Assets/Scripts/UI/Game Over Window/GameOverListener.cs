@@ -6,8 +6,10 @@ public class GameOverListener : MonoBehaviour
 
     private GameOverWindow gameOverWindowPrefab;
         // Use this for initialization
-        void Start()
-        {
+
+
+    private void Start()
+    {
         if (PlayerManager.Manager == null)
         {
             throw new GameOverListenerException("player manager not found");
@@ -27,7 +29,6 @@ public class GameOverListener : MonoBehaviour
 
 
         PlayerManager.Manager.Player.onDead += CreateGameOverWindow;
-
     }
 
     private void CreateGameOverWindow()
@@ -36,4 +37,6 @@ public class GameOverListener : MonoBehaviour
         Instantiate(gameOverWindowPrefab);
     }
 
-    }
+
+
+}

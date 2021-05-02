@@ -27,10 +27,11 @@ public class Zombie : BaseZombie
         {
             agent.velocity = Vector3.zero;
         }
+
+
         if (!visiblePlayer)
         {
-            float distance = Vector3.Distance(transform.position, targetPoint);
-            if (distance > 1f && agent.velocity != Vector3.zero)
+            if (agent.velocity != Vector3.zero)
             {
                 SetAnimationState(TypeAnimation.ZombieWalk);
             }
@@ -132,8 +133,7 @@ public class Zombie : BaseZombie
         {
             if (!visiblePlayer)
             {
-                SetTargetPoint(transform.position);
-                agent.isStopped = true;
+                SetTargetPoint(NavMeshManager.GenerateRandomPath(transform.position));
             }
 
 

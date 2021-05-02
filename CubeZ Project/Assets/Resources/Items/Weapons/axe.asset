@@ -25,3 +25,4 @@ MonoBehaviour:
   dataWeapon:
     damageBonus: 10
     strength: 12
+    canDamageTree: 1

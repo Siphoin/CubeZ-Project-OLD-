@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameCamera : MonoBehaviour, IFinderPlayer
+public class GameCamera : MonoBehaviour
 {
     private Transform target;
     [SerializeField] private float smooth = 5.0f;
@@ -15,22 +15,6 @@ public class GameCamera : MonoBehaviour, IFinderPlayer
     // Use this for initialization
     void Start()
     {
-        FindPlayer();
-        offset = transform.position - target.transform.position;
-    }
-
-    public void FindPlayer()
-    {
-        if (PlayerManager.Manager == null)
-        {
-            throw new GameCameraException("Player manager not found");
-        }
-        else if (PlayerManager.Manager.Player == null)
-        {
-            throw new GameCameraException("Player not found");
-        }
-
-        SetTarget(PlayerManager.Manager.Player.transform);
     }
 
     void Update()
@@ -52,5 +36,18 @@ public class GameCamera : MonoBehaviour, IFinderPlayer
 
         this.target = target;
         offset = transform.position - target.transform.position;
+    }
+
+    public void CentringToTarget (Transform target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        Vector3 pos = transform.position;
+        pos.x = target.transform.position.x;
+        pos.z = target.transform.position.z -  1f;
+        transform.position = pos;
     }
 }

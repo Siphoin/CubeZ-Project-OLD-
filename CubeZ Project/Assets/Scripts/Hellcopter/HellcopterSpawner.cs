@@ -43,18 +43,14 @@ using UnityEngine;
             throw new HellcopterSpawnerException("prefab hellcopter not found");
         }
 
-
         players = FindObjectsOfType<Character>();
-        if (players == null || players.Length == 0)
-        {
-            throw new HellcopterSpawnerException("not found players");
-        }
 
         StartCoroutine(Spawn());
         }
 
     private void CreateHellCopter ()
     {
+
 
 
         Character player = players[Random.Range(0, players.Length)];
@@ -78,7 +74,7 @@ using UnityEngine;
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(hellCopterSpawnerSettings.MinTimeOutSpawn, hellCopterSpawnerSettings.MaxTimeOutSpawn + 1.0f));
-
+            players = FindObjectsOfType<Character>();
 
             if (players.Length > 0 && players.Any(pl => pl == null))
             {

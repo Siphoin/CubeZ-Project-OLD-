@@ -62,7 +62,7 @@ using UnityEngine;
 
         if (RemoveIfNotPlaying)
         {
-            CallInvokingMethod(Remove, audioSource.clip.length + 0.01f * Time.timeScale);
+            StartCoroutine(RemoveWaitRealtime());
         }
 
 
@@ -126,6 +126,12 @@ using UnityEngine;
         {
         }
 
+    }
+
+    private IEnumerator RemoveWaitRealtime ()
+    {
+        yield return new WaitForSecondsRealtime(audioSource.clip.length + 0.01f);
+        Remove();
     }
 
 }

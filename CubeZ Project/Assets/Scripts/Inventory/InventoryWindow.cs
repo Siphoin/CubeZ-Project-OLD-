@@ -337,7 +337,7 @@ public class InventoryWindow : Window
             currentPlayer.IncrementDamage(weaponItem.dataWeapon.damageBonus);
             return;
         }
-        if (currentPlayer.CurrentWeapon.data.id == currentItemData.id)
+        if (currentPlayer.CurrentWeapon.data.ItemName == currentItemData.ItemName)
         {
             return;
         }
