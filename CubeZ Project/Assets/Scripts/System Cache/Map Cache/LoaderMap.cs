@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
-public class LoaderMap : MonoBehaviour
+public class LoaderMap : MonoBehaviour, IInvokerMono
     {
         public event Action<float> onProgressLoading;
     public event Action<string> onNewStepLoading;
@@ -40,17 +41,24 @@ public class LoaderMap : MonoBehaviour
 
     [SerializeField] private float timeOutNewOperation = 0.2f;
 
+    private bool collectorLoadFinish = false;
+
     // Use this for initialization
     void Awake()
     {
         Ini();
 
-        Time.timeScale = 0;
         CalсulateCountOperations();
 
         if (!LoaderGameCache.IsLoaded)
         {
             StartCoroutine(LoadingMapComponents());
+        }
+
+        else
+        {
+
+           StartCoroutine(ReadMapData());
         }
 
     }
@@ -106,16 +114,26 @@ public class LoaderMap : MonoBehaviour
 
         playerManagerActive = Instantiate(playerManagerPrefab);
         Instantiate(loadingMapPrefabUI, transform);
+        if (LoaderGameCache.IsLoaded)
+        {
+        CallInvokingMethod(PauseGameProcesses, 2);
+        }
+
+
+       
     }
 
     private void CalсulateCountOperations ()
     {
         countOperationsTotal += (long)GameCacheManager.gameCache.containerCacheObjects.objectsClones.Count;
         countOperationsTotal += (long)GameCacheManager.gameCache.containerCacheObjects.objectsInstances.Count;
+        Debug.Log(GameCacheManager.gameCache.dataContainerObjects.objectsData);
         foreach (var item in GameCacheManager.gameCache.dataContainerObjects.objectsData)
         {
-            IEnumerable<CacheObjectData> list = item.Value;
-         countOperationsTotal += (long)list.OfType<CacheObjectData>().Count();
+            Debug.Log(item.Value);
+            IEnumerable<object> list = item.Value;
+
+         countOperationsTotal += (long)list.OfType<JObject>().Count();
         }
 
         countOperationsTotal += (long)mapComponents.Count;
@@ -154,8 +172,19 @@ public class LoaderMap : MonoBehaviour
 
             else
             {
-                NewStepLoading("creating player...");
-                CreatePlayerOnRandomPoint();
+                if (!LoaderGameCache.IsLoaded)
+                {
+
+                          NewStepLoading("creating player...");
+                CreatePlayerOnRandomPoint();      
+                
+                }
+
+                else
+                {
+                    FindLocalPlayer();
+                }
+
                 yield return new WaitForSecondsRealtime(1.0f / 60.0f);
                 for (int i = 0; i < mapComponentsLoaded.Count; i++)
                 {
@@ -178,6 +207,86 @@ public class LoaderMap : MonoBehaviour
                 yield break;
             }
         }
+    }
+
+    private void FindLocalPlayer()
+    {
+        GameObject objectPlayer = GameObject.FindGameObjectWithTag("MyPlayer");
+
+        Character player = null;
+
+        if (!objectPlayer.TryGetComponent(out player))
+        {
+            throw new LoaderMapException("local player not found");
+        }
+
+        playerManagerActive.SetPlayer(player);
+        GameCamera.Main.CentringToTarget(player.transform);
+        GameCamera.Main.SetTarget(player.transform);
+    }
+
+    private IEnumerator ReadMapData ()
+    {
+        CollectorLoaderBase[] collectorLoaders = FindObjectsOfType<CollectorLoaderBase>();
+
+        NewStepLoading("load data map...");
+        
+        for (int i = 0; i < collectorLoaders.Length; i++)
+        {
+            yield return new WaitForSecondsRealtime(1.0f / 60.0f);
+
+
+            collectorLoaders[i].onOperationFinish += CollectorLoadedFinishOperation;
+
+            StartCoroutine(LoadCollectorData(collectorLoaders[i]));
+
+
+            while (collectorLoadFinish == false)
+            {
+                yield return new WaitForSecondsRealtime(1.0f / 60.0f);
+            }
+
+            collectorLoaders[i].onOperationFinish -= CollectorLoadedFinishOperation;
+
+        }
+
+        StartCoroutine(LoadingMapComponents());
+        yield return null;
+    }
+
+    private IEnumerator LoadCollectorData (CollectorLoaderBase collector)
+    {
+        collectorLoadFinish = false;
+
+
+        collector.onFinish += CollectorFinishLoad;
+
+        ICollectorLoader loader = (ICollectorLoader)collector;
+        loader.Load();
+        NewStepLoading($"load data map: {collector.name}...");
+        while (true)
+        {
+            if (!collectorLoadFinish)
+            {
+                yield return new WaitForSecondsRealtime(1.0f / 60.0f);
+            }
+
+            else
+            {
+                collector.onFinish -= CollectorFinishLoad;
+                yield break;
+            }
+        }
+    }
+
+    private void CollectorFinishLoad()
+    {
+        collectorLoadFinish = true;
+    }
+
+    private void CollectorLoadedFinishOperation()
+    {
+        IncrementFinishedCountOperations();
     }
 
     private void IncrementFinishedCountOperations ()
@@ -232,6 +341,18 @@ public class LoaderMap : MonoBehaviour
         onNewStepLoading?.Invoke(text);
     }
 
-
-
+    public void CallInvokingEveryMethod(Action method, float time)
+    {
+        InvokeRepeating(method.Method.Name, time, time);
     }
+
+    public void CallInvokingMethod(Action method, float time)
+    {
+        Invoke(method.Method.Name, time);
+    }
+
+    private void PauseGameProcesses()
+    {
+        Time.timeScale = 0;
+    }
+}

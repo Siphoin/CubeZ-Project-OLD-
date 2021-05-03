@@ -154,7 +154,6 @@ public class Zombie : BaseZombie
     {
         Door door = null;
 
-
         if (!collision.gameObject.TryGetComponent(out door))
         {
             throw new ZombieException("colized door tot have component Door");
@@ -163,6 +162,8 @@ public class Zombie : BaseZombie
         {
             otherTarget = door;
         }
+
+        Debug.Log(otherTarget);
 
 
         target = null;
@@ -178,7 +179,6 @@ public class Zombie : BaseZombie
             throw new ZombieException("colized door tot have component Wall");
         }
         otherTarget = wall;
-
 
 
         target = null;

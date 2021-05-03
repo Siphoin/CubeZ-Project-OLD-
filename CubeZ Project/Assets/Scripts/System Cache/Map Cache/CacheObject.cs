@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public class CacheObject : MonoBehaviour
+public class CacheObject : MonoBehaviour, IRemoveObject
     {
     private const string PREFIX_CLONE_PREFAB = "(Clone)";
 
@@ -36,20 +36,6 @@ public class CacheObject : MonoBehaviour
 
         }
 
-    public Vector3 GetPosition ()
-    {
-        return transform.position;
-    }
-
-    public Quaternion GetRotation ()
-    {
-        return transform.rotation;
-    }
-
-    public Vector3 GetScale ()
-    {
-        return transform.localScale;
-    }
 
     public void SetId (string id)
     {
@@ -62,4 +48,8 @@ public class CacheObject : MonoBehaviour
         
     }
 
+    public void Remove()
+    {
+        Destroy(gameObject);
+    }
 }

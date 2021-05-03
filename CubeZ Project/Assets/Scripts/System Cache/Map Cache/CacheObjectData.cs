@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 [System.Serializable]
-    public class CacheObjectData
+    public class CacheObjectData : ICacheObjectData
     {
 
         public string idObject;
@@ -11,4 +11,11 @@ using UnityEngine;
         {
 
         }
+
+    public CacheObjectData (CacheObjectData copyClass)
+    {
+        copyClass.CopyAll(this);
+    }
+
+   
     }

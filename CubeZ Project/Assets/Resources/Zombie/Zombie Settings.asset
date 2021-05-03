@@ -26,4 +26,4 @@ MonoBehaviour:
     timeRemoveonGCZombie: 180
     countZombiesWorld: 200
     incrementPowerZombieOnlyNight: 2
-    minOffsetDistanceRandomPlane: 7
+    minOffsetDistanceRandomPlane: 35

@@ -23,6 +23,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 558713431248956401, guid: 1ab70e619aeed4c4dbbbe3f781fc8131,
+        type: 3}
+      propertyPath: prefabPath
+      value: Prefabs/Players/PlayerArm
+      objectReference: {fileID: 0}
     - target: {fileID: 7808721581121655136, guid: 1ab70e619aeed4c4dbbbe3f781fc8131,
         type: 3}
       propertyPath: m_Name

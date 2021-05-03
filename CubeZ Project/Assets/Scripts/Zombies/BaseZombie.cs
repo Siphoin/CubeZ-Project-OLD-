@@ -350,18 +350,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
         if (otherTarget != null)
         {
-            try
-            {
 
                 otherTarget.Hit(zombieStats.damage);
+                Debug.Log("ATTACK");
                 CheckHealthOtherTarget();
                 SendEventAttack();
-            }
-            catch
-            {
-                otherTarget = null;
-                SetWalkingBehavior();
-            }
+            
         }
     }
 
@@ -384,7 +378,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     public virtual void WatchingEnviroment()
     {
-        if (isDead)
+        if (isDead || otherTarget != null)
         {
             return;
         }
@@ -554,17 +548,23 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
             if (door.Health <= 0)
             {
                 otherTarget = null;
+                SetWalkingBehavior();
                 return;
             }
-
+        }
+        if (otherTarget is Wall)
+        {
             Wall wall = (Wall)otherTarget;
 
             if (wall.CurrentHealth <= 0)
             {
                 otherTarget = null;
+                SetWalkingBehavior();
                 return;
             }
         }
+
+        
     }
 
 }

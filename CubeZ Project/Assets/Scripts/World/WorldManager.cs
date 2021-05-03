@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -524,11 +525,10 @@ Character[] players = FindObjectsOfType<Character>();
         }
 
         else
-        {
-            Character player = players[Random.Range(0, players.Length)];
-                GameObject[] orderedPlanes = planes.OrderBy(a => Vector3.Distance(a.transform.position, player.transform.position) < settingsZombie.GetData().minOffsetDistanceRandomPlane).ToArray();
-
-                pos = GetPointRandomPlane(orderedPlanes);
+            {
+                Character player = players[Random.Range(0, players.Length)];
+                var orderedPlanes = planes.Where(a => Vector3.Distance(a.transform.position, player.transform.position) < settingsZombie.GetData().minOffsetDistanceRandomPlane);
+                pos = GetPointRandomPlane(orderedPlanes.ToArray());
             }
         }
 
@@ -547,8 +547,14 @@ Character[] players = FindObjectsOfType<Character>();
         return NavMeshManager.GenerateRandomPath(randomPlane.position);
     }
 
+    private Vector3 GetPointRandomPlane(Vector3[] planes)
+    {
+        Vector3 randomPlane = planes[Random.Range(0, planes.Length)];
+        return NavMeshManager.GenerateRandomPath(randomPlane);
+    }
 
-    
+
+
 
     #endregion
 

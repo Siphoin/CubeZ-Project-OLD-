@@ -16,6 +16,7 @@
 
             CacheSystem.DeleteFile(path);
         }
+        LoaderGameCache.IsLoaded = false;
         gameCache = new GameCache();
     }
 

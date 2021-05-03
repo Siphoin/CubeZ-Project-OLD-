@@ -84,6 +84,12 @@ using UnityEngine;
         treeData = new TreeData(treeSettings.Data);
         currentHealth = treeData.startHealth;
     }
+
+    public void SetData (TreeCacheData data)
+    {
+        treeData = new TreeData();
+        treeData.startHealth = data.health.StartValue;
+    }
     private void CreateWoodItemObject ()
     {
         Instantiate(woodPrefab).transform.position = transform.position;

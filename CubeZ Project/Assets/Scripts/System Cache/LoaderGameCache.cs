@@ -5,7 +5,7 @@ public class LoaderGameCache : MonoBehaviour
         private const string NAME_FOLBER_SESSION = "session/";
 
         private const string NAME_FILE = "game_session.json";
-        public static bool IsLoaded { get; private set; }
+        public static bool IsLoaded { get; set; }
 
         // Use this for initialization
         void Awake()
