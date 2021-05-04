@@ -17,6 +17,8 @@ public class CacheObject : MonoBehaviour, IRemoveObject
 
     public event Action<string> onRemove;
 
+    public event Action<string> onChangeId;
+
     public string Id { get => id; }
     public bool IsClone { get => isClone; }
     public string PrefabPath { get => prefabPath; }
@@ -40,6 +42,11 @@ public class CacheObject : MonoBehaviour, IRemoveObject
     public void SetId (string id)
     {
         this.id = id;
+        onChangeId?.Invoke(this.id);
+
+#if UNITY_EDITOR
+        Debug.Log($"new id for object {name}: Id: {this.id}");
+#endif
     }
 
     private void OnDestroy()

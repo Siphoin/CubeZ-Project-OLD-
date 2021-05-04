@@ -60,4 +60,5 @@ public class RandomizerObjectEulerAnglesEditor : Editor, ICustomGUIEditor
         EditorUtility.SetDirty(go);
         EditorSceneManager.MarkSceneDirty(go.scene);
     }
+
 }

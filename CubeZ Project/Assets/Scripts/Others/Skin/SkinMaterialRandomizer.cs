@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(Renderer))]
-    public class SkinMaterialRandomizer : MonoBehaviour
+    public class SkinMaterialRandomizer : MonoBehaviour, ISkinMaterial
     {
     private Renderer renderer;
 
@@ -35,6 +35,9 @@ using UnityEngine;
         {
             throw new SkinMaterialException("component Renderer not found");
         }
+
+        if (!CheckSkinMaterialMono())
+        {
         if (generateUVMap)
         {
         GenerateRandomUVMap();
@@ -42,6 +45,9 @@ using UnityEngine;
 
 
         SetRandomTexture();
+        }
+
+
     }
 
     private void GenerateRandomUVMap()
@@ -73,4 +79,17 @@ using UnityEngine;
         }
         renderer.material.mainTexture = textures[Random.Range(0, textures.Length)];
     }
+
+    public bool CheckSkinMaterialMono()
+    {
+        MaterialDataMono materialDataMono = null;
+
+
+        if (TryGetComponent(out materialDataMono))
+        {
+            return materialDataMono.IsLoaded;
+        }
+
+        return false;
     }
+}

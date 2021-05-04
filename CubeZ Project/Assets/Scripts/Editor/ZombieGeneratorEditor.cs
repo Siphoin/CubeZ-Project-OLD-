@@ -15,7 +15,6 @@ using UnityEngine;
     SerializedProperty containerZombiesProperty;
     public override void OnInspectorGUI()
     {
-        //   base.OnInspectorGUI();
         EditorGUILayout.BeginVertical();
         EditorGUILayout.LabelField("Zombie Generator v1.0");
 
@@ -62,6 +61,7 @@ using UnityEngine;
         EditorUtility.SetDirty(go);
         EditorSceneManager.MarkSceneDirty(go.scene);
     }
+
 
     private void OnEnable()
     {

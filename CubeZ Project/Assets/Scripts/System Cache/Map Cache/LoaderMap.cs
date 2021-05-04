@@ -293,7 +293,7 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
     {
         countOperations++;
         float result = ((float)countOperations / (float)countOperationsTotal) * 100;
-
+        result = Mathf.Clamp(result, 0, 100);
         result = (float)Math.Round(result, 0);
         onProgressLoading?.Invoke(result);
     }

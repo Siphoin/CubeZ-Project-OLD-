@@ -5,6 +5,7 @@ using UnityEngine;
     {
 
         public string idObject;
+    public string nameObject;
     public bool isMaterial = false;
 
         public CacheObjectData ()

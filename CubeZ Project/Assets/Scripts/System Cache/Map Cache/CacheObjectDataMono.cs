@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(CacheObject))]
     public class CacheObjectDataMono : MonoBehaviour
@@ -15,19 +16,20 @@ using UnityEngine;
         Ini();
     }
 
-    protected void Ini()
+    public virtual void Ini()
     {
         if (!TryGetComponent(out cacheObjectParent))
         {
             throw new CacheObjectException($"not found component Cache Object ({name}");
         }
 
+        cacheObjectParent.onChangeId += NewId;
+
         id = cacheObjectParent.Id;
     }
 
-    // Update is called once per frame
-    void Update()
-        {
-
-        }
+    private void NewId(string id)
+    {
+        this.id = id;
     }
+}

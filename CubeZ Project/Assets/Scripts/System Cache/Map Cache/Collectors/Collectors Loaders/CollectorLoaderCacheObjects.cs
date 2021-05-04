@@ -31,7 +31,6 @@ using UnityEngine;
 
     private IEnumerator LoadInstanceObjects (Dictionary<string, SerializeObjectInstance> data)
     {
-        
         CacheObject[] cacheObjectsInstance = FindCacheObjectWithFitler(a => a.IsClone == false);
         for (int i = 0; i < cacheObjectsInstance.Length; i++)
         {
@@ -41,10 +40,7 @@ using UnityEngine;
             CacheObject cacheObject = cacheObjectsInstance[i];
 
 
-            if (data.ContainsKey(cacheObject.name))
-            {
               SerializeObjectInstance dataObject = data.First(b => b.Value.nameObject == cacheObjectsInstance[i].name).Value;
-
 
                 if (dataObject.isDead)
                 {
@@ -53,12 +49,23 @@ using UnityEngine;
 
                 else
                 {
+                if (!dataObject.child)
+                {
                     cacheObject.transform.position = dataObject.position;
                     cacheObject.transform.rotation = Quaternion.Euler(dataObject.rotation);
+                }
+
+                else
+                {
+                    cacheObject.transform.localPosition = dataObject.position;
+                    cacheObject.transform.localRotation = Quaternion.Euler(dataObject.rotation);
+                }
+
 
                     cacheObject.SetId(dataObject.id);
+
                 }
-            }
+            
             CallEventOperationFinish();
            
         }

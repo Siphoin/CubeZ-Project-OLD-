@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public class SkinMaterial : MonoBehaviour
+public class SkinMaterial : MonoBehaviour, ISkinMaterial
 {
     [SerializeField] SkinType skinType = SkinType.Clothe;
 
@@ -10,6 +10,7 @@ public class SkinMaterial : MonoBehaviour
     private Renderer rendererMaterial;
 
     public SkinType SkinType { get => skinType; }
+    public int IndexMaterial { get => indexMaterial; }
 
     // Use this for initialization
     void Awake()
@@ -27,7 +28,11 @@ public class SkinMaterial : MonoBehaviour
             }
 
         }
+        if (!CheckSkinMaterialMono())
+        {
         RandomizeColorMaterial();
+        }
+
     }
 
     // Update is called once per frame
@@ -58,4 +63,16 @@ public class SkinMaterial : MonoBehaviour
 
     }
 
+    public bool CheckSkinMaterialMono()
+    {
+        MaterialDataMono materialDataMono = null;
+
+
+        if (TryGetComponent(out materialDataMono))
+        {
+            return materialDataMono.IsLoaded;
+        }
+
+        return false;
+    }
 }

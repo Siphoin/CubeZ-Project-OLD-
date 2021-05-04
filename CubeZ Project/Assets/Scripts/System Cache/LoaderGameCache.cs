@@ -17,7 +17,8 @@ public class LoaderGameCache : MonoBehaviour
                 try
                 {
                     GameCacheManager.gameCache = CacheSystem.DeserializeObject<GameCache>(path + NAME_FILE);
-                    IsLoaded = true;
+                
+                    IsLoaded = Application.version == GameCacheManager.gameCache.versionClient;
 
 #if UNITY_EDITOR
                     Debug.Log($"Game cache loaded is sucess. Path: {path}");

@@ -4,7 +4,7 @@ using UnityEngine;
     public class SerializeObjectInstance : SerializedObjectMono
     {
     public bool isDead = false;
-    public string nameObject = "";
+    public string nameObject;
        public SerializeObjectInstance ()
     {
 
@@ -12,8 +12,8 @@ using UnityEngine;
 
     public SerializeObjectInstance(GameObject gameObject, string prefabPath, bool isDead, string id)
     {
-        nameObject = gameObject.name;
         this.isDead = isDead;
+        nameObject = gameObject.name;
         SetData(gameObject, prefabPath, id);
     }
     }

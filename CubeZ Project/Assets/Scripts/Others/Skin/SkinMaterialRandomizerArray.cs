@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-    public class SkinMaterialRandomizerArray : MonoBehaviour
+    public class SkinMaterialRandomizerArray : MonoBehaviour, ISkinMaterial
     {
 
         [SerializeField] Renderer[] renderers;
@@ -41,7 +41,13 @@ using UnityEngine;
                 throw new SkinMaterialException("any render is null");
             }
 
-            if (generateUVMap)
+
+        if (CheckSkinMaterialMono())
+        {
+            return;
+        }
+
+        if (generateUVMap)
             {
                 for (int i = 0; i < renderers.Length; i++)
                 {
@@ -86,4 +92,17 @@ using UnityEngine;
             renderers[i].material.mainTexture = currentSelectedfTexture;
         }
         }
+
+    public bool CheckSkinMaterialMono()
+    {
+        MaterialDataMono materialDataMono = null;
+
+
+        if (TryGetComponent(out materialDataMono))
+        {
+            return materialDataMono.IsLoaded;
+        }
+
+        return false;
     }
+}

@@ -20,10 +20,15 @@ using UnityEngine;
         instanceObjects = cacheObjects.Where(item => item.IsClone == false).ToArray();
         for (int i = 0; i < instanceObjects.Length; i++)
         {
+
             CacheObject cacheObject = instanceObjects[i];
             cacheObject.onRemove += ObjectRemoved;
+            if (!serializeObjectInstances.ContainsKey(cacheObject.Id))
+            {
             SerializeObjectInstance objectInstance = new SerializeObjectInstance(cacheObject.gameObject, cacheObject.PrefabPath, false, cacheObject.Id);
             serializeObjectInstances.Add(cacheObject.Id, objectInstance);
+            }
+
         }
     }
 
