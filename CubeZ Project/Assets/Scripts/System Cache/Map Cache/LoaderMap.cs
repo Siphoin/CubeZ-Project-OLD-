@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CBZ.API;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,7 +66,6 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
 
     private void Ini()
     {
-
         loadingMapPrefabUI = Resources.Load<LoadingMapUI>(PATH_PREFAB_UI_LOADING);
 
         if (loadingMapPrefabUI == null)
@@ -143,9 +143,14 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
             countOperationsTotal++;
         }
 
+        if (!string.IsNullOrEmpty(GameCacheManager.gameCache.pythonSource.sourceCode))
+        {
+            countOperationsTotal++;
+        }
+
 
 #if UNITY_EDITOR
-        Debug.Log($"calculated {countOperationsTotal} operations for loading map");
+            Debug.Log($"calculated {countOperationsTotal} operations for loading map");
 #endif
 
 
@@ -175,9 +180,9 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
                 if (!LoaderGameCache.IsLoaded)
                 {
 
-                          NewStepLoading("creating player...");
-                CreatePlayerOnRandomPoint();      
-                
+                    NewStepLoading("creating player...");
+                    CreatePlayerOnRandomPoint();
+
                 }
 
                 else
@@ -198,14 +203,26 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
                     {
 
                     }
-                
+
                 }
                 NewStepLoading("creating main UI...");
                 CreateMainCanvas();
                 Time.timeScale = 1;
+
+
+                NewStepLoading("compile python code...");
+                CompileCustomPythonCode();
                 Destroy(gameObject);
                 yield break;
             }
+        }
+    }
+
+    private static void CompileCustomPythonCode()
+    {
+        if (!string.IsNullOrEmpty(GameCacheManager.gameCache.pythonSource.sourceCode))
+        {
+            PythonEngine.Engine.CompileString(GameCacheManager.gameCache.pythonSource.sourceCode);
         }
     }
 
@@ -300,7 +317,8 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
 
     private void CreateMainCanvas ()
     {
-        Instantiate(mainCanvasPrefab);
+    GameObject canvas = Instantiate(mainCanvasPrefab);
+        canvas.name = canvas.name.Replace("(Clone)", string.Empty);
     }
 
     private void CreatePlayerOnRandomPoint ()

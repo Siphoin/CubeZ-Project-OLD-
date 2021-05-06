@@ -14,6 +14,8 @@ public class GameCache
 
     public string versionClient = null;
 
+    public PythonSourceData pythonSource = new PythonSourceData();
+
     public WorldCacheData worldData = new WorldCacheData();
 
     public PlayerStatsCache playerStats = new PlayerStatsCache();
