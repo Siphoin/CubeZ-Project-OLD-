@@ -57,6 +57,10 @@ using UnityEngine;
 
 	public void CompileScripts()
 	{
+        if (!Directory.Exists(CacheSystem.GetPathAssetsData() + PATH_SCRIPTS_MAP))
+        {
+			return;
+        }
 	string[] files = Directory.GetFiles(CacheSystem.GetPathAssetsData() + PATH_SCRIPTS_MAP, "*.py", SearchOption.AllDirectories);
 		string[] data = new string[files.Length];
 		for (int i = 0; i < files.Length; i++)
@@ -66,7 +70,10 @@ using UnityEngine;
 			
 			
         }
-
+		if (data.Length > 0)
+        {
 		CompileString(data, files);
+        }
+
 	}
 }
