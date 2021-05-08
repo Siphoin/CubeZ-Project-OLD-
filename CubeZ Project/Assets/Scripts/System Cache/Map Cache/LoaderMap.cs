@@ -39,6 +39,8 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
     private const string PATH_PREFAB_UI_LOADING = "Prefabs/UI/ProgressLoadMapUI";
 
     private const string PATH_PLAYER_MANAGER = "System/mapComponents/main/PlayerManager";
+    private const string TAG_LOCAL_PLAYER = "MyPlayer";
+
 
     [SerializeField] private float timeOutNewOperation = 0.2f;
 
@@ -127,10 +129,8 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
     {
         countOperationsTotal += (long)GameCacheManager.gameCache.containerCacheObjects.objectsClones.Count;
         countOperationsTotal += (long)GameCacheManager.gameCache.containerCacheObjects.objectsInstances.Count;
-        Debug.Log(GameCacheManager.gameCache.dataContainerObjects.objectsData);
         foreach (var item in GameCacheManager.gameCache.dataContainerObjects.objectsData)
         {
-            Debug.Log(item.Value);
             IEnumerable<object> list = item.Value;
 
          countOperationsTotal += (long)list.OfType<JObject>().Count();
@@ -143,10 +143,6 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
             countOperationsTotal++;
         }
 
-        if (!string.IsNullOrEmpty(GameCacheManager.gameCache.pythonSource.sourceCode))
-        {
-            countOperationsTotal++;
-        }
 
 
 #if UNITY_EDITOR
@@ -218,17 +214,24 @@ public class LoaderMap : MonoBehaviour, IInvokerMono
         }
     }
 
-    private static void CompileCustomPythonCode()
+    private  void CompileCustomPythonCode()
     {
-        if (!string.IsNullOrEmpty(GameCacheManager.gameCache.pythonSource.sourceCode))
+        try
         {
-            PythonEngine.Engine.CompileString(GameCacheManager.gameCache.pythonSource.sourceCode);
+        PythonEngine.Engine.CompileScripts();
         }
+        catch 
+        {
+            Loading.LoadScene("main_menu");
+            CBZ.API.Debug.Debug.Print($"Python Error: code cannot be compiled ->", CBZ.API.Debug.LogMessageType.Error);
+            CBZ.API.Debug.Debug.Print($"File path: {PythonEngine.Engine.ActiveFileRead}", CBZ.API.Debug.LogMessageType.Error);
+        }
+
     }
 
     private void FindLocalPlayer()
     {
-        GameObject objectPlayer = GameObject.FindGameObjectWithTag("MyPlayer");
+        GameObject objectPlayer = GameObject.FindGameObjectWithTag(TAG_LOCAL_PLAYER);
 
         Character player = null;
 

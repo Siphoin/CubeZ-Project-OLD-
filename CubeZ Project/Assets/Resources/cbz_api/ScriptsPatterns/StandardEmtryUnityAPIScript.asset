@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7775eb7dc33524f884d4d59526adb7, type: 3}
+  m_Name: StandardEmtryUnityAPIScript
+  m_EditorClassIdentifier: 
+  namePattern: Standard Emtry Unity API Script
+  typeFile: .py
+  patternDecription: An empty Unity API script that has a basic structure. Suitable
+    for complex tasks. Not recommended for beginners.
+  languageType: 0
+  icon: {fileID: 21300000, guid: aa9b6e098e589994dbe442f44843c059, type: 3}
+  textAsset: {fileID: 4900000, guid: a889941ae00131f4cbb747cbafdb5b1f, type: 3}

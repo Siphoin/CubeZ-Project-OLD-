@@ -40,7 +40,13 @@ public class PlayerManager : MonoBehaviour
         }
 
         this.player = player;
+        if (!this.player.TryGetComponent(out playerStats))
+        {
+            throw new PlayerManagerException("Player not exits component CharacterStatsController");
+        }
 #if UNITY_EDITOR
+
+
         Debug.Log($"player {this.player.name} seted as my player");
 #endif
     }

@@ -25,3 +25,7 @@ MonoBehaviour:
     keyCode: 99
   - nameTrigger: BuildWindow
     keyCode: 98
+  - nameTrigger: CustomScriptsWindow
+    keyCode: 113
+  - nameTrigger: developConsole
+    keyCode: 96

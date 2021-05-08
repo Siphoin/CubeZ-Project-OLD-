@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7775eb7dc33524f884d4d59526adb7, type: 3}
+  m_Name: StandardEmtryCBZApiScript
+  m_EditorClassIdentifier: 
+  namePattern: Standard Emtry CBZ API Script
+  typeFile: .py
+  patternDecription: An empty CBZ API script, has a basic structure. Suitable for
+    advanced users.
+  languageType: 0
+  icon: {fileID: 21300000, guid: 42e0821dac4defb46938c333757d7f8b, type: 3}
+  textAsset: {fileID: 4900000, guid: 77bae92b63e555148a68edcc8fb63d13, type: 3}

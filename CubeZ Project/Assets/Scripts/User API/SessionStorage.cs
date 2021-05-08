@@ -4,6 +4,7 @@ namespace CBZ.API
 {
     public static class SessionStorage
     {
+        public static int Count { get => GetVaritablesContainer().Count; }
         public static void AddValue(string nameVaritable, object value)
         {
             var vars = GetVaritablesContainer();
@@ -54,6 +55,18 @@ namespace CBZ.API
             return null;
         }
 
+        public static void SetValue(string nameVaritable, object value)
+        {
+
+            var vars = GetVaritablesContainer();
+
+
+            if (vars.ContainsKey(nameVaritable))
+            {
+                 vars[nameVaritable] = value;
+            }
+        }
+
         public static bool TryRemoveValue(string nameVaritable)
         {
             var vars = GetVaritablesContainer();
@@ -69,12 +82,18 @@ namespace CBZ.API
             return false;
         }
 
-        public static bool ContainsVaritable (string nameVaritable)
+        public static bool ContainsValue (string nameVaritable)
         {
             var vars = GetVaritablesContainer();
 
 
             return vars.ContainsKey(nameVaritable);
+        }
+
+        public static void Clear ()
+        {
+            var vars = GetVaritablesContainer();
+            vars.Clear();
         }
 
         private static Dictionary<string, object> GetVaritablesContainer ()

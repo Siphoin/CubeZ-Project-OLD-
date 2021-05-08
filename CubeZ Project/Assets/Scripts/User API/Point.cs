@@ -32,6 +32,18 @@ namespace CBZ.API
         {
             return new Vector3(x, y, z);
         }
+
+        public float Distance (Point a, Point b)
+        {
+            return Vector3.Distance(a.ToVector3(), b.ToVector3());
+        }
+
+        public Point Normalize ()
+        {
+            Vector3 vector = this.ToVector3();
+            Vector3 normalizeVector = vector.normalized;
+            return new Point(normalizeVector.x, normalizeVector.y, normalizeVector.z);
+        }
     }
 
 }

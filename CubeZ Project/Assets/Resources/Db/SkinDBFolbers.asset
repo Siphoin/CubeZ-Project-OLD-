@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e137615559e39db46b2974d3f9d4d240, type: 3}
   m_Name: SkinDBFolbers
   m_EditorClassIdentifier: 
-  folbersList: 
+  folbersList:
+  - BloodDecals
+  - Box
+  - Jepp
+  - Zombie
+  - Chest
+  - Mi-17
