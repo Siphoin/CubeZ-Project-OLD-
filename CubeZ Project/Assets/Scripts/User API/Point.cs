@@ -44,6 +44,11 @@ namespace CBZ.API
             Vector3 normalizeVector = vector.normalized;
             return new Point(normalizeVector.x, normalizeVector.y, normalizeVector.z);
         }
+
+        public override string ToString()
+        {
+            return $"x: {x} y: {y} z: {z}";
+        }
     }
 
 }
