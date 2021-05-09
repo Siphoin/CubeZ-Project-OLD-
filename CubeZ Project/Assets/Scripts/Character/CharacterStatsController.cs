@@ -205,6 +205,11 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 }
             }
 
+            if (sleep.value == 100 && character.IsSleeping)
+            {
+                character.Awakening();
+            }
+
 
 
             if (sleep.value < sleep.GetDefaultValue())

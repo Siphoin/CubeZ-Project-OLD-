@@ -67,7 +67,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
-
+    private CharacterStatsDataNeed sleepStats;
     private int baseDamage = 6;
     private int currentDamage;
 
@@ -156,9 +156,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         startQuuaterion = skinCharacter.transform.localRotation;
         characterDataSettings = Resources.Load<CharacterDataSettings>(PATH_CHARACTER_SETTINGS);
         characterData = new CharacterData(characterDataSettings.GetData());
+
+
         healthStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Health];
         runStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Run];
-
 
         if (characterDataSettings == null)
         {
