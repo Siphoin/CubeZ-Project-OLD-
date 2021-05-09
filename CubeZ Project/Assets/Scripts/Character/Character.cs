@@ -52,7 +52,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private const string AXE_ID_WEAPON = "axe";
 
-    private const int DISTANCE_FOR_ATTACK = 1;
+    private const float DISTANCE_FOR_ATTACK = 0.7f;
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
