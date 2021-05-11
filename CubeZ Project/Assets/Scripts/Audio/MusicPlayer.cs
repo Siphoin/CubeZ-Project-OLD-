@@ -18,6 +18,8 @@ using Random = UnityEngine.Random;
     private bool lerping = false;
 
     private AudioClip lastAudioClip;
+
+    private AudioClip selectedTrack;
         // Use this for initialization
         void Start()
         {
@@ -41,7 +43,8 @@ using Random = UnityEngine.Random;
         audioManager.onMusicEnabled += SetStatusMusic;
 
         musicListCached = GetClipsWithArrayClips(musicListCached, musicList);
-        NewTrack();
+        StartCoroutine(WaitNewTrack());
+
 
 
     }
@@ -71,7 +74,6 @@ using Random = UnityEngine.Random;
         {
             return;
         }
-        AudioClip selectedTrack = null;
         if (musicList.Length < 2)
         {
             selectedTrack = musicList[0];
@@ -79,13 +81,17 @@ using Random = UnityEngine.Random;
 
         else
         {
-            AudioClip[] tracks = musicList.Where(track => track != lastAudioClip).ToArray();
-            selectedTrack = tracks[Random.Range(0, tracks.Length)];
+            SelectRansomTrack();
 
         }
         StartCoroutine(LerpingVolume());
         PlayTrack(selectedTrack);
-        CallInvokingMethod(NewTrack, selectedTrack.length + 0.1f * Time.timeScale);
+    }
+
+    private void SelectRansomTrack()
+    {
+        AudioClip[] tracks = musicList.Where(track => track != lastAudioClip).ToArray();
+        selectedTrack = tracks[Random.Range(0, tracks.Length)];
     }
 
     public void CallInvokingEveryMethod(Action method, float time)
@@ -124,6 +130,25 @@ using Random = UnityEngine.Random;
                 yield break;
             }
         }
+    }
+
+    private IEnumerator WaitNewTrack ()
+    {
+        NewTrack();
+
+
+        while (true)
+        {
+        yield return new WaitForSecondsRealtime(selectedTrack.length + 0.1f * Time.timeScale);
+            if (audioManager.GetMusicEnabled())
+            {
+             NewTrack();
+            PlayTrack(selectedTrack);
+            }
+
+        }
+
+        
     }
 
     private void PlayTrack (AudioClip track)
