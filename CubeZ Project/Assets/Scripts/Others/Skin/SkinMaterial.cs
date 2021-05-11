@@ -4,6 +4,8 @@ public class SkinMaterial : MonoBehaviour, ISkinMaterial
     [SerializeField] SkinType skinType = SkinType.Clothe;
 
     [SerializeField] int indexMaterial = -1;
+
+    [SerializeField] private bool awakeGenerationColor = true;
     protected const string PATH_FOLBER_SETTINGS = "Character/Customize/";
     protected const string PREFIX_NAME_SETTINGS = "ColorsVariants";
 
@@ -11,11 +13,25 @@ public class SkinMaterial : MonoBehaviour, ISkinMaterial
 
     public SkinType SkinType { get => skinType; }
     public int IndexMaterial { get => indexMaterial; }
+    public bool AwakeGenerationColor { get => awakeGenerationColor; }
+
+    protected bool colorsSeted = false;
+
+
+    
 
     // Use this for initialization
     void Awake()
     {
-        Ini();
+        if (awakeGenerationColor)
+        {
+        if (!CheckSkinMaterialMono() && !colorsSeted)
+        {
+            RandomizeColorMaterial();
+        }
+        }
+
+
     }
 
     protected void Ini()
@@ -28,10 +44,7 @@ public class SkinMaterial : MonoBehaviour, ISkinMaterial
             }
 
         }
-        if (!CheckSkinMaterialMono())
-        {
-        RandomizeColorMaterial();
-        }
+
 
     }
 
@@ -49,17 +62,7 @@ public class SkinMaterial : MonoBehaviour, ISkinMaterial
         {
             throw new SkinMaterialException("not found component settings materiaL color materials");
         }
-        if (indexMaterial > -1)
-        {
-            if (rendererMaterial.materials.Length < indexMaterial)
-            {
-                throw new SkinMaterialException("index material out of range");
-            }
-
-            rendererMaterial.materials[indexMaterial].color = skinSettings.GetRandomSkinColor();
-            return;
-        }
-        rendererMaterial.material.color = skinSettings.GetRandomSkinColor();
+        SetColorMaterial(skinSettings.GetRandomSkinColor());
 
     }
 
@@ -74,5 +77,45 @@ public class SkinMaterial : MonoBehaviour, ISkinMaterial
         }
 
         return false;
+    }
+
+    public virtual void SetColorMaterial (Color color)
+    {
+        Ini();
+
+
+        if (indexMaterial > -1)
+        {
+            if (rendererMaterial.materials.Length < indexMaterial)
+            {
+                throw new SkinMaterialException("index material out of range");
+            }
+
+            rendererMaterial.materials[indexMaterial].color = color;
+            return;
+        }
+        rendererMaterial.material.color = color;
+        colorsSeted = true;
+    }
+
+    public virtual Color GetColor ()
+    {
+        Ini();
+        return rendererMaterial.material.color;
+    }
+
+    public virtual void SetTexture (Texture texture)
+    {
+        if (indexMaterial > -1)
+        {
+            if (rendererMaterial.materials.Length < indexMaterial)
+            {
+                throw new SkinMaterialException("index material out of range");
+            }
+
+            rendererMaterial.materials[indexMaterial].mainTexture = texture;
+            return;
+        }
+        rendererMaterial.material.mainTexture = texture;
     }
 }

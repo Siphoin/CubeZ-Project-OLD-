@@ -5,21 +5,33 @@ public class SkinArrayMaterial : SkinMaterial
     {
     [SerializeField] Renderer[] renderers;
         // Use this for initialization
-        void Start()
+        void Awake()
+    {
+        Ini();
+        if (AwakeGenerationColor)
         {
+        if (!CheckSkinMaterialMono() && !colorsSeted)
+        {
+            RandomizeColorMaterial();
+        }
+        }
+
+
+    }
+
+    private void Ini()
+    {
         if (renderers.Length == 0)
         {
             throw new SkinMaterialException("renderers array is emtry!");
         }
-        
+
         if (renderers.Any(render => render == null))
         {
             throw new SkinMaterialException("any render is null");
         }
+    }
 
-
-        RandomizeColorMaterial();
-        }
     public override void RandomizeColorMaterial()
     {
         string path = PATH_FOLBER_SETTINGS + SkinType.ToString().ToLower() + PREFIX_NAME_SETTINGS;
@@ -30,15 +42,36 @@ public class SkinArrayMaterial : SkinMaterial
         }
 
         Color selectedColor = skinSettings.GetRandomSkinColor();
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            SetMaterialColorSkinnedRenderer(selectedColor, renderers[i]);
-        }
+        SetColorMaterial(selectedColor);
 
     }
 
     private void SetMaterialColorSkinnedRenderer (Color color, Renderer renderer)
     {
+            base.Ini();
+        
         renderer.material.color = color;
+
     }
+
+    public override void SetColorMaterial(Color color)
+    {
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            SetMaterialColorSkinnedRenderer(color, renderers[i]);
+        }
+
+        colorsSeted = true;
+
+       
+    }
+
+    public override Color GetColor()
+    {
+        return renderers[0].materials[0].color;
+
+    }
+
+
+
 }

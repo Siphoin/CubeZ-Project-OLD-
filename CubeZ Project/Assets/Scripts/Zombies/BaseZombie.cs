@@ -26,12 +26,6 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     private WorldManager worldManager;
 
 
-    private int[] hashesAnimationAttackZombie = new int[]
-    {
-        -827840423,
-        -224906799,
-        -617844629,
-    };
 
 
 
@@ -114,14 +108,13 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
 
     public int CurrentHealth { get => zombieStats.health; }
-    public int[] HashesAnimationAttackZombie { get => hashesAnimationAttackZombie; }
     public ZombieStats ZombieStats { get => zombieStats; }
 
     protected void Ini()
     {
         if (zombieArea == null)
         {
-
+            throw new ZombieException("zombie area not seted");
         }
 
 
@@ -347,14 +340,24 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
 
         }
-
         if (otherTarget != null)
         {
 
+
+                float distance = Vector3.Distance(transform.position, target.transform.position);
+
+            if (distance < DISTANCE_FOR_ATTACK)
+            {
                 otherTarget.Hit(zombieStats.damage);
-                Debug.Log("ATTACK");
                 CheckHealthOtherTarget();
                 SendEventAttack();
+            }
+
+            else
+            {
+                SetWalkingBehavior();
+            }
+
             
         }
     }
@@ -468,7 +471,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         zombieStats.health = Mathf.Clamp(zombieStats.health - hitValue, 0, startHealth);
         if (playHitAnim)
         {
-            if (Random.Range(0, 10) > 7)
+            if (ProbabilityUtility.GenerateProbalityInt() >= 50)
             {
 
                 SetAnimationState(TypeAnimation.GetHit);

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,9 @@ public class ProgressSlider : MonoBehaviour
 {
     protected Slider slider;
     [SerializeField] private TextMeshProUGUI textValue;
+
+    [Header("Плавное изменение полоски")]
+    [SerializeField] protected bool lerpingValue = false;
 
 
     // Use this for initialization
@@ -30,39 +34,68 @@ public class ProgressSlider : MonoBehaviour
             throw new ProgressSliderException("slider component is null");
         }
 
-        if (textValue == null)
-        {
-            throw new ProgressSliderException("text value component is null");
-        }
 
     }
 
     protected void UpdateText(object value)
     {
-
-
         textValue.text = value.ToString();
-
 
     }
 
     protected void UpdateProgress(int value)
     {
-        slider.value = value;
+        SetValueProgress(value);
     }
 
     protected void UpdateProgress(float value)
     {
-        slider.value = value;
+        SetValueProgress(value);
     }
+
 
     protected void UpdateProgress(long value)
     {
-        slider.value = value;
+        SetValueProgress(value);
     }
 
     protected void SetMaxValueProgress(float value)
     {
         slider.maxValue = value;
+    }
+
+    private void SetValueProgress(float value)
+    {
+        if (!lerpingValue)
+        {
+            slider.value = value;
+        }
+
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(LerpProgress(value));
+        }
+    }
+
+    private IEnumerator LerpProgress (float value)
+    {
+        float lerp = 0;
+        float startValue = slider.value;
+
+        while (true)
+        {
+            float rate = 1.0f / 60.0f;
+
+            yield return new WaitForSeconds(rate);
+            lerp += rate;
+
+            slider.value = Mathf.Lerp(startValue, value, lerp);
+
+            if (lerp >= 1f)
+            {
+                yield break;
+            }
+        }
     }
 }

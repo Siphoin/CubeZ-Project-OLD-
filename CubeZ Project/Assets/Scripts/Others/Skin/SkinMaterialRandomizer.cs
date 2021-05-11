@@ -27,6 +27,24 @@ using UnityEngine;
     // Use this for initialization
     void Start()
     {
+        Ini();
+
+        if (!CheckSkinMaterialMono())
+        {
+            if (generateUVMap)
+            {
+                GenerateRandomUVMap();
+            }
+
+
+            SetRandomTexture();
+        }
+
+
+    }
+
+    private void Ini()
+    {
         if (string.IsNullOrEmpty(nameTexturesFolber))
         {
             throw new SkinMaterialException("string name folber textures not must be emtry!");
@@ -35,19 +53,6 @@ using UnityEngine;
         {
             throw new SkinMaterialException("component Renderer not found");
         }
-
-        if (!CheckSkinMaterialMono())
-        {
-        if (generateUVMap)
-        {
-        GenerateRandomUVMap();
-        }
-
-
-        SetRandomTexture();
-        }
-
-
     }
 
     private void GenerateRandomUVMap()
@@ -91,5 +96,11 @@ using UnityEngine;
         }
 
         return false;
+    }
+
+    public Texture GetTexture ()
+    { 
+        Ini();
+        return renderer.material.mainTexture == null ? null : renderer.material.mainTexture;
     }
 }

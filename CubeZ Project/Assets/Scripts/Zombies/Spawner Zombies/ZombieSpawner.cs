@@ -153,7 +153,7 @@ public class ZombieSpawner : MonoBehaviour
 
         AddZombieToContainer(newZombie);
 
-        SetPosionZombie(position, newZombie);
+        SetPositionZombie(position, newZombie);
 
 
         float maxAngle = 180.0f;
@@ -186,12 +186,12 @@ public class ZombieSpawner : MonoBehaviour
 
     public BaseZombie CreateZombie(Vector3 position, Quaternion quaternion)
     {
-        BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
+        BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, Mathf.Clamp(worldManager.CurrentDay - 1, 0, zombiesVariants.Length))];
         BaseZombie newZombie = Instantiate(selectedPrefab);
 
         AddZombieToContainer(newZombie);
 
-        SetPosionZombie(position, newZombie);
+        SetPositionZombie(position, newZombie);
         SetAngleZombie(quaternion, newZombie);
         SubcribeRemoveZombie(newZombie);
 
@@ -212,7 +212,7 @@ public class ZombieSpawner : MonoBehaviour
         newZombie.transform.rotation = quaternion;
     }
 
-    private  void SetPosionZombie(Vector3 position, BaseZombie newZombie)
+    private  void SetPositionZombie(Vector3 position, BaseZombie newZombie)
     {
         newZombie.transform.position = position;
     }

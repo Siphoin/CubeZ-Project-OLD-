@@ -17,7 +17,6 @@
 
     public void SetValue(int value)
     {
-        UpdateText($"{value}/{DEFAULT_VALUE_STATS_CHARACTER}");
         UpdateProgress(value);
     }
 }

@@ -30,17 +30,8 @@ using UnityEngine;
         private Texture currentSelectedfTexture;
         // Use this for initialization
         void Start()
-        {
-            if (renderers.Length == 0)
-            {
-                throw new SkinMaterialException("renderers array is emtry!");
-            }
-
-            if (renderers.Any(render => render == null))
-            {
-                throw new SkinMaterialException("any render is null");
-            }
-
+    {
+        Ini();
 
         if (CheckSkinMaterialMono())
         {
@@ -48,20 +39,32 @@ using UnityEngine;
         }
 
         if (generateUVMap)
+        {
+            for (int i = 0; i < renderers.Length; i++)
             {
-                for (int i = 0; i < renderers.Length; i++)
-                {
-                    GenerateRandomUVMap(renderers[i].material);
-                }
-
+                GenerateRandomUVMap(renderers[i].material);
             }
 
-            SetRandomTexture();
-            SetCurrentTextureToMaterials();
         }
 
+        SetRandomTexture();
+        SetCurrentTextureToMaterials();
+    }
 
-        private void GenerateRandomUVMap(Material material)
+    private void Ini()
+    {
+        if (renderers.Length == 0)
+        {
+            throw new SkinMaterialException("renderers array is emtry!");
+        }
+
+        if (renderers.Any(render => render == null))
+        {
+            throw new SkinMaterialException("any render is null");
+        }
+    }
+
+    private void GenerateRandomUVMap(Material material)
         {
             float x = GetRandomOffset();
             float y = GetRandomOffset();
@@ -105,4 +108,11 @@ using UnityEngine;
 
         return false;
     }
+
+    public Texture GetTexture ()
+    {
+        Ini();
+     return   renderers[0].material.mainTexture == null ? null : renderers[0].material.mainTexture;
+    }
+
 }
