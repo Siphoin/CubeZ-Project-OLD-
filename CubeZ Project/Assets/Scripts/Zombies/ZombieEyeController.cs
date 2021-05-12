@@ -10,6 +10,12 @@ public class ZombieEyeController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (WorldManager.Manager == null)
+        {
+            throw new ZombieEyeControllerException("world manager not found");
+        }
+
+
         if (firstEye == null)
         {
             throw new ZombieEyeControllerException("first light eye not seted");
@@ -20,7 +26,11 @@ public class ZombieEyeController : MonoBehaviour
         }
         OffLightEye();
 
+
         WorldManager.Manager.onDayChanged += NewDayListener;
+
+
+        NewDayListener(WorldManager.Manager.CurrentDayTime);
 
     }
 
@@ -69,8 +79,6 @@ public class ZombieEyeController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Application.isPlaying)
-        {
             try
             {
  WorldManager.Manager.onDayChanged -= NewDayListener;
@@ -83,7 +91,7 @@ public class ZombieEyeController : MonoBehaviour
 
         }
        
-    }
+    
 
 
 }

@@ -344,23 +344,9 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
         if (otherTarget != null)
         {
-
-
-                float distance = Vector3.Distance(transform.position, GetgameObjectOtherTarget().transform.position);
-
-            if (distance < DISTANCE_FOR_ATTACK)
-            {
                 otherTarget.Hit(zombieStats.damage);
                 CheckHealthOtherTarget();
-                SendEventAttack();
-            }
-
-            else
-            {
-                SetWalkingBehavior();
-            }
-
-            
+                SendEventAttack();       
         }
     }
 
@@ -572,20 +558,5 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         
     }
 
-    private GameObject GetgameObjectOtherTarget ()
-    {
-        if (otherTarget is Door)
-        {
-            Door door = (Door)otherTarget;
-                return door.gameObject;
-        }
-        if (otherTarget is Wall)
-        {
-            Wall wall = (Wall)otherTarget;
-               return wall.gameObject;
-        }
-
-        return null;
-    }
 
 }

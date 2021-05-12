@@ -1318,6 +1318,7 @@ GameObject:
   - component: {fileID: 3360197467626076159}
   - component: {fileID: 3360197467626076158}
   - component: {fileID: 3360197467626076154}
+  - component: {fileID: 8831998719440300870}
   - component: {fileID: 3360197467626076155}
   - component: {fileID: 4927709712924583942}
   - component: {fileID: 1404723719714301746}
@@ -1433,6 +1434,19 @@ MonoBehaviour:
   progressHealth: {fileID: 3360197467827198507}
   progressTemperature: {fileID: 6703443936225302393}
   character: {fileID: 0}
+--- !u!114 &8831998719440300870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3360197467626076145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe1e41b5eac3244a8cd594042624de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textLevel: {fileID: 8822473825582807958}
 --- !u!114 &3360197467626076155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1949,6 +1963,7 @@ GameObject:
   - component: {fileID: 3545302649234134357}
   - component: {fileID: 7362161182540146300}
   - component: {fileID: 8822473825582807958}
+  - component: {fileID: 5163361205525185499}
   m_Layer: 0
   m_Name: text_level
   m_TagString: Untagged
@@ -2073,6 +2088,25 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &5163361205525185499
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3536020736280281175}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6bc6829d0f68433409575606d93b018f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4100687205802903156
 GameObject:
   m_ObjectHideFlags: 0

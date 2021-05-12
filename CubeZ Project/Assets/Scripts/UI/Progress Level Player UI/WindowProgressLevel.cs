@@ -21,6 +21,11 @@ using UnityEngine;
     // Use this for initialization
     void Start()
         {
+
+        if (ListenerLevelProgressionLocalPlayer.Manager == null)
+        {
+            throw new WindowProgressLevelException("listener level progression manager not found");
+        }
         if (textLevel == null)
         {
             throw new WindowProgressLevelException("text current level not seted");
@@ -36,16 +41,21 @@ using UnityEngine;
             throw new WindowProgressLevelException($"{name} not have component Animator");
         }
 
-        progressLevel.onEndProgress += ProgressLevel_onEndProgress;
-
+        ListenerLevelProgressionLocalPlayer.Manager.onProgressXP += ProgressLevel;
+        ListenerLevelProgressionLocalPlayer.Manager.onLevelUp += UpdateTextLevel;
+        progressLevel.onEndProgress += ZeroProgressLevel;
         UpdateData();
         CallInvokingMethod(Remove, timeOutRemove);
     }
 
-    private void ProgressLevel_onEndProgress()
+    private void ZeroProgressLevel()
+    {
+        progressLevel.UpdateProgressLevel(GameCacheManager.gameCache.levelProgressPlayer.currentXPForNextLevel - GameCacheManager.gameCache.levelProgressPlayer.currentXP);
+    }
+
+    private void ProgressLevel()
     {
         progressLevel.SetMaxValueProgress(GameCacheManager.gameCache.levelProgressPlayer.currentXPForNextLevel);
-        progressLevel.UpdateProgressLevel(0);
         UpdateTextLevel();
     }
 
@@ -66,6 +76,7 @@ using UnityEngine;
 
     public void Remove()
     {
+        UncribeEvents();
         animatorWindow.Play(NAME_ANIM_END);
     }
 
@@ -74,6 +85,22 @@ using UnityEngine;
         progressLevel.SetMaxValueProgress(GameCacheManager.gameCache.levelProgressPlayer.currentXPForNextLevel);
         progressLevel.UpdateProgressLevel(GameCacheManager.gameCache.levelProgressPlayer.currentXP);
         UpdateTextLevel();
+    }
+   private void UncribeEvents ()
+    {
+        try
+        {
+            ListenerLevelProgressionLocalPlayer.Manager.onProgressXP -= ProgressLevel;
+            ListenerLevelProgressionLocalPlayer.Manager.onLevelUp -= UpdateTextLevel;
+        }
+        catch 
+        {
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UncribeEvents();
     }
 
 }

@@ -72,7 +72,7 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
         myCharacter.onXPAdded += ShowProgressLevel;
     }
 
-    private void ShowProgressLevel()
+    private void ShowProgressLevel(long value)
     {
         if (windowProgressLevelActive == null)
         {

@@ -12,7 +12,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private Animator animator;
     private CharacterAnimatorObserver animatorObserver;
     private Rigidbody _rb;
+
+
     private CharacterData characterData;
+
+    private CharacterLevelUpSettings characterLevelUpSettings;
 
     BoxCollider boxCollider;
 
@@ -24,12 +28,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private AudioDataManager audioManager = null;
 
+    private ListenerLevelProgressionLocalPlayer listenerLevelProgressionLocalPlayer;
+
     private Dictionary<string, AudioClip> clipsCharacter = new Dictionary<string, AudioClip>();
 
 
     private const string VERTICAL_INPUT_NAME = "Vertical";
     private const string HORIZONTAL_INPUT_NAME = "Horizontal";
     private const string PATH_CHARACTER_SETTINGS = "Character/CharacterSettings";
+    private const string PATH_SETTINGS_LEVEL_UP_PLAYER = "Character/CharacterLevelSettings";
     private const string ATTACK_NAME_ANIM = "AttackGeneric";
     private const string DEAD_PLAYER_TAG = "DeadPlayer";
 
@@ -70,7 +77,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
-    private CharacterStatsDataNeed sleepStats;
+
+
     private int baseDamage = 6;
     private int currentDamage;
 
@@ -83,7 +91,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public event Action onDamage;
 
-    public event Action onXPAdded;
+    public event Action<long> onXPAdded;
 
     public event Action<bool> onSleep;
 
@@ -161,17 +169,29 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
         startQuuaterion = skinCharacter.transform.localRotation;
+
+
         characterDataSettings = Resources.Load<CharacterDataSettings>(PATH_CHARACTER_SETTINGS);
+
+        if (characterDataSettings == null)
+        {
+            throw new CharacterException("character settings is null");
+        }
+
+        characterLevelUpSettings = Resources.Load<CharacterLevelUpSettings>(PATH_SETTINGS_LEVEL_UP_PLAYER);
+
+        if (characterLevelUpSettings == null)
+        {
+            throw new CharacterException("character settings level up is null");
+        }
+
         characterData = new CharacterData(characterDataSettings.GetData());
 
 
         healthStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Health];
         runStats = characterData.GetDictonaryNeeds()[NeedCharacterType.Run];
 
-        if (characterDataSettings == null)
-        {
-            throw new CharacterException("character settings is null");
-        }
+      
         if (characterData.speed <= 0)
         {
             throw new CharacterException("Speed <= 0");
@@ -198,6 +218,16 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         LoadAudio();
 
         CreateAvatarCharacter();
+
+        for (int i = 0; i < GameCacheManager.gameCache.levelProgressPlayer.currentLevel - 1; i++)
+        {
+            BuffParamsPlayer();
+        }
+
+        if (ListenerLevelProgressionLocalPlayer.Manager != null)
+        {
+            ListenerLevelProgressionLocalPlayer.Manager.onLevelUp += BuffParamsPlayer;
+        }
 
     }
 
@@ -638,9 +668,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             GameCacheManager.gameCache.zombieKils++;
 
-            GameCacheManager.gameCache.levelProgressPlayer.currentXP += target.AwardValueKill;
-
-            onXPAdded?.Invoke();
+            onXPAdded?.Invoke(target.AwardValueKill);
         }
         CheckWearWeapon();
     }
@@ -766,6 +794,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         _rb.isKinematic = true;
         boxCollider.enabled = false;
         gameObject.AddComponent<CharacterRebel>();
+
+
+        if (ListenerLevelProgressionLocalPlayer.Manager != null)
+        {
+            ListenerLevelProgressionLocalPlayer.Manager.onLevelUp -= BuffParamsPlayer;
+        }
         enabled = false;
     }
 
@@ -1035,6 +1069,16 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         yield return null;
 
     }
+    #endregion
+
+    #region Level Up System
+
+    private void BuffParamsPlayer ()
+    {
+        baseDamage += characterLevelUpSettings.BuffDamage;
+        currentSpeed += characterLevelUpSettings.BuffSpeed;
+    }
+
     #endregion
 
 }

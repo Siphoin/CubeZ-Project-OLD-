@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b258e7022e4cfda4c8debd4bdad4d3bb, type: 3}
-  m_Name: zombieArm
+  m_Script: {fileID: 11500000, guid: 4ea64a2cb6a0a5443840319d31192bca, type: 3}
+  m_Name: CharacterLevelSettings
   m_EditorClassIdentifier: 
-  data:
-    health: 35
-    damage: 7
-    speed: 1
-    distanceVisible: 7
-    awardKillXP: 30
+  maxLevelPlayer: 10
+  buffSpeed: 0.1
+  buffDamage: 1
