@@ -8,6 +8,10 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
 
     private const string PATH_PREFAB_BACKGROUND_ADRENALIN = "Prefabs/UI/BackgroundAdrenalin";
 
+    private const string PATH_PREFAB_WINDOW_PROGRESS_LEVEL = "Prefabs/UI/window_progress_level";
+
+    private const string NAME_MAIN_CANVAS = "MainCanvas";
+
     private Character myCharacter;
 
     private GameObject bgDamagePrefab;
@@ -15,6 +19,12 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
     private GameObject bgAdrenalinPrefab;
 
     private GameObject activeBackground;
+
+    private WindowProgressLevel windowProgressLevelPrefab;
+
+    private WindowProgressLevel windowProgressLevelActive;
+
+    private Transform mainCanvas;
 
 
         // Use this for initialization
@@ -30,6 +40,8 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
             throw new ListenerCharacterUIException("local player not found");
         }
 
+        mainCanvas = GameObject.Find(NAME_MAIN_CANVAS).GetComponent<Transform>();
+
         bgDamagePrefab = Resources.Load<GameObject>(PATH_PREFAB_BACKGROUND_DAMAGE);
 
         if (bgDamagePrefab == null)
@@ -44,11 +56,34 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
             throw new ListenerCharacterUIException("prefab background adrenalin not found");
         }
 
+        windowProgressLevelPrefab = Resources.Load<WindowProgressLevel>(PATH_PREFAB_WINDOW_PROGRESS_LEVEL);
+
+        if (windowProgressLevelPrefab == null)
+        {
+            throw new ListenerCharacterUIException("prefab window progress level not found");
+        }
+
+
         myCharacter = PlayerManager.Manager.Player;
 
         myCharacter.onDamage += PlayerGetHit;
         myCharacter.onDead += Remove;
         myCharacter.onAdrenalin += OnAdrenalin;
+        myCharacter.onXPAdded += ShowProgressLevel;
+    }
+
+    private void ShowProgressLevel()
+    {
+        if (windowProgressLevelActive == null)
+        {
+      windowProgressLevelActive =  Instantiate(windowProgressLevelPrefab, mainCanvas);
+        }
+
+        else
+        {
+            windowProgressLevelActive.UpdateData();
+        }
+
     }
 
     private void OnAdrenalin(bool adrenalin)
@@ -69,6 +104,7 @@ public class ListenerCharacterUI : MonoBehaviour, IRemoveObject
         myCharacter.onDamage -= PlayerGetHit;
         myCharacter.onDead -= Remove;
         myCharacter.onAdrenalin -= OnAdrenalin;
+        myCharacter.onXPAdded -= ShowProgressLevel;
         Destroy(gameObject);
     }
 

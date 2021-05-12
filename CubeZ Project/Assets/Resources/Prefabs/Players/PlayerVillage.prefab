@@ -42,6 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 1
   indexMaterial: -1
+  awakeGenerationColor: 1
 --- !u!114 &7808721579931743414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 5
   indexMaterial: -1
+  awakeGenerationColor: 1
 --- !u!114 &5556816254536212485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 0
   indexMaterial: -1
+  awakeGenerationColor: 1
 --- !u!114 &8128900376006076948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +394,8 @@ MonoBehaviour:
   characterDataSettings: {fileID: 0}
   skinCharacter: {fileID: 7805108092607951483}
   characterTrigger: {fileID: 7808721580889982512}
+  avatarCharacter: {fileID: 2978000495710050080, guid: 7b3d787be24cf0b4d95cfa8f51dddd2b,
+    type: 3}
 --- !u!114 &7808721581121655140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 1
   indexMaterial: -1
+  awakeGenerationColor: 1
   renderers:
   - {fileID: 7905885710674542823}
   - {fileID: 7905677291163675351}
@@ -435,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 6
   indexMaterial: -1
+  awakeGenerationColor: 1
   renderers:
   - {fileID: 7905941539313845889}
   - {fileID: 7906536624330164763}

@@ -12,6 +12,10 @@ public class ProgressSlider : MonoBehaviour
     [Header("Плавное изменение полоски")]
     [SerializeField] protected bool lerpingValue = false;
 
+    public float Value { get => slider.value; }
+
+    public float MaxValue { get => slider.maxValue; }
+
 
     // Use this for initialization
     void Start()
@@ -19,20 +23,19 @@ public class ProgressSlider : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     protected void Ini()
     {
+        if (slider == null)
+        {
         slider = GetComponent<Slider>();
 
         if (slider == null)
         {
             throw new ProgressSliderException("slider component is null");
         }
+        }
+
 
 
     }
@@ -43,24 +46,25 @@ public class ProgressSlider : MonoBehaviour
 
     }
 
-    protected void UpdateProgress(int value)
+    public virtual void UpdateProgress(int value)
     {
         SetValueProgress(value);
     }
 
-    protected void UpdateProgress(float value)
+    public virtual void UpdateProgress(float value)
     {
         SetValueProgress(value);
     }
 
 
-    protected void UpdateProgress(long value)
+    public virtual void UpdateProgress(long value)
     {
         SetValueProgress(value);
     }
 
-    protected void SetMaxValueProgress(float value)
+    public virtual void SetMaxValueProgress(float value)
     {
+        Ini();
         slider.maxValue = value;
     }
 

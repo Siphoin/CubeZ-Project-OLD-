@@ -30,6 +30,12 @@ public class GameCache
 
     public ContainerDataObjects dataContainerObjects = new ContainerDataObjects();
     #endregion
+
+    #region Level System Player
+    public PlayerCacheDataProgressLevel levelProgressPlayer = new PlayerCacheDataProgressLevel();
+    #endregion
+
+
     public GameCache()
     {
 

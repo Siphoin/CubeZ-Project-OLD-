@@ -43,6 +43,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArm
       objectReference: {fileID: 0}
+    - target: {fileID: 7808721581121655143, guid: 1ab70e619aeed4c4dbbbe3f781fc8131,
+        type: 3}
+      propertyPath: avatarCharacter
+      value: 
+      objectReference: {fileID: 7150086982884819454, guid: d86182a6a8b6eff41bea21b5c612259c,
+        type: 3}
     - target: {fileID: 7808721581121655146, guid: 1ab70e619aeed4c4dbbbe3f781fc8131,
         type: 3}
       propertyPath: m_RootOrder

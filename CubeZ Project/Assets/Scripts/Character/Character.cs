@@ -61,7 +61,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     [Header("Триггер персонажа")]
     [SerializeField] CharacterTrigger characterTrigger;
 
-  private  ControlManager controlManager;
+    [Header("Аватар персонажа")]
+    [SerializeField] AvatarCharacter avatarCharacter;
+
+    private  ControlManager controlManager;
 
     private UIController UIControl;
 
@@ -80,9 +83,12 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public event Action onDamage;
 
+    public event Action onXPAdded;
+
     public event Action<bool> onSleep;
 
     public event Action<bool> onAdrenalin;
+
 
 
     private bool isDead = false;
@@ -143,14 +149,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private void Ini()
     {
 
-
-        
-
         if (skinCharacter == null)
         {
             throw new CharacterException("Character skin not seted");
         }
 
+        if (avatarCharacter == null)
+        {
+            throw new CharacterException("avatar character not seted");
+        }
 
 
         startQuuaterion = skinCharacter.transform.localRotation;
@@ -190,10 +197,17 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         LoadAudio();
 
-
+        CreateAvatarCharacter();
 
     }
 
+    private void CreateAvatarCharacter()
+    {
+        AvatarCharacter avatar = Instantiate(avatarCharacter);
+        Vector3 posAvatar = new Vector3(transform.position.x, avatarCharacter.transform.position.y, transform.position.z);
+        avatar.transform.position = posAvatar;
+        avatar.tag = "MyPlayerAvatar";
+    }
 
     private void CharacterEnterOnTrigger(string tag)
     {
@@ -623,6 +637,10 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         if (target.CurrentHealth <= 0 && PlayerManager.Manager.Player == this)
         {
             GameCacheManager.gameCache.zombieKils++;
+
+            GameCacheManager.gameCache.levelProgressPlayer.currentXP += target.AwardValueKill;
+
+            onXPAdded?.Invoke();
         }
         CheckWearWeapon();
     }
@@ -959,7 +977,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private void PlaySoundNoGetItem()
     {
-        Debug.Log(323);
         if (getItemAudioObject == null)
         {
             getItemAudioObject = PlayFXPlayer("character_get_item_limit");

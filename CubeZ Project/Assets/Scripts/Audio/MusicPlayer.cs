@@ -70,20 +70,22 @@ using Random = UnityEngine.Random;
 
     private void NewTrack()
     {
-        if (!audioManager.GetMusicEnabled())
-        {
-            return;
-        }
-        if (musicList.Length < 2)
+
+        if (musicList.Length == 0)
         {
             selectedTrack = musicList[0];
         }
-
         else
         {
             SelectRansomTrack();
 
         }
+
+        if (!audioManager.GetMusicEnabled())
+        {
+            return;
+        }
+
         StartCoroutine(LerpingVolume());
         PlayTrack(selectedTrack);
     }
@@ -178,7 +180,6 @@ using Random = UnityEngine.Random;
         if (audioManager.GetMusicEnabled())
         {
         PlayTrack(track);
-        CallInvokingMethod(NewTrack, track.length + 1f / Time.timeScale);
         }
 
 

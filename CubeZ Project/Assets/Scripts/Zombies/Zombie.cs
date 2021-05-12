@@ -24,7 +24,10 @@ public class Zombie : BaseZombie
 
         agent.isStopped = animator.GetCurrentClipPlayed().name == TypeAnimation.ZombieAttackGeneric.ToString();
 
-
+        if (animationState == TypeAnimation.ZombieAttackGeneric)
+        {
+            agent.velocity = Vector3.zero;
+        }
         if (!visiblePlayer)
         {
             if (agent.velocity != Vector3.zero)

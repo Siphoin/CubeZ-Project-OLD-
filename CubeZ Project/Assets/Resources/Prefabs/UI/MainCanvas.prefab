@@ -328,7 +328,7 @@ MonoBehaviour:
   windowTargetOpen: {fileID: 3489791362042549838, guid: 37f53c2b27d54ac45be721cdbe1eba2e,
     type: 3}
   textKeyCode: {fileID: 6840901428747344108}
-  nameTriggerWindow: Inventory
+  nameTriggerWindow: BuildWindow
 --- !u!1 &891382899521400998
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   windowTargetOpen: {fileID: 8733006767879853490, guid: 5eef863a257957a478e4490db2072ca1,
     type: 3}
   textKeyCode: {fileID: 1089073442739329424}
-  nameTriggerWindow: BuildWindow
+  nameTriggerWindow: Inventory
 --- !u!1 &1108780376142629994
 GameObject:
   m_ObjectHideFlags: 0

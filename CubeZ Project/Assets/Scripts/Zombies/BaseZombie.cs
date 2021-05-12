@@ -107,6 +107,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
     public bool IsWalking { get => agent != null && agent.velocity != Vector3.zero; }
     public int CountCallWalkingBehavior { get => countCallWalkingBehavior; set => countCallWalkingBehavior = value; }
 
+    public long AwardValueKill { get => zombieStats.awardKillXP; }
+
     public int CurrentHealth { get => zombieStats.health; }
     public ZombieStats ZombieStats { get => zombieStats; }
 
@@ -344,7 +346,7 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         {
 
 
-                float distance = Vector3.Distance(transform.position, target.transform.position);
+                float distance = Vector3.Distance(transform.position, GetgameObjectOtherTarget().transform.position);
 
             if (distance < DISTANCE_FOR_ATTACK)
             {
@@ -568,6 +570,22 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
 
         
+    }
+
+    private GameObject GetgameObjectOtherTarget ()
+    {
+        if (otherTarget is Door)
+        {
+            Door door = (Door)otherTarget;
+                return door.gameObject;
+        }
+        if (otherTarget is Wall)
+        {
+            Wall wall = (Wall)otherTarget;
+               return wall.gameObject;
+        }
+
+        return null;
     }
 
 }

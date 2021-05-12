@@ -11,6 +11,9 @@ public class ZombieStats
     [Header("Дальность видимости")]
     public float distanceVisible = 1;
 
+    [Header("Награда за убийство (количество получаемого опыта для игрока)")]
+    public long awardKillXP = 0;
+
     public ZombieStats()
     {
 
