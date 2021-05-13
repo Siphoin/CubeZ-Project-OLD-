@@ -32,6 +32,11 @@ namespace CBZ.API
         {
             return Quaternion.Euler(new Vector3(x, y, z));
         }
+
+        public override string ToString()
+        {
+            return $"x: {x} y: {y} z: {z}";
+        }
     }
 
 }

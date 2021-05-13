@@ -5,8 +5,9 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
-    public class MusicPlayer : MonoBehaviour, IInvokerMono
+    public class MusicPlayer : MonoBehaviour
     {
+    private const float TIME_OUT_NEW_TRACK = 4f;
     [SerializeField] private AudioClip[] musicList;
 
     [SerializeField] private AudioClip[] musicListCached;
@@ -96,15 +97,6 @@ using Random = UnityEngine.Random;
         selectedTrack = tracks[Random.Range(0, tracks.Length)];
     }
 
-    public void CallInvokingEveryMethod(Action method, float time)
-    {
-        InvokeRepeating(method.Method.Name, time, time);
-    }
-
-    public void CallInvokingMethod(Action method, float time)
-    {
-        Invoke(method.Method.Name, time);
-    }
 
     private void ChangeVolume (float value)
     {
@@ -141,11 +133,10 @@ using Random = UnityEngine.Random;
 
         while (true)
         {
-        yield return new WaitForSecondsRealtime(selectedTrack.length + 0.1f * Time.timeScale);
+        yield return new WaitForSecondsRealtime(selectedTrack.length + TIME_OUT_NEW_TRACK);
             if (audioManager.GetMusicEnabled())
             {
              NewTrack();
-            PlayTrack(selectedTrack);
             }
 
         }
@@ -155,7 +146,6 @@ using Random = UnityEngine.Random;
 
     private void PlayTrack (AudioClip track)
     {
-
 
         audioSource.clip = track;
         lastAudioClip = track;
@@ -168,34 +158,28 @@ using Random = UnityEngine.Random;
         {
             throw new MusicPlayerException("track is null");
         }
-
+        StopAllCoroutines();
         audioSource.Stop();
-        CancelInvoke();
-        StartCoroutine(LerpingVolume());
-
 
         musicList = new AudioClip[1];
 
         musicList[0] = track;
-        if (audioManager.GetMusicEnabled())
-        {
-        PlayTrack(track);
-        }
 
+        StartCoroutine(LerpingVolume());
+
+        StartCoroutine(WaitNewTrack());
 
     }
 
     public void ReturnOriginalListMusic ()
     {
 
-        CancelInvoke();
-
-
         musicList = GetClipsWithArrayClips(musicList, musicListCached);
 
 
         audioSource.Stop();
-        NewTrack();
+        StartCoroutine(WaitNewTrack());
+
     }
 
     private AudioClip[] GetClipsWithArrayClips (AudioClip[] arrayTarget, AudioClip[] arrayGet)
@@ -219,8 +203,9 @@ using Random = UnityEngine.Random;
 
     public void SetTrackList (AudioClip[] tracks)
     {
+        StopAllCoroutines();
         musicList = GetClipsWithArrayClips(musicList, tracks);
-        NewTrack();
+        StartCoroutine(WaitNewTrack());
     }
 
 

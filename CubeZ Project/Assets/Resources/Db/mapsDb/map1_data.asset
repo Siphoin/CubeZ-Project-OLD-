@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de7066cdba155a4288d04180a54942b, type: 3}
+  m_Name: map1_data
+  m_EditorClassIdentifier: 
+  mapName: Sylvips
+  decription: The city was once part of the rail network in the UK, with about 10
+    million passengers travelling each year. The city developed, new schools, gardens,
+    and housing complexes were built. But now, when the epidemic of the virus has
+    come from the city, only rubble remains, but the British army is trying to prevent
+    looters from completely looting this city.
+  sceneName: map1
+  size: Meduim
+  icon: {fileID: 21300000, guid: 99b4d346db3f5e94bb2fb779541a5a9e, type: 3}

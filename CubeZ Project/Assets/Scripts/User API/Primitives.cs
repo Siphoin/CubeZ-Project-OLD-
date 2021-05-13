@@ -13,7 +13,7 @@
             return cube;
         }
 
-        public static APIObjectPlane CreatePlane()
+        public static APIObjectPlane CreatePlane ()
         {
             APIObjectPlane plane = APIObject.CreateObjectAPI(PATH_PREFAB_PLANE).GetComponent<APIObjectPlane>();
             plane.Ini();

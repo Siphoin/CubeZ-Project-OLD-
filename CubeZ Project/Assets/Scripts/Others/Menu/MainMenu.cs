@@ -5,8 +5,15 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
     {
-    [SerializeField] TextMeshProUGUI versionText;
-    [SerializeField] Button buttonContunie;
+
+    private const string PATH_PREFAB_SELECT_MAP_WINDOW = "Prefabs/UI/WindowSelectMap";
+
+    private SelectMapWindow selectMapWindowPrefab;
+
+    [SerializeField] private TextMeshProUGUI versionText;
+    [SerializeField] private Button buttonContunie;
+
+   
     // Use this for initialization
     void Start()
         {
@@ -19,6 +26,13 @@ public class MainMenu : MonoBehaviour
         if (versionText == null)
         {
             throw new MainMenuException("version text not seted");
+        }
+
+        selectMapWindowPrefab = Resources.Load<SelectMapWindow>(PATH_PREFAB_SELECT_MAP_WINDOW);
+
+        if (selectMapWindowPrefab == null)
+        {
+            throw new MainMenuException("select map window prefab not found");
         }
 
         versionText.text = Application.version;
@@ -34,8 +48,7 @@ public class MainMenu : MonoBehaviour
 
         public void SelectMap ()
         {
-        GameCacheManager.StartNewGameSession();
-        Loading.LoadScene("map1");
+        Instantiate(selectMapWindowPrefab);
         }
 
             public void ContinueSession ()

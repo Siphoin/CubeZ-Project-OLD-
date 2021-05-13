@@ -60,16 +60,7 @@ public class Loading : MonoBehaviour
 
     private IEnumerator LoadSceneProgress ()
     {
-        AsyncOperation asyncOperation = null;
-        try
-        {
-           asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        }
-        catch
-        {
-            Debug.LogError($"{sceneName} not exits in Build Settings");
-            LoadScene(DEFAULT_SCENE_NAME);
-        }
+     AsyncOperation  asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         while (!asyncOperation.isDone)
         {

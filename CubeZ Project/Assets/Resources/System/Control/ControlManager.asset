@@ -29,3 +29,5 @@ MonoBehaviour:
     keyCode: 113
   - nameTrigger: developConsole
     keyCode: 96
+  - nameTrigger: PauseWindow
+    keyCode: 27

@@ -27,5 +27,10 @@
         {
             return new UnityEngine.Color32(r, g, b, a);
         }
+
+        public override string ToString()
+        {
+            return $"RGBA32: {r}, {g}, {b}, {a},";
+        }
     }
 }
