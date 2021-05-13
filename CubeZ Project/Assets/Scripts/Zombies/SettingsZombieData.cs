@@ -39,6 +39,15 @@ public class SettingsZombieData
 
     [Header("Минимальная дистанция территории спавна от игроков")]
     public int minOffsetDistanceRandomPlane = 30;
+
+    [Header("Задержка перед оживлением зараженного трупа (в секундах)")]
+    public int rebelInfectedCorpseTimeOut = 10;
+
+    [Header("Минимальное время спавна зараженного трупа")]
+    public float minInfeectedCorpsesSpawn = 15;
+
+    [Header("Максимальное время спавна зараженного трупа")]
+    public float maxInfeectedCorpsesSpawn = 30;
     public SettingsZombieData()
     {
 

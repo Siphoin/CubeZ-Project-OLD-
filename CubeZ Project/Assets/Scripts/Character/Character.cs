@@ -689,6 +689,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         Tree target = raycastHit.collider.GetComponent<Tree>();
         target.Hit(currentDamage);
+
+        if (target.CurrentHealth <= 0)
+        {
+            onXPAdded?.Invoke(target.XPBonus);
+        }
+
+
         CheckWearWeapon();
     }
 
@@ -890,7 +897,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         lastPosition = transform.position;
         lastQuaternion = transform.rotation;
+
+#if UNITY_EDITOR
         Debug.Log($"Player transform cached. Position: {lastPosition} Rotation: {lastQuaternion}");
+#endif
+
     }
 
    public void Awakening()

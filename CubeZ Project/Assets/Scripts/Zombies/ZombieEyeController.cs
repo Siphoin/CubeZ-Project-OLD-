@@ -7,6 +7,8 @@ public class ZombieEyeController : MonoBehaviour
     [SerializeField] Light secondEye;
 
     private const float INTENSITY_DEFAULT = 3.0F;
+
+    private BaseZombie zombie;
     // Use this for initialization
     void Start()
     {
@@ -24,14 +26,26 @@ public class ZombieEyeController : MonoBehaviour
         {
             throw new ZombieEyeControllerException("second light eye not seted");
         }
+
+        if (!TryGetComponent(out zombie))
+        {
+            throw new ZombieEyeControllerException($"{name} not have component BaseZombie");
+        }
         OffLightEye();
 
-
+        zombie.onDeath += Zombie_onDeath;
         WorldManager.Manager.onDayChanged += NewDayListener;
 
 
         NewDayListener(WorldManager.Manager.CurrentDayTime);
 
+    }
+
+    private void Zombie_onDeath()
+    {
+        OffLightEye();
+        UncribeEvents();
+        enabled = false;
     }
 
     private void NewDayListener(DayTimeType day)
@@ -80,18 +94,23 @@ public class ZombieEyeController : MonoBehaviour
     private void OnDestroy()
     {
             try
-            {
- WorldManager.Manager.onDayChanged -= NewDayListener;
-            }
+        {
+            UncribeEvents();
+        }
 
-            catch
+        catch
             {
 
             }
 
         }
-       
-    
+
+    private void UncribeEvents()
+    {
+        WorldManager.Manager.onDayChanged -= NewDayListener;
+        zombie.onDeath -= Zombie_onDeath;
+    }
+
 
 
 }

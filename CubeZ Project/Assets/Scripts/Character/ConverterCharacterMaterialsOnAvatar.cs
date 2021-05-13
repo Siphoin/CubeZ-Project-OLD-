@@ -17,7 +17,6 @@ public class ConverterCharacterMaterialsOnAvatar : CharacterDataSkin, IRemoveObj
 
         if (eyes != null)
         {
-            Debug.Log(eyes.GetColor());
             avatar.SetColorEyes(eyes.GetColor());
         }
 

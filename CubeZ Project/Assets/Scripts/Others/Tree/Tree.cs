@@ -25,6 +25,8 @@ using UnityEngine;
 
     public int CurrentHealth { get => currentHealth; }
 
+    public int XPBonus { get => treeData.xpBonus; }
+
     // Use this for initialization
     void Start()
     {

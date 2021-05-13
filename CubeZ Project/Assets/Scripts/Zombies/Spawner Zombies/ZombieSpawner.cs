@@ -147,7 +147,7 @@ public class ZombieSpawner : MonoBehaviour
 
     private void CreateZombie (Vector3 position)
     {
-        BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, zombiesVariants.Length)];
+        BaseZombie selectedPrefab = zombiesVariants[Random.Range(0, Mathf.Clamp(worldManager.CurrentDay - 1, 0, zombiesVariants.Length))];
 
         BaseZombie newZombie = Instantiate(selectedPrefab);
 
