@@ -148,15 +148,5 @@ public class SleepWindow : Window
         base.Exit();
     }
 
-    private void OnDestroy()
-    {
-        try
-        {
-        }
-        catch
-        {
-
-        }
-    }
 
 }

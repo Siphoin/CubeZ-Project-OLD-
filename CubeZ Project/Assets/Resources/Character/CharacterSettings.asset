@@ -16,4 +16,6 @@ MonoBehaviour:
     speed: 3
     rotateSpeed: 50
     damage: 6
+    rebelTime: 5
     optimalTemperatureBody: 28
+    criticalTemperatureWorldForBody: 25

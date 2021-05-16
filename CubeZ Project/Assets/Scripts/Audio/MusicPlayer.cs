@@ -93,8 +93,18 @@ using Random = UnityEngine.Random;
 
     private void SelectRansomTrack()
     {
+        if (musicList.Length > 1)
+        {
         AudioClip[] tracks = musicList.Where(track => track != lastAudioClip).ToArray();
+        
         selectedTrack = tracks[Random.Range(0, tracks.Length)];
+        }
+
+        else
+        {
+            selectedTrack = musicList[0];
+        }
+
     }
 
 
@@ -159,6 +169,8 @@ using Random = UnityEngine.Random;
             throw new MusicPlayerException("track is null");
         }
         StopAllCoroutines();
+
+
         audioSource.Stop();
 
         musicList = new AudioClip[1];
@@ -176,6 +188,7 @@ using Random = UnityEngine.Random;
 
         musicList = GetClipsWithArrayClips(musicList, musicListCached);
 
+        StopAllCoroutines();
 
         audioSource.Stop();
         StartCoroutine(WaitNewTrack());

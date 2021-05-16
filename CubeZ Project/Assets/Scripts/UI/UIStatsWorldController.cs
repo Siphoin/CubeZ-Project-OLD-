@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class UIStatsWorldController : MonoBehaviour
 {
+    [Header("Текст температуры")]
     [SerializeField] TextMeshProUGUI textTemperature;
+
+    [Header("Текст проццента заражения местности")]
+    [SerializeField] TextMeshProUGUI textinfectProcent;
+
+    private ZombieSpawner zombieSpawner;
     // Use this for initialization
     void Start()
     {
@@ -11,8 +17,20 @@ public class UIStatsWorldController : MonoBehaviour
         {
             throw new UIStatsWorldControllerException("text temperature is null");
         }
-        textTemperature.text = string.Empty;
+
+        if (textinfectProcent == null)
+        {
+            throw new UIStatsWorldControllerException("text infected procent is null");
+        }
+
+        zombieSpawner = FindObjectOfType<ZombieSpawner>();
+        
         WorldManager.Manager.onTemperatureChanged += Manager_onTemperatureChanged;
+
+
+        Manager_onTemperatureChanged();
+
+        ZombieSpawner_newInfectProgress();
     }
 
     private void Manager_onTemperatureChanged()
@@ -20,9 +38,26 @@ public class UIStatsWorldController : MonoBehaviour
         textTemperature.text = WorldManager.Manager.TemperatureString;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ZombieSpawner_newInfectProgress()
     {
-
+        textinfectProcent.text = $"Infected: {zombieSpawner.GetProcentInfect()}%";
     }
+
+    private void OnDestroy()
+    {
+        try
+        {
+            WorldManager.Manager.onTemperatureChanged -= Manager_onTemperatureChanged;
+
+            if (zombieSpawner != null)
+            {
+                zombieSpawner.newInfectProgress -= ZombieSpawner_newInfectProgress;
+            }
+        }
+        catch
+        {
+            
+        }
+    }
+
 }

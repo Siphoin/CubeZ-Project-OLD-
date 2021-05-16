@@ -166,7 +166,11 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
             {
                 if (temperatureBody.value > 0 && character)
                 {
-                    temperatureBody.value -= 1;
+                    int decrementValue = 1 + CalculateBonusDecrementTemperatureBody();
+                    Debug.Log(decrementValue);
+                    temperatureBody.value -= decrementValue;
+
+
                     temperatureBody.CallOnValueChanged();
                 }
 
@@ -252,6 +256,16 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
 
         targetNeed.value = Mathf.Clamp(targetNeed.value += value, 0, targetNeed.GetDefaultValue());
         targetNeed.CallOnValueChanged();
+    }
+
+    private int CalculateBonusDecrementTemperatureBody ()
+    {
+        float criticalValue = (float)character.CharacterStats.criticalTemperatureWorldForBody * -1;
+        float currentTemperatureWorld = (float)worldManager.TemperatureValue;
+
+        float result = currentTemperatureWorld / criticalValue;
+
+        return result > 0.99f ? (int)Math.Round(result, 1) : 0;
     }
 
 

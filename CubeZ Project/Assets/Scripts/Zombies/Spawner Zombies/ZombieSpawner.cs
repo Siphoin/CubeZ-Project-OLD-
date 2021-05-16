@@ -29,9 +29,11 @@ public class ZombieSpawner : MonoBehaviour
 
     private GameObject zombiesContainer;
 
+    public event Action newInfectProgress;
+
     
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         if (MAX_TIME_SPAWN_ONE_ZOMBIE < 0)
         {
@@ -220,6 +222,8 @@ public class ZombieSpawner : MonoBehaviour
    private void IncrementValueZombiesCount ()
     {
         currentMaxCountZombies = Mathf.Clamp(currentMaxCountZombies + zombieData.zombieIncrementEveryDay, zombieData.zombieIncrementEveryDay, maxCountZombieinWorld);
+
+        CallEventNewInfectProcent();
     }
 
     private void WorldManager_onDayChanged(DayTimeType dayTime)
@@ -236,5 +240,25 @@ public class ZombieSpawner : MonoBehaviour
 
             IncrementValueZombiesCount();
         }
+
+
+
+
+    }
+
+    private void CallEventNewInfectProcent ()
+    {
+
+        newInfectProgress?.Invoke();
+    }
+
+    public int GetProcentInfect ()
+    {
+        float procent = (float)currentMaxCountZombies / (float)maxCountZombieinWorld * 100;
+
+        procent = (float)Math.Round(procent, 1);
+
+        
+        return (int)procent;
     }
 }

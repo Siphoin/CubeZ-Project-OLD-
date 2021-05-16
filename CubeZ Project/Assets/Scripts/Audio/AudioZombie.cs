@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BaseZombie))]
-    public class AudioZombie : MonoBehaviour, IInvokerMono
+    public class AudioZombie : MonoBehaviour
     {
     private BaseZombie zombie;
 
@@ -49,7 +49,7 @@ using Random = UnityEngine.Random;
 
     // Use this for initialization
     void Start()
-        {
+    {
 
         if (AudioDataManager.Manager == null)
         {
@@ -72,7 +72,7 @@ using Random = UnityEngine.Random;
             throw new AudioZombieException("walking clips not found");
         }
 
-       agressiveClips = GetSounds(NAME_AGRESSIVE_SOUNDS);
+        agressiveClips = GetSounds(NAME_AGRESSIVE_SOUNDS);
 
         if (agressiveClips.Length == 0)
         {
@@ -115,8 +115,13 @@ using Random = UnityEngine.Random;
         audioSource.pitch = Random.Range(minPitchVoice, maxPitchVoice);
 
         CreateWalkAudioObject();
+        EnableRandomVoice();
+    }
 
-        CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+    private void EnableRandomVoice()
+    {
+        countCallCorotinueWalkingSound++;
+        StartCoroutine(RandomVoice());
     }
 
     private void PlayAttackSound()
@@ -152,7 +157,7 @@ using Random = UnityEngine.Random;
 
         if (behavior is WalkingStateZombie)
         {
-            CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+            EnableRandomVoice();
             
         }
 
@@ -217,30 +222,33 @@ using Random = UnityEngine.Random;
         audioSource.Play();
     }
 
-    private void RandomVoice ()
+    private IEnumerator RandomVoice ()
     {
-
-        if (zombie.CurrentStateBehavior is WalkingStateZombie == false)
+        while (true)
         {
-            return;
-        }
-        PlayRandomSoundWithArrayClips(walkingClips);
+            if (countCallCorotinueWalkingSound > 1)
+            {
+                countCallCorotinueWalkingSound--;
+                yield break;
+            }
+
+
+            float time = Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f);
+
+            yield return new WaitForSecondsRealtime(time);
+
 
         if (zombie.CurrentStateBehavior is WalkingStateZombie)
         {
-            CallInvokingMethod(RandomVoice, Random.Range(minSecondsPlayVoice, maxSecondsPlayVoice + 1.0f));
+            PlayRandomSoundWithArrayClips(walkingClips);
         }
 
-
+        else
+            {
+                countCallCorotinueWalkingSound--;
+                yield break;
+            }
+        }
     }
 
-    public void CallInvokingEveryMethod(Action method, float time)
-    {
-        InvokeRepeating(method.Method.Name, time, time);
-    }
-
-    public void CallInvokingMethod(Action method, float time)
-    {
-        Invoke(method.Method.Name, time);
-    }
 }

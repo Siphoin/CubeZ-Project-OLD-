@@ -15,11 +15,9 @@ using UnityEngine;
 
     public event Action<AudioObject> onRemove;
 
-    private Character localPlayer;
-
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         Ini();
     }

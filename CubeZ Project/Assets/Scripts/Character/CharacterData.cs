@@ -28,6 +28,11 @@ public class CharacterData
 
     [Header("Оптимальная температура тела")]
     public int optimalTemperatureBody = 25;
+
+    [Header("Критическая температура мира для тела")]
+    public int criticalTemperatureWorldForBody = 25;
+
+
     public CharacterData()
     {
 
