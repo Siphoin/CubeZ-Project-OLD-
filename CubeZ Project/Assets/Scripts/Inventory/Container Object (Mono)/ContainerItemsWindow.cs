@@ -26,6 +26,9 @@ public class ContainerItemsWindow : Window
     // Use this for initialization
     void Start()
     {
+        Ini();
+
+
         if (activeContainerItemsWindow != null)
         {
             activeContainerItemsWindow.Exit();

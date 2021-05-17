@@ -87,6 +87,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
     protected HouseArea houseAreaEntered;
 
+    private EmitterBlood emitterBlood;
+
     private BoxCollider boxCollider;
     private CharacterDataSettings characterDataSettings;
     private CharacterData characterData;
@@ -175,6 +177,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         if (!TryGetComponent(out boxCollider))
         {
             throw new ZombieException("zombie not have box colider component");
+        }
+
+
+        if (!TryGetComponent(out emitterBlood))
+        {
+            throw new ZombieException("zombie not have emitter blood component");
         }
 
 
@@ -464,6 +472,8 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
 
                 SetAnimationState(TypeAnimation.GetHit);
             }
+
+            CreateBloodDecal();
         }
 
 
@@ -484,6 +494,12 @@ public class BaseZombie : MonoBehaviour, IAnimatiomStateController, ICheckerStat
         }
 
     }
+
+    private void CreateBloodDecal()
+    {
+        emitterBlood.CreateBlood(transform.position);
+    }
+
 
     private void Dead()
     {

@@ -44,6 +44,9 @@ public class WindowCustomScriptsSelect : Window
     // Use this for initialization
     void Start()
         {
+        Ini();
+
+
         if (containerScriptsPatterns == null)
         {
             throw new WindowCustomScriptsSelectException("container scripts patterns not seted");

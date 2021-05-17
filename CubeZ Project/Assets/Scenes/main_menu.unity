@@ -8899,8 +8899,9 @@ GameObject:
   - component: {fileID: 623591615}
   - component: {fileID: 623591614}
   - component: {fileID: 623591613}
+  - component: {fileID: 623591617}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: menu_canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8988,6 +8989,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &623591617
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623591612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 36fc757c351c02241bb63715a896cb8e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &625997605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10736,7 +10756,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.26014817}
   m_AnchorMax: {x: 0.5, y: 0.26014817}
-  m_AnchoredPosition: {x: -0.0023040771, y: 0.70007324}
+  m_AnchoredPosition: {x: 0, y: 0.7000122}
   m_SizeDelta: {x: 624.14594, y: 563.4263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &768114035

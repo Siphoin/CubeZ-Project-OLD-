@@ -1123,6 +1123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428edfac6ddca9d4db7dc8b8a28aa91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useAnimOpen: 1
+  windowAnim: {fileID: 180649468189924605}
   contentButtonsMap: {fileID: 180649467184522634}
   containerInfoMap: {fileID: 180649466699866830}
   textInfoMap: {fileID: 180649466676769499}

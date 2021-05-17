@@ -43,7 +43,7 @@ public class SelectMapWindow : Window
     void Start()
     {
         Ini();
-
+        base.Ini();
         LoadButtonsMaps();
 
         SetStateVisibleInfoMap(false);

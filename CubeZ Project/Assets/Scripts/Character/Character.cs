@@ -771,7 +771,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     public void Hit(int hitValue, bool playHitAnim = true)
     {
         healthStats.value = Mathf.Clamp(healthStats.value - hitValue, 0, 100);
-
+        
 
         if (!isAdrenalin)
         {
@@ -787,12 +787,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
                     characterActive = true;
                 }
+
+               CreateBloodDecal();
             }
         }
         if (isSleeping)
         {
             Awakening();
-            skinCharacter.transform.localRotation = startQuuaterion;
 
         }
 
@@ -819,7 +820,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         healthStats.CallOnValueChanged();
 
-        CreateBloodDecal();
     }
 
 

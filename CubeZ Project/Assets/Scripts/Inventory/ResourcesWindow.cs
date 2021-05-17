@@ -9,6 +9,7 @@ using UnityEngine.UI;
     // Use this for initialization
     void Awake()
         {
+        Ini();
         IniInventory();
         }
 

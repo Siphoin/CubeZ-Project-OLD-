@@ -51,6 +51,7 @@ public class InventoryWindow : Window
     // Use this for initialization
     void Awake()
     {
+        Ini();
         IniInventory();
     }
 
