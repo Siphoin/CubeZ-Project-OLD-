@@ -22,15 +22,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private WeaponItem currentWeapon = null;
 
-    private AudioObject walkAudioObject = null;
 
     private AudioObject getItemAudioObject = null;
 
     private AudioDataManager audioManager = null;
 
-    private ListenerLevelProgressionLocalPlayer listenerLevelProgressionLocalPlayer;
 
     private Dictionary<string, AudioClip> clipsCharacter = new Dictionary<string, AudioClip>();
+
+    private Dictionary<string, AudioObject> dynamicAudioObjects = new Dictionary<string, AudioObject>();
 
 
     private const string VERTICAL_INPUT_NAME = "Vertical";
@@ -50,7 +50,13 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string TAG_DOOR = "Door";
     private const string ZOMBIE_TAG = "Zombie";
     private const string ZOMBIE_AREA_TAG = "ZombieArea";
-    private const string FIRE_TAG = "FireArea";
+    private const string FIRE_AREA_TAG = "FireArea";
+    private const string FIRE_TAG = "Fire";
+
+    private const string NAME_SOUND_WALKING = "character_walking";
+    private const string NAME_SOUND_GET_ITEM_LINIT = "character_get_item_limit";
+    private const string NAME_SOUND_GET_ITEM = "character_get_item";
+    private const string NAME_SOUND_CRITICAL_RUN = "character_critical_run";
 
 
     private const string NAME_KEY_CODE_SIT_DOWN = "SitdownCharacter";
@@ -60,6 +66,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private const string AXE_ID_WEAPON = "axe";
 
     private const float DISTANCE_FOR_ATTACK = 0.7f;
+
     private TypeAnimation animationState = TypeAnimation.Idle2;
 
     [SerializeField, ReadOnlyField] CharacterDataSettings characterDataSettings;
@@ -74,6 +81,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     private  ControlManager controlManager;
 
     private UIController UIControl;
+
+    private EmitterBlood emitterBlood;
 
     private CharacterStatsDataNeed healthStats;
     private CharacterStatsDataNeed runStats;
@@ -113,6 +122,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     private bool inFireArea = false;
 
+    private bool inFire = false;
+
     private bool characterActive = true;
 
 
@@ -141,11 +152,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     public Bounds BoundsColider { get => boxCollider.bounds; }
 
-
-
-
-
-
     // Start is called before the first frame update
 
     private void Awake()
@@ -166,6 +172,8 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("avatar character not seted");
         }
+
+        
 
 
         startQuuaterion = skinCharacter.transform.localRotation;
@@ -201,6 +209,11 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         if (!TryGetComponent(out boxCollider))
         {
             throw new CharacterException("Box Colider component not found on Character");
+        }
+
+        if (!TryGetComponent(out emitterBlood))
+        {
+            throw new CharacterException("Emitter blood component not found on Character");
         }
 
 
@@ -245,11 +258,20 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-        if (tag == FIRE_TAG)
+        if (tag == FIRE_AREA_TAG)
         {
             inFireArea  = true;
         }
-        
+
+        if (tag == FIRE_TAG)
+        {
+            if (!inFire)
+            {
+                inFire = true;
+                StartCoroutine(DamageWithTime(3, 2));
+            }
+        }
+
     }
 
     private void CharacterExitOnTrigger(string tag)
@@ -258,10 +280,16 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             return;
         }
-        if (tag == FIRE_TAG)
+        if (tag == FIRE_AREA_TAG)
         {
             inFireArea = false;
         }
+
+        if (tag == FIRE_TAG)
+        {
+            inFire = false;
+        }
+
     }
 
     void Start()
@@ -304,12 +332,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         UIControl = UIController.Manager;
 
 
-        CreateAudioObjectWalk();
+       CreateAudioObjectDynamic(NAME_SOUND_WALKING, "Walk");
+       CreateAudioObjectDynamic(NAME_SOUND_CRITICAL_RUN, "CriticalWalk");
 
         IniKeyCodes();
 
         GameCacheManager.gameCache.inventory.onItemOfTypeAdded += PlaySoundGetItem;
         GameCacheManager.gameCache.inventory.onItemNoAdded += PlaySoundNoGetItem;
+
+        runStats.onValueChanged += CheckRunStatsForSoundCriticalRun;
     }
 
 
@@ -415,7 +446,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             if (!Input.GetKey(KeyCode.LeftShift))
             {
-                PlayWalkSound();
                 speed = Walk();
                 characterTrigger.SetRadius(defaultRaduisCharacterTrigger);
             }
@@ -442,7 +472,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
         else
         {
-            StopWalkSound();
+            StopDynamicSound(NAME_SOUND_WALKING);
             SetAnimationState(TypeAnimation.Idle2);
 
             if (Input.GetMouseButtonDown(0))
@@ -468,7 +498,6 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         float speed =  isFatigue == false ? currentSpeed : currentSpeed - 1;
         SetAnimationState(TypeAnimation.Walk);
-        PlayWalkSound();
         characterTrigger.SetRadius(defaultRaduisCharacterTrigger * 2);
         return speed;
     }
@@ -478,7 +507,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         
         float speed = isFatigue == false ?  currentSpeed + 1 : currentSpeed - 1;
         SetAnimationState(isFatigue == false ? TypeAnimation.Run : TypeAnimation.Walk);
-        PlayWalkSound();
+        PlayDynamicSound(NAME_SOUND_WALKING);
         return speed;
     }
 
@@ -544,12 +573,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         {
             throw new CharacterException("invalid value damage");
         }
+
         currentSpeed -= value;
     }
 
     public bool CharacterUseTheWeapon(WeaponItem weapon)
     {
         CheckWeaponisNull(weapon);
+
+
         if (!currentWeapon)
         {
             return false;
@@ -644,7 +676,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
                 else
                 {
-                    PlayFXPlayer("character_get_item_limit");
+                    PlayFXPlayer(NAME_SOUND_GET_ITEM_LINIT);
                 }
 
             }
@@ -786,8 +818,15 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
 
         healthStats.CallOnValueChanged();
+
+        CreateBloodDecal();
     }
 
+
+    private void CreateBloodDecal ()
+    {
+        emitterBlood.CreateBlood(transform.position);
+    }
 
     private void Dead()
     {
@@ -802,12 +841,21 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         boxCollider.enabled = false;
         gameObject.AddComponent<CharacterRebel>();
 
+        UncribeEvents();
+        enabled = false;
+    }
 
+    private void UncribeEvents()
+    {
         if (ListenerLevelProgressionLocalPlayer.Manager != null)
         {
             ListenerLevelProgressionLocalPlayer.Manager.onLevelUp -= BuffParamsPlayer;
         }
-        enabled = false;
+
+        GameCacheManager.gameCache.inventory.onItemOfTypeAdded -= PlaySoundGetItem;
+        GameCacheManager.gameCache.inventory.onItemNoAdded -= PlaySoundNoGetItem;
+
+        runStats.onValueChanged -= CheckRunStatsForSoundCriticalRun;
     }
 
     private bool CanMove ()
@@ -982,33 +1030,46 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    private void CreateAudioObjectWalk ()
+    private AudioObject CreateAudioObjectDynamic (string soundName, string nameAudioObject, bool loop = true)
     {
-        walkAudioObject = audioManager.CreateAudioObject(transform.position, clipsCharacter["character_walking"]);
-        walkAudioObject.transform.SetParent(transform);
-        walkAudioObject.GetAudioSource().loop = true;
-        walkAudioObject.name = "AudioCharacter";
+        AudioObject audioObject = audioManager.CreateAudioObject(transform.position, clipsCharacter[soundName]);
+        audioObject.transform.SetParent(transform);
+        audioObject.GetAudioSource().loop = loop;
+        audioObject.name = "AudioObjectCharacter_" + nameAudioObject;
+        dynamicAudioObjects.Add(soundName, audioObject);
+        return audioObject;
     }
 
-    private void StopWalkSound ()
+    private void StopDynamicSound (string nameSound)
     {
-            AudioSource audioSource = walkAudioObject.GetAudioSource();
+            AudioSource audioSource = dynamicAudioObjects[nameSound].GetAudioSource();
+
+        if (audioSource.isPlaying)
+        {
             audioSource.Stop();
+        }
         
     }
 
-    private void PlayWalkSound()
+    private void PlayDynamicSound(string nameSound)
     {
-            AudioSource audioSource = walkAudioObject.GetAudioSource();
+            AudioSource audioSource = dynamicAudioObjects[nameSound].GetAudioSource();
+        if (!audioSource.isPlaying)
+        {
             audioSource.Play();
+        }
+
         
     }
+
+
+
 
     private AudioObject PlayFXPlayer(string audioName)
     {
         AudioObject audioObject = audioManager.CreateAudioObject(transform.position, clipsCharacter[audioName]);
         audioObject.GetAudioSource().Play();
-        audioObject.RemoveIfNotPlaying = true;
+        audioObject.RemoveIFNotPlaying();
         return audioObject;
     }
 
@@ -1016,7 +1077,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         if (getItemAudioObject == null)
         {
-            getItemAudioObject = PlayFXPlayer("character_get_item");
+            getItemAudioObject = PlayFXPlayer(NAME_SOUND_GET_ITEM);
         }
     }
 
@@ -1024,7 +1085,20 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
     {
         if (getItemAudioObject == null)
         {
-            getItemAudioObject = PlayFXPlayer("character_get_item_limit");
+            getItemAudioObject = PlayFXPlayer(NAME_SOUND_GET_ITEM_LINIT);
+        }
+    }
+
+    private void CheckRunStatsForSoundCriticalRun (int value)
+    {
+        if (value <= (runStats.GetDefaultValue() / 2))
+        {
+            PlayDynamicSound(NAME_SOUND_CRITICAL_RUN);
+        }
+
+        else
+        {
+            StopDynamicSound(NAME_SOUND_CRITICAL_RUN);
         }
     }
 
@@ -1090,6 +1164,27 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         currentSpeed += characterLevelUpSettings.BuffSpeed;
     }
 
+    #endregion
+
+    #region Damage Enviroment
+
+    private IEnumerator DamageWithTime (int damageValue, float time)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(time);
+            if (inFire)
+            {
+            Hit(damageValue);
+            }
+
+
+            else
+            {
+                yield break;
+            }
+        }
+    }
     #endregion
 
 }

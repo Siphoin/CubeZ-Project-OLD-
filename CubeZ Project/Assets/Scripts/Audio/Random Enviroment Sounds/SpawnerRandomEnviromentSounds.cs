@@ -71,8 +71,8 @@ public class SpawnerRandomEnviromentSounds : MonoBehaviour
             }
 
             AudioObject audioObject = audioManager.CreateAudioObject(pos, soundsVariants[Random.Range(0, soundsVariants.Length)]);
+            audioObject.RemoveIFNotPlaying();
             audioObject.GetAudioSource().Play();
-            audioObject.RemoveIfNotPlaying = true;
         }
     }
 

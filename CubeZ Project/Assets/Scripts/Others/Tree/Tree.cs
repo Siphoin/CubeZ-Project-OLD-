@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-    public class Tree : MonoBehaviour, IGeterHit
+public class Tree : MonoBehaviour, IGeterHit
     {
     [SerializeField] ItemObject woodPrefab;
     [Header("Главный объект дерева")]
@@ -70,8 +71,11 @@ using UnityEngine;
     private void PlaySoundAxe()
     {
         AudioObject audioObject = AudioDataManager.Manager.CreateAudioObject(transform.position, audioClipAxe);
-        audioObject.RemoveIfNotPlaying = true;
-        audioObject.GetAudioSource().Play();
+
+        AudioSource audioSource = audioObject.GetAudioSource();
+        audioSource.pitch = Random.Range(0.5f, 1.5f);
+        audioObject.RemoveIFNotPlaying();
+        audioSource.Play();
     }
 
     private void LoadTreeData()

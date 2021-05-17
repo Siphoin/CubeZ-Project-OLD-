@@ -150,7 +150,7 @@ using UnityEngine;
         {
     activeAudioObject = AudioDataManager.Manager.CreateAudioObject(transform.position, clip);
         activeAudioObject.GetAudioSource().Play();
-        activeAudioObject.RemoveIfNotPlaying = true;
+        activeAudioObject.RemoveIFNotPlaying();
         }
 
     }

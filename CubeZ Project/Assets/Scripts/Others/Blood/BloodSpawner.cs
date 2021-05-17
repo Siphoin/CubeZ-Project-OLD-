@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-    public class BloodSpawner : MonoBehaviour
+    public class BloodSpawner : MonoBehaviour, IBloodCreator
     {
     [SerializeField] private int maxCountBloodDecals = 100;
 
-    private GameObject bloodPrefab;
+    private Blood bloodPrefab;
 
     private const string PATH_BLOOD_PREFAB = "Prefabs/Others/blood_decal";
-
+    private const string NAME_BLOOD_CONTAINER = "bloodContainer";
     private WorldManager worldManager;
+
+    private GameObject parentBloods;
 
         // Use this for initialization
         void Start()
-        {
+    {
         if (WorldManager.Manager == null)
         {
             throw new BloodSpawnerException("world manager not found");
@@ -21,27 +23,37 @@ using UnityEngine;
 
         worldManager = WorldManager.Manager;
 
-        bloodPrefab = Resources.Load<GameObject>(PATH_BLOOD_PREFAB);
+        bloodPrefab = Resources.Load<Blood>(PATH_BLOOD_PREFAB);
 
         if (bloodPrefab == null)
         {
             throw new BloodSpawnerException("blood decal prefab not found");
         }
-        GameObject parentBloods = new GameObject("bloodContainer");
-        for (int i = 0; i < maxCountBloodDecals; i++)
-        {
-            GameObject blood = Instantiate(bloodPrefab);
+        parentBloods = new GameObject(NAME_BLOOD_CONTAINER);
 
-
-            var pos = worldManager.GetRandomPointWithRandomPlane();
-            pos.y = bloodPrefab.transform.position.y;
-            blood.transform.position = pos;
-
-
-            blood.transform.SetParent(parentBloods.transform);
-        }
-
-        Destroy(gameObject);
-        }
+        CreateBloodsTexturesOnEnviroment();
 
     }
+
+    private void CreateBloodsTexturesOnEnviroment()
+    {
+        for (int i = 0; i < maxCountBloodDecals; i++)
+        {
+            CreateBlood(worldManager.GetRandomPointWithRandomPlane());
+        }
+    }
+
+    public Blood CreateBlood (Vector3 center)
+    {
+        Blood blood = Instantiate(bloodPrefab);
+
+
+        var pos = center;
+        pos.y = bloodPrefab.transform.position.y;
+        blood.transform.position = pos;
+
+        blood.transform.SetParent(parentBloods.transform);
+
+        return blood;
+    }
+}

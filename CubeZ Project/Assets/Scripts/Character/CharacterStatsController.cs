@@ -167,7 +167,6 @@ public class CharacterStatsController : MonoBehaviour, IInvokerMono
                 if (temperatureBody.value > 0 && character)
                 {
                     int decrementValue = 1 + CalculateBonusDecrementTemperatureBody();
-                    Debug.Log(decrementValue);
                     temperatureBody.value -= decrementValue;
 
 

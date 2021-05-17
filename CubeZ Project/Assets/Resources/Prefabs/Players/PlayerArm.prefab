@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6218626675193192246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466145625303146830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc58944bf0658304a9e2e3f9e342dd76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameTexturesFolber: Box
-  generateUVMap: 0
-  minValueOffset: 0.9
-  maxValueOffset: 1001
 --- !u!1001 &6648123014789140103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,10 +106,5 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7808721581306196997, guid: 1ab70e619aeed4c4dbbbe3f781fc8131, type: 3}
     - {fileID: 7808721581121655147, guid: 1ab70e619aeed4c4dbbbe3f781fc8131, type: 3}
+    - {fileID: 1244592011958714030, guid: 1ab70e619aeed4c4dbbbe3f781fc8131, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1ab70e619aeed4c4dbbbe3f781fc8131, type: 3}
---- !u!1 &3466145625303146830 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7807229357410021321, guid: 1ab70e619aeed4c4dbbbe3f781fc8131,
-    type: 3}
-  m_PrefabInstance: {fileID: 6648123014789140103}
-  m_PrefabAsset: {fileID: 0}

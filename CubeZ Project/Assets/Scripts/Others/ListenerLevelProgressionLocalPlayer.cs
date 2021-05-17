@@ -91,7 +91,7 @@ public class ListenerLevelProgressionLocalPlayer : MonoBehaviour
     private void PlaySoundLevelUp()
     {
         AudioObject audioObject = audioManager.CreateAudioObject(GetPositionLocalPlayer(), clipLevelUp);
-        audioObject.RemoveIfNotPlaying = true;
+        audioObject.RemoveIFNotPlaying();
         audioObject.GetAudioSource().Play();
     }
 

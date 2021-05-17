@@ -315,7 +315,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6743028111529239471}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &4027955189712002598
 AudioSource:
@@ -427,6 +427,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeAudio: 0
+--- !u!1 &4262517512483649740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6219412483234917804}
+  - component: {fileID: 3077612281871533469}
+  m_Layer: 0
+  m_Name: fire
+  m_TagString: Fire
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6219412483234917804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4262517512483649740}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6493826906028666609}
+  m_Father: {fileID: 6743028111529239471}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3077612281871533469
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4262517512483649740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: -0.1, y: -0.03, z: -0.83}
 --- !u!1 &5101665298188642357
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,9 +793,9 @@ Transform:
   - {fileID: 3786828444903391140}
   - {fileID: 1844957850015561131}
   - {fileID: 7051212079068391733}
-  - {fileID: 6493826906028666609}
   - {fileID: 6493826906607725230}
   - {fileID: 347718999749692457}
+  - {fileID: 6219412483234917804}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -826,12 +871,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6493826906028666608}
   m_LocalRotation: {x: -0.7003704, y: -0, z: -0, w: 0.7137797}
-  m_LocalPosition: {x: -0.75, y: 0.02, z: -0.64}
+  m_LocalPosition: {x: -0.74999994, y: 0.019999998, z: -0.6399999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6493826906403553173}
-  m_Father: {fileID: 6743028111529239471}
-  m_RootOrder: 6
+  m_Father: {fileID: 6219412483234917804}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -88.914, y: 0, z: 0}
 --- !u!198 &6493826906028666611
 ParticleSystem:
@@ -5705,7 +5750,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.07205e-40, z: 0, w: 0.0000000061409082}
+  m_BoundingSphereOverride: {x: 8.13e-43, y: -114.97772, z: 8.13e-43, w: -3.0811214}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -10556,7 +10601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6743028111529239471}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &6493826906607725229
 SphereCollider:

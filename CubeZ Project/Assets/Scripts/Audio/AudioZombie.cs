@@ -128,7 +128,7 @@ using Random = UnityEngine.Random;
     {
         AudioObject audioObject = audioManager.CreateAudioObject(transform.position, attackClips[Random.Range(0, attackClips.Length)]);
         audioObject.GetAudioSource().Play();
-        audioObject.RemoveIfNotPlaying = true;
+        audioObject.RemoveIFNotPlaying();
     }
 
     private void ZombieDead()

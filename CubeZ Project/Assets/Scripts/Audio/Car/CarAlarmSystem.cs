@@ -68,7 +68,7 @@ public class CarAlarmSystem : MonoBehaviour, IInvokerMono
         {
             activeAlarmSound = audioManager.CreateAudioObject(transform.position, clipAlarmSound);
             activeAlarmSound.GetAudioSource().Play();
-            activeAlarmSound.RemoveIfNotPlaying = true;
+            activeAlarmSound.RemoveIFNotPlaying();
 
             SetStateAlarmTrigger(true);
 

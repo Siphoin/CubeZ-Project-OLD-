@@ -255,6 +255,8 @@ public class ZombieSpawner : MonoBehaviour
     public int GetProcentInfect ()
     {
         float procent = (float)currentMaxCountZombies / (float)maxCountZombieinWorld * 100;
+        Debug.Log(maxCountZombieinWorld);
+
 
         procent = (float)Math.Round(procent, 1);
 

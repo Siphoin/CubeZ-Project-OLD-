@@ -485,6 +485,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 27873bebe338a43409971b7fa0e399fe, type: 3}
   - {fileID: 8300000, guid: d11a997791cd37541912f6013e8bb131, type: 3}
   - {fileID: 8300000, guid: 9c945793aafb7b048a09114706d7084b, type: 3}
+  - {fileID: 8300000, guid: 836b3f6a16c6b6842b3cd3b2717393a1, type: 3}
+  - {fileID: 8300000, guid: db6bbf4e52993e7418610e3fea93eeac, type: 3}
+  - {fileID: 8300000, guid: 39d1c5166be1f0946956361ced88782e, type: 3}
   musicListCached: []
 --- !u!114 &188762230137444754
 MonoBehaviour:

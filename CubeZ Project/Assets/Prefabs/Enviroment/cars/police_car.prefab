@@ -1351,7 +1351,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skinType: 8
-  indexMaterial: 6
+  indexMaterial: 0
+  awakeGenerationColor: 1
 --- !u!1 &9106992174006604838
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
-    public class AudioObject : MonoBehaviour, IRemoveObject, IInvokerMono
+    public class AudioObject : MonoBehaviour, IRemoveObject
     {
     [SerializeField] private AudioType typeAudio = AudioType.FX;
 
@@ -10,7 +10,6 @@ using UnityEngine;
 
     private AudioDataManager dataManager;
 
-    public bool RemoveIfNotPlaying { get; set; } = false;
     public AudioType TypeAudio { get => typeAudio; }
 
     public event Action<AudioObject> onRemove;
@@ -22,15 +21,6 @@ using UnityEngine;
         Ini();
     }
 
-    public void CallInvokingEveryMethod(Action method, float time)
-    {
-        InvokeRepeating(method.Method.Name, time, time);
-    }
-
-    public void CallInvokingMethod(Action method, float time)
-    {
-        Invoke(method.Method.Name, time);
-    }
     private void Ini()
     {
         if (AudioDataManager.Manager == null)
@@ -58,10 +48,6 @@ using UnityEngine;
         }
 
 
-        if (RemoveIfNotPlaying)
-        {
-            StartCoroutine(RemoveWaitRealtime());
-        }
 
 
     }
@@ -79,7 +65,6 @@ using UnityEngine;
     public void Remove()
     {
         Uncribe();
-
         Destroy(gameObject);
 
     }
@@ -128,8 +113,20 @@ using UnityEngine;
 
     private IEnumerator RemoveWaitRealtime ()
     {
-        yield return new WaitForSecondsRealtime(audioSource.clip.length + 0.01f);
+        float time = audioSource.clip.length + 0.01f;
+#if UNITY_EDITOR
+        Debug.Log($"{name} audio object destroy as {time} seconds");
+#endif
+
+        yield return new WaitForSecondsRealtime(time);
         Remove();
+    }
+
+
+    public void RemoveIFNotPlaying ()
+    {
+        Ini();
+        StartCoroutine(RemoveWaitRealtime());
     }
 
 }

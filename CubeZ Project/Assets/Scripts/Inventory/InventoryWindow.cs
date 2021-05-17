@@ -294,7 +294,7 @@ public class InventoryWindow : Window
 
         AudioObject audioObject = AudioDataManager.Manager.CreateAudioObject(PlayerManager.Manager.Player.transform.position, eatCharacterClip);
         audioObject.GetAudioSource().Play();
-        audioObject.RemoveIfNotPlaying = true;
+        audioObject.RemoveIFNotPlaying();
     }
 
     private void UseKit()

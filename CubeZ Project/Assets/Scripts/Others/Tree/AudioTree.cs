@@ -41,8 +41,10 @@
     {
         tree.onDead -= PlaySoundDead;
         AudioObject audioObject = audioManager.CreateAudioObject(transform.position, clipsDead[UnityEngine.Random.Range(0, clipsDead.Length)]);
-        audioObject.GetAudioSource().Play();
-        audioObject.RemoveIfNotPlaying = true;
+        AudioSource audioSource = audioObject.GetAudioSource();
+        audioSource.pitch = Random.Range(0.5f, 1.5f);
+        audioObject.RemoveIFNotPlaying();
+        audioSource.Play();
 
     }
 }

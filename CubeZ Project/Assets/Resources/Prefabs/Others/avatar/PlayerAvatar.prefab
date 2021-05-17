@@ -108,6 +108,7 @@ MonoBehaviour:
   skin: {fileID: 8291241054285635705}
   torso: {fileID: 3149535575993215275}
   hair: {fileID: 3149535575471037736}
+  moving: 0
 --- !u!114 &514407272948232899
 MonoBehaviour:
   m_ObjectHideFlags: 0

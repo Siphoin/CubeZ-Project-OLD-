@@ -37,6 +37,7 @@ TagManager:
   - CarAlarmArea
   - PlayerAvatar
   - MyPlayerAvatar
+  - Fire
   layers:
   - Default
   - TransparentFX
