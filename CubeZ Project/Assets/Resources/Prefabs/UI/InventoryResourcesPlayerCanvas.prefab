@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f085cde25dc8fe47a42db1cf625c35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAnimOpen: 1
+  useAnimOpen: 0
   windowAnim: {fileID: 6351225814301606953}
   infoItem: {fileID: 6351225813190076961}
   textDescriptionItem: {fileID: 6351225814174654436}

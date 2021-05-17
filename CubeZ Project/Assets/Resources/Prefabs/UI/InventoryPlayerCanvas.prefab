@@ -1776,7 +1776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d4ee09d50da524d911e1b78adde91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAnimOpen: 1
+  useAnimOpen: 0
   windowAnim: {fileID: 8733006767808922463}
   infoItem: {fileID: 8733006768724352526}
   textDescriptionItem: {fileID: 8733006768000702610}
