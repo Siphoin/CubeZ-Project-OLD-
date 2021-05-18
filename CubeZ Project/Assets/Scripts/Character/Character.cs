@@ -268,7 +268,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
             if (!inFire)
             {
                 inFire = true;
-                StartCoroutine(DamageWithTime(3, 2));
+                StartCoroutine(DamageWithTime(3, 2, false));
             }
         }
 
@@ -1168,14 +1168,14 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
 
     #region Damage Enviroment
 
-    private IEnumerator DamageWithTime (int damageValue, float time)
+    private IEnumerator DamageWithTime (int damageValue, float time, bool playHitAnim = true)
     {
         while (true)
         {
             yield return new WaitForSeconds(time);
             if (inFire)
             {
-            Hit(damageValue);
+            Hit(damageValue, playHitAnim);
             }
 
 

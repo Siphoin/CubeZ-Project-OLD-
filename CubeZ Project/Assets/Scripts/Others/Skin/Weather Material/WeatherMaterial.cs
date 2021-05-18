@@ -5,14 +5,14 @@ public class WeatherMaterial : MonoBehaviour
 {
     [Header("Мвтериал снега")]
     [SerializeField] Color materialSnow;
- 
-    
+
+
     private Color originalMaterial;
 
     private Renderer rendererMesh;
-        // Use this for initialization
-        void Start()
-        {
+    // Use this for initialization
+    void Start()
+    {
         if (materialSnow == null)
         {
             throw new WeatherMaterialException("material snow not seted");
@@ -36,14 +36,14 @@ public class WeatherMaterial : MonoBehaviour
 
         WorldManager.Manager.onWeatherChanged += Manager_onWeatherChanged;
         Manager_onWeatherChanged(WorldManager.Manager.CurrentWeather);
-        }
+    }
 
     private void Manager_onWeatherChanged(WeatherType weather)
     {
         StartCoroutine(LerpingMaterial(weather == WeatherType.Snow ? materialSnow : originalMaterial));
     }
 
-    private IEnumerator LerpingMaterial (Color colorTarget)
+    private IEnumerator LerpingMaterial(Color colorTarget)
     {
         float lerpValue = 0;
         while (true)
@@ -69,7 +69,7 @@ public class WeatherMaterial : MonoBehaviour
     {
         try
         {
-        WorldManager.Manager.onWeatherChanged -= Manager_onWeatherChanged;
+            WorldManager.Manager.onWeatherChanged -= Manager_onWeatherChanged;
         }
         catch
         {

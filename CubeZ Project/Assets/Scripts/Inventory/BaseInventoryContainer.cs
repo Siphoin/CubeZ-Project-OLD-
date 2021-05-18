@@ -32,6 +32,7 @@ public class BaseInventoryContainer
 
     public virtual void Add(ItemBaseData item)
     {
+        item = new ItemBaseData(item);
         item.inFastPanel = false;
         items.Add(item);
 
