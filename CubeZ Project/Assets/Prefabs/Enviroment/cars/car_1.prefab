@@ -562,7 +562,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: f5c7b7fddbd33f448b1698e268950666, type: 2}
   - {fileID: 2100000, guid: faac4287d25c0a742882215d583e7cda, type: 2}
   - {fileID: 8820608072795523540, guid: 8b5eeb41b97c8dc43a48d813facea5f6, type: 3}
-  - {fileID: 2100000, guid: 94b36f574dd71be4e9a53eee8ede0411, type: 2}
+  - {fileID: 2100000, guid: ede3fd7950d73bf409efa7e17aeef6e3, type: 2}
   - {fileID: 2100000, guid: afff46635b8711042a460b262e6a3d3e, type: 2}
   - {fileID: 5879332349916684675, guid: 8b5eeb41b97c8dc43a48d813facea5f6, type: 3}
   - {fileID: 8862116807943816546, guid: 8b5eeb41b97c8dc43a48d813facea5f6, type: 3}
@@ -614,6 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinType: 7
   indexMaterial: 6
+  awakeGenerationColor: 1
 --- !u!114 &1208912987330221922
 MonoBehaviour:
   m_ObjectHideFlags: 0
