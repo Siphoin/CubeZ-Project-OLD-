@@ -77,8 +77,8 @@ public class BuildObject : MonoBehaviour, IRemoveObject
 
 		if (!createinHouse)
 		{
-			buildObjectTrigger.newTriggerExit += NewTriggerCalled;
-			buildObjectTrigger.newTriggerEnter += NewTriggerCalled;
+			buildObjectTrigger.NewTriggerExit += NewTriggerCalled;
+			buildObjectTrigger.NewTriggerEnter += NewTriggerCalled;
 		}
 
 		else

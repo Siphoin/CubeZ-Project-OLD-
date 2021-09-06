@@ -225,7 +225,7 @@ public class BuildWindow : Window
 	{
 		ButtonCategoryBuild buttonCategoryBuild = Instantiate(buttonCategoryBuildPrefab, gridButtonsCategories.transform);
 		buttonCategoryBuild.SetCategory(categoeryType);
-		buttonCategoryBuild.onSelected += CategorySelected;
+		buttonCategoryBuild.OnSelected += CategorySelected;
 	}
 
 	

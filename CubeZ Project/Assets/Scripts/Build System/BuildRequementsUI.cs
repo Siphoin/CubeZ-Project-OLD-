@@ -39,10 +39,12 @@ public class BuildRequementsUI : MonoBehaviour, IRemoveObject
 			throw new BuildRequementsUIException("icon argument is null");
 		}
 		Ini();
-		icon.sprite = icon;
+
+		this.icon.sprite = icon;
+
 		textRequements.text = valueRequements.ToString();
 		requementValue = valueRequements;
-		idResource = idResource;
+		this.idResource = idResource;
 	}
 
 	
