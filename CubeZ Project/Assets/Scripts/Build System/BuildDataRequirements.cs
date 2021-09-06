@@ -10,14 +10,15 @@ public class BuildDataRequirements
 
 	[Header("Скольно нужно этого типа ресурса")]
 	public int requirementsValue;
+	public BuildDataRequirements(BuildDataRequirements copyClass)
+	{
+		copyClass.CopyAll(this);
+	}
+
 
 	public BuildDataRequirements()
 	{
 	}
 
-	public BuildDataRequirements(BuildDataRequirements copyClass)
-	{
-		copyClass.CopyAll(this);
-	}
 
 }

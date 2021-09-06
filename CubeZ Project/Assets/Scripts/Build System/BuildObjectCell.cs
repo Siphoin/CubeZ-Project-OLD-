@@ -36,7 +36,7 @@ public class BuildObjectCell : MonoBehaviour
 	}
 
 
-	// Token: 0x06000072 RID: 114 RVA: 0x000034B3 File Offset: 0x000016B3
+	
 	public void SetData(BuildObjectData data)
 	{
 		if (data == null)
