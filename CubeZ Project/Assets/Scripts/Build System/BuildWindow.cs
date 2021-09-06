@@ -89,6 +89,7 @@ public class BuildWindow : Window
 		{
 			throw new BuildWindowException("button category build prefab not found");
 		}
+
 		SetVisibleBuildObjectInfoWindow(false);
 
 		buildObjectsList = BuildObjectsManager.ActiveManager.GetBuildObjectsData();
