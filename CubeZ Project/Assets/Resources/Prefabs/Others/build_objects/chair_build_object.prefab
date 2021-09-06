@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7607792257279195252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4923814631437748627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422c71f91fc42a6409ca682de3310c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8177801891761657595
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,6 +67,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +92,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8427385588740422397
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9205294031635882055}
-  - component: {fileID: 4980655394055176972}
+  - component: {fileID: 4980139086518330684}
   m_Layer: 0
   m_Name: chair_build_object
   m_TagString: Untagged
@@ -112,7 +126,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4980655394055176972
+--- !u!114 &4980139086518330684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,14 +135,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8427385588740422397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 120feeceae7d6294d92771b746817dba, type: 3}
+  m_Script: {fileID: 11500000, guid: 70a4ac4a479fbc446a2561df28d1cdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderersParts:
-  - {fileID: 3222160113521489998}
-  objectResult: {fileID: 2320290474689941690, guid: 40c06281a0f5a4e4e8abadeb37eb0621,
-    type: 3}
-  buildObjectTrigger: {fileID: 5190231019797785281}
+  renderersParts: []
+  objectResult: {fileID: 0}
+  buildObjectTrigger: {fileID: 0}
   rotateChildMeshs: 0
   createinHouse: 1
   enableBuild: 1
@@ -220,23 +232,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2254803685483694774, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77, type: 3}
+--- !u!1 &4923814631437748627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1376180423147268580, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
+    type: 3}
+  m_PrefabInstance: {fileID: 6290908127164227703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &980984462569356474 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6543980636902939853, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
     type: 3}
   m_PrefabInstance: {fileID: 6290908127164227703}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5190231019797785281 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2254803685483694774, guid: 923f3d3a0fcd84d45bb0f5ed1efa4e77,
-    type: 3}
-  m_PrefabInstance: {fileID: 6290908127164227703}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd27a8f42d701154290bf56a9ee5250a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

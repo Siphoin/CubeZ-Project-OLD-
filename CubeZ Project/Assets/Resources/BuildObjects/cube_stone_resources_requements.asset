@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94cda27f5db6d244b880d6e7e091ce9b, type: 3}
+  m_Script: {fileID: 11500000, guid: ea1d03e4f71cecd4e885c5f8282f958b, type: 3}
   m_Name: cube_stone_resources_requements
   m_EditorClassIdentifier: 
-  nameBuildObject: Simple Stone Cube Wall
+  nameBuildObject: Stone Wall
   requirementsResources:
   - typeResource: {fileID: 11400000, guid: 75454f2d5e42f04408f75c3bd89050f9, type: 2}
     requirementsValue: 1
   icoBuildObject: {fileID: 21300000, guid: 8e329063a59096649b9926aa3d0b9a69, type: 3}
-  prefabBuildObject: {fileID: 3078721589159583816, guid: e09cc0c2dae305848ac3f88cfe698dee,
-    type: 3}
+  prefabBuildObject: {fileID: 0}
   category: 1

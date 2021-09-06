@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -146,7 +147,7 @@ GameObject:
   - component: {fileID: 2240926386453767414}
   - component: {fileID: 4157444116622890870}
   - component: {fileID: 8458202099695819889}
-  - component: {fileID: 3378852916241996190}
+  - component: {fileID: 4623366658359269463}
   m_Layer: 5
   m_Name: ButtonCategoryBuild
   m_TagString: Untagged
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -225,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -254,7 +257,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3378852916241996190
+--- !u!114 &4623366658359269463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,7 +266,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4659770905674256262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe4aaa7ad085af44ab3a16cf2d03bfd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cd536599a3d61e4eb9cc94b9de2ee79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textButton: {fileID: 4263442666419648383}

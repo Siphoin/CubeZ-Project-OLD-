@@ -231,11 +231,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3489791362042549827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cdd2aebc37422c47b9e0caf4817cff8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7248f0f0299bf0a4381f1b41b244e0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAnimOpen: 1
-  windowAnim: {fileID: 3489791362623924933}
+  useAnimOpen: 0
+  windowAnim: {fileID: 3489791362079421266}
   buildObjectInfoWindow: {fileID: 3489791362079421278}
   gridObjects: {fileID: 3489791363690122469}
   gridButtonsCategories: {fileID: 3489791363194875131}
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3489791362079421266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2603524e4d43844b51aec02c31c811, type: 3}
+  m_Script: {fileID: 11500000, guid: bd3cfc42c9f4f5c4daf0862b9e4969a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textNameObject: {fileID: 3489791363274843227}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8097423801853377979}
   - component: {fileID: 8097423801853377977}
   - component: {fileID: 8097423801853377976}
-  - component: {fileID: 8661903893106240888}
+  - component: {fileID: 3359764837658669773}
   m_Layer: 5
   m_Name: buildObjectCell
   m_TagString: Untagged
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -76,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8661903893106240888
+--- !u!114 &3359764837658669773
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8097423801853377978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 454c30c432ff21545a34a64103ddd4fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e22882efec50014e8abd1f3dcf47d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pictogram: {fileID: 8097423802647005520}
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -179,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
