@@ -128,7 +128,7 @@ public class BuildWindow : Window
 	{
 		BuildObjectCell buildObjectCell = UnityEngine.Object.Instantiate<BuildObjectCell>(this.buildObjectCellPrefab, this.gridObjects.transform);
 		buildObjectCell.SetData(data);
-		buildObjectCell.onClick += this.BuildObjectSelect;
+		buildObjectCell.OnClick += this.BuildObjectSelect;
 	}
 
 	// Token: 0x0600009B RID: 155 RVA: 0x00003B40 File Offset: 0x00001D40
@@ -147,13 +147,13 @@ public class BuildWindow : Window
 			return;
 		}
 		this.activeSelectedObject = UnityEngine.Object.Instantiate<BuildObject>(buildObject.PrefabBuildObject);
-		this.activeSelectedObject.onBuild += this.BuildEvent;
+		this.activeSelectedObject.OnBuild += this.BuildEvent;
 	}
 
 	// Token: 0x0600009C RID: 156 RVA: 0x00003BD0 File Offset: 0x00001DD0
 	private void BuildEvent()
 	{
-		this.activeSelectedObject.onBuild -= this.BuildEvent;
+		this.activeSelectedObject.OnBuild -= this.BuildEvent;
 		this.CheckRequementsOfBuildObject(this.selectedBuildObjectData);
 	}
 
