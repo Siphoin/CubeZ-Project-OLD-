@@ -2,7 +2,6 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class BuildWindow : Window
@@ -40,7 +39,6 @@ public class BuildWindow : Window
 	private BuildObjectData selectedBuildObjectData;
 
 
-	
 	private BuildObjectCell buildObjectCellPrefab;
 
 	
