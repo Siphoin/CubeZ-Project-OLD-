@@ -1,39 +1,39 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIStatsLevelController : MonoBehaviour
+public class UIStatsLevelController : MonoBehaviour, IFaderImage
     {
 
     private const string NAME_ANIM_NEW_LEVEL_TEXT = "new_level_text";
 
     [Header("Текст уровня")]
-    [SerializeField] private TextMeshProUGUI textLevel;
+    [SerializeField] private TextMeshProUGUI _textLevel;
 
-    private Animator animatorText;
-        // Use this for initialization
-        void Start()
+
+    private  void Start()
         {
-        if (ListenerLevelProgressionLocalPlayer.Manager == null)
+        if (!ListenerLevelProgressionLocalPlayer.Manager)
         {
             throw new UIStatsLevelControllerException("listener progression level local player not found");
         }
-        if (textLevel == null)
+        if (!_textLevel)
         {
             throw new UIStatsLevelControllerException("text level not seted");
         }
 
-        if (!textLevel.TryGetComponent(out animatorText))
-        {
-            throw new UIStatsLevelControllerException("text level not have component Animator");
-        }
-
         ListenerLevelProgressionLocalPlayer.Manager.onLevelUp += UpdateTextLevel;
+
         UpdateTextLevel();
         }
 
-    private void UpdateTextLevel()
+    public void FadeImage(Image image, Color color, float time)
     {
-        animatorText.Play(NAME_ANIM_NEW_LEVEL_TEXT);
-        textLevel.text = GameCacheManager.gameCache.levelProgressPlayer.currentLevel.ToString();
+        image.color = new Color();
+        image.DOColor(color, 2);
+        image.DOFade(1, 2);
     }
+
+    private void UpdateTextLevel() => _textLevel.text = GameCacheManager.gameCache.levelProgressPlayer.currentLevel.ToString();
 }

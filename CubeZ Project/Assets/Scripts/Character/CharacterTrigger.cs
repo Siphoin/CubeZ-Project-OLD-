@@ -4,7 +4,7 @@ using UnityEngine;
     public class CharacterTrigger : MonoBehaviour, IObjectArea
     {
     public event Action<string> onEnter;
-    public event Action<string> onExit;
+    public event Action<string> OnExit;
 
   private  Fire enteredFire = null;
 
@@ -49,7 +49,7 @@ using UnityEngine;
 
     private void FireRemove()
     {
-        CallEvent(onExit, FIRE_TAG);
+        CallEvent(OnExit, FIRE_TAG);
     }
 
     private void OnTriggerExit(Collider other)
@@ -66,7 +66,7 @@ using UnityEngine;
         }
 
 
-        CallEvent(onExit, other);
+        CallEvent(OnExit, other);
     }
 
     private void CallEvent (Action<string> action, Collider collider)

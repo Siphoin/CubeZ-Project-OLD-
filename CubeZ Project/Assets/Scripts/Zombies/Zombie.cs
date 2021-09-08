@@ -14,8 +14,6 @@ public class Zombie : BaseZombie
         Ini();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         UpdateState();
@@ -183,7 +181,7 @@ public class Zombie : BaseZombie
         target = null;
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisiOnExit(Collision collision)
     {
         if (collision.gameObject.CompareTag(TAG_HOUSE))
         {

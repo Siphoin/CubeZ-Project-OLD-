@@ -1,59 +1,51 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Window : MonoBehaviour
 {
-    
-    public event Action<Window> onExit;
+    private const float SPEED_SCALE_ANIMATION = 0.5f;
 
-    protected Character player;
 
-    [Header("Анимация отурытия")]
-    [SerializeField] private bool useAnimOpen;
+    public event Action<Window> OnExit;
+
+    protected Character _player;
+
 
     [Header("Окно, которое будет проигрывать анимацию (можно оставить пустым)")]
-    [SerializeField] private GameObject windowAnim;
-    // Use this for initialization
-    void Start()
-    {
+    [SerializeField] private GameObject _windowAnim;
 
-        FrezzePlayer();
-    }
+    void Start() => FrezzePlayer();
 
     protected void FrezzePlayer()
     {
         if (PlayerManager.Manager == null)
         {
-            throw new GameWindowException("Player manager not found");
+            throw new GameWindowException("_player manager not found");
         }
 
         else
         {
-            player = PlayerManager.Manager.Player;
+            _player = PlayerManager.Manager.Player;
 
-            if (player == null)
+            if (_player == null)
             {
-                throw new GameWindowException("Player not found");
+                throw new GameWindowException("_player not found");
             }
-            player.FrezzeCharacter();
+            _player.FrezzeCharacter();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public virtual void Exit()
     {
-        if (player != null)
+        if (_player != null)
         {
-        player.ActivateCharacter();
+        _player.ActivateCharacter();
         }
 
-        onExit?.Invoke(this);
+        OnExit?.Invoke(this);
 
         try
         {
@@ -67,47 +59,17 @@ public class Window : MonoBehaviour
 
     protected void Ini ()
     {
-        if (useAnimOpen)
+        if (_windowAnim)
         {
-            windowAnim = windowAnim == null ? gameObject : windowAnim;
-            StartCoroutine(AnimationOpen());
+            _windowAnim.transform.localScale = new Vector3();
+
+            _windowAnim.transform.DOScale(1, SPEED_SCALE_ANIMATION);
         }
     }
 
-    private IEnumerator AnimationOpen ()
-    {
-        float lerpValue = 0;
-        float time = 1.0f / 60.0f * 4;
-
-
-        Vector3 scaleWindow = windowAnim.transform.localScale;
-
-        SetVisibleAnimWindow(false);
-
-
-        while (true)
-        {
-            yield return new WaitForSeconds(time * Time.deltaTime);
-
-
-            if (!windowAnim.activeSelf)
-            {
-                SetVisibleAnimWindow(true);
-            }
-            lerpValue += time;
-
-            windowAnim.transform.localScale = Vector3.Lerp(Vector3.zero, scaleWindow, lerpValue);
-
-            if (lerpValue >= 1.0f)
-            {
-                yield break;
-            }
-
-        }
-    }
 
     private void SetVisibleAnimWindow (bool state)
     {
-        windowAnim.gameObject.SetActive(state);
+        _windowAnim.gameObject.SetActive(state);
     }
 }

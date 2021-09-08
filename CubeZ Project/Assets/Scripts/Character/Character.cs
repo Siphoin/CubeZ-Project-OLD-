@@ -224,7 +224,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         ReturnToBaseDamage();
 
         characterTrigger.onEnter += CharacterEnterOnTrigger;
-        characterTrigger.onExit += CharacterExitOnTrigger;
+        characterTrigger.OnExit += CharacterExitOnTrigger;
         defaultRaduisCharacterTrigger = characterTrigger.GetRadius();
 
 
@@ -987,7 +987,7 @@ public class Character : MonoBehaviour, IAnimatiomStateController, ICheckerStats
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisiOnExit(Collision collision)
     {
         if (collision.gameObject.CompareTag(TAG_INTERACTION_OBJECT))
         {

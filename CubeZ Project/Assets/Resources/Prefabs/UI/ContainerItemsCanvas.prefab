@@ -367,8 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87dd77364497de468f89dbc320c110d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAnimOpen: 1
-  windowAnim: {fileID: 405438101287817966}
+  _windowAnim: {fileID: 0}
   gridItems: {fileID: 7960362373669290785}
   buttonGet: {fileID: 3282701201022183708}
   buttonGetAllItems: {fileID: 9003657943579811854}

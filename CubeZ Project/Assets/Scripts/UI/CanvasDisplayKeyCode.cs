@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 [RequireComponent(typeof(Canvas))]
-public class CanvasDisplayKeyCode : MonoBehaviour
+public class CanvasDisplayKeyCode : MonoBehaviour, IFaderImage
     {
 
     private KeyCode keyCode = KeyCode.N;
@@ -11,9 +13,6 @@ public class CanvasDisplayKeyCode : MonoBehaviour
     [SerializeField] Image image;
 
     private Canvas canvas;
-
-    private Color transperentColor;
-    private Color defaultColor;
 
 
 
@@ -33,51 +32,27 @@ public class CanvasDisplayKeyCode : MonoBehaviour
 
         if (!TryGetComponent(out canvas))
         {
-
+            throw new NullReferenceException("canvas reference not seted on canvas display key code");
         }
-        var alphaColor = image.color;
-        alphaColor.a = 0;
-        transperentColor = alphaColor;
-        defaultColor = image.color;
-        SetColorDisplay(transperentColor);
+
         textKeyCode.text = keyCode.ToString();
-        StartCoroutine(LerpingColor());
+
+        textKeyCode.color = new Color();
+        textKeyCode.DOColor(Color.white, 1);
+        textKeyCode.DOFade(1, 2);
+        FadeImage(image, Color.white, 1);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-    private IEnumerator LerpingColor ()
-    {
-        float lerpValue = 0;
-        while (true)
-        {
-            float fpsRate = (2.0f / 60.0f) * 2;
-            yield return new WaitForSeconds(fpsRate);
-            lerpValue += fpsRate;
-            Color lerpColor = Color.Lerp(transperentColor, defaultColor, lerpValue);
-            SetColorDisplay(lerpColor);
-
-            if (lerpValue >= 1)
-            {
-                yield break;
-            }
-        }
-    }
-
-    private void SetColorDisplay(Color color)
-    {
-        image.color = color;
-        textKeyCode.color = color;
-    }
 
     public void SetKeyCode (KeyCode keyCode)
     {
         this.keyCode = keyCode;
     }
 
-
+    public void FadeImage(Image image, Color color, float speed)
+    {
+        image.color = new Color();
+        image.DOColor(color, speed);
+        image.DOFade(1, speed);
     }
+}

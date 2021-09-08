@@ -23,8 +23,8 @@ public class ContainerItemsWindow : Window
 
 
     private const string PATH_PREFAB_ITEM_CELL_CONTAINER_ITEMS = "Prefabs/UI/ItemCellContainerItems";
-    // Use this for initialization
-    void Start()
+    
+   private void Start()
     {
         Ini();
 
@@ -65,18 +65,9 @@ public class ContainerItemsWindow : Window
 
         buttonGet.onClick.AddListener(GetItem);
         buttonGetAllItems.onClick.AddListener(GetAllItems);
-    }
-
-    private void SetStateInterableButtonGet(bool state)
-    {
-        buttonGet.interactable = state;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
+
 
     public void SetContainer(BaseInventoryContainer container)
     {
@@ -179,5 +170,13 @@ public class ContainerItemsWindow : Window
     {
         ClearItemsOnGrid();
         LoadItems();
+    }
+
+    private void SetStateInterableButtonGet(bool state) => buttonGet.interactable = state;
+
+    private void UpdateGrid ()
+    {
+        gridItems.CalculateLayoutInputHorizontal();
+        gridItems.CalculateLayoutInputVertical();
     }
 }

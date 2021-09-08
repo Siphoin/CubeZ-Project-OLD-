@@ -426,8 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb3423762a94e64399e0723cfa9435a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAnimOpen: 1
-  windowAnim: {fileID: 4276237339560995051}
+  _useAnimOpen: 1
+  _windowAnim: {fileID: 4276237339560995051}
   containerInfo: {fileID: 4276237339435045504}
   containerScriptsPatterns: {fileID: 4276237340768839149}
   inputFieldFileName: {fileID: 4276237340367625417}

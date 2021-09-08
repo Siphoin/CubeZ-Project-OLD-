@@ -1,9 +1,12 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(DestroyedObject))]
-    public class WindowProgressLevel : MonoBehaviour, IInvokerMono, IRemoveObject
+    public class WindowProgressLevel : MonoBehaviour, IInvokerMono, IRemoveObject, IFaderImage
     {
 
     private const string NAME_ANIM_END = "window_progress_level_end";
@@ -14,10 +17,12 @@ using UnityEngine;
     [Header("Текст текущего уровня")]
     [SerializeField] TextMeshProUGUI textLevel;
 
+    [Header("Images для анимации появления/исчезновения")]
+    [SerializeField] Image[] _imageParts;
+
     [Header("Задержка перед исчезновением")]
     [SerializeField] float timeOutRemove;
 
-    private Animator animatorWindow;
     // Use this for initialization
     void Start()
         {
@@ -36,16 +41,17 @@ using UnityEngine;
             throw new WindowProgressLevelException("progress level not seted");
         }
 
-        if (!TryGetComponent(out animatorWindow))
-        {
-            throw new WindowProgressLevelException($"{name} not have component Animator");
-        }
 
         ListenerLevelProgressionLocalPlayer.Manager.onProgressXP += ProgressLevel;
         ListenerLevelProgressionLocalPlayer.Manager.onLevelUp += UpdateTextLevel;
         progressLevel.onEndProgress += ZeroProgressLevel;
         UpdateData();
         CallInvokingMethod(Remove, timeOutRemove);
+
+        for (int i = 0; i < _imageParts.Length; i++)
+        {
+            FadeImage(_imageParts[i], _imageParts[i].color, 2);
+        }
     }
 
     private void ZeroProgressLevel()
@@ -77,7 +83,11 @@ using UnityEngine;
     public void Remove()
     {
         UncribeEvents();
-        animatorWindow.Play(NAME_ANIM_END);
+
+        for (int i = 0; i < _imageParts.Length; i++)
+        {
+            FadeImage(_imageParts[i], new Color(), 2);
+        }
     }
 
     public void UpdateData ()
@@ -98,9 +108,15 @@ using UnityEngine;
         }
     }
 
-    private void OnDestroy()
+
+    public void FadeImage(Image image, Color color, float time)
     {
-        UncribeEvents();
+        image.color = new Color();
+        image.DOColor(color, time);
+        image.DOFade(1, time);
+
+
     }
 
+    private void OnDestroy() => UncribeEvents();
 }

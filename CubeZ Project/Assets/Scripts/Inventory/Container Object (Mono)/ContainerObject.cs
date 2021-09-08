@@ -6,20 +6,25 @@ using Random = UnityEngine.Random;
 
 public class ContainerObject : InteractionObjectContainerItems
     {
+
+    private const string PATH_PREFAB_CONTAINER_WINDOW_ITEMS = "Prefabs/UI/ContainerItemsCanvas";
+    private const string PATH_SETTINGS_CONTAINER_OBJECT = "Items/ContainerObjectSettings";
+
+    private const string PATH_ITEMS_FOLBER = "Items/";
+    private const string PREFIX_FOLBER_CATEGORY_ITEMS = "s";
+
+    [Header("Генерировать только определенный тип предмета")]
+    [SerializeField] bool useSpecialTypeItems = false;
+
+    [SerializeField] private TypeItem typeItem;
+
+
     private ContainerItemsWindow activeContainerItemsWindow;
     private ContainerItemsWindow containerItemsWindowPrefab;
 
     private ContainerObjectsSettings containerObjectsSettings;
 
-    private const string PATH_PREFAB_CONTAINER_WINDOW_ITEMS = "Prefabs/UI/ContainerItemsCanvas";
-    private const string PATH_SETTINGS_CONTAINER_OBJECT = "Items/ContainerObjectSettings";
-    private const string PATH_ITEMS_FOLBER = "Items/";
-    private const string PREFIX_FOLBER_CATEGORY_ITEMS = "s";
-  [SerializeField]  private TypeItem typeItem;
-
     BaseInventoryContainer containerItems = new BaseInventoryContainer();
-    [Header("Генерировать только определенный тип предмета")]
-    [SerializeField] bool useSpecialTypeItems = false;
 
     public BaseInventoryContainer ContainerItems { get => containerItems; }
 

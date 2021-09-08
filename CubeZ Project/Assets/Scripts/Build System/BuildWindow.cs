@@ -46,8 +46,6 @@ public class BuildWindow : Window
 
 	
 	private BuildObject activeSelectedObject;
-
-
 	
 	private void Ini()
 	{
@@ -111,7 +109,7 @@ public class BuildWindow : Window
 	}
 
 	
-	private void ActivateCharacter(string str) => player.ActivateCharacter();
+	private void ActivateCharacter(string str) => _player.ActivateCharacter();
 
 	
 	private void InputNameObject(string str)
@@ -129,13 +127,10 @@ public class BuildWindow : Window
 
 		ShowBuildObjects(listObjects);
 	}
-
-	
-
-
 	private void SetVisibleBuildObjectInfoWindow(bool status)
 	{
 		buildObjectInfoWindow.gameObject.SetActive(status);
+
 		if (status)
 		{
 			GameCacheManager.gameCache.inventory.onItemOfTypeAdded += NewItemAddedtoInventory;

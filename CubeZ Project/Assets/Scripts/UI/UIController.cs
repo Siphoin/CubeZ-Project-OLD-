@@ -66,7 +66,7 @@ public class UIController : MonoBehaviour
     {
         UIWindowFragment targetFragment = windows.Single(windowSelected => windowSelected.window.name == nameWindow);
         Window window = Instantiate(targetFragment.window);
-        window.onExit += WindowExit;
+        window.OnExit += WindowExit;
         windowsCached.Add(window.name);
         CacheWindow(window);
         activeWindow = window;
@@ -77,7 +77,7 @@ public class UIController : MonoBehaviour
     public Window OpenWindow(Window windowTarget)
     {
         Window newWindow = Instantiate(windowTarget);
-        newWindow.onExit += WindowExit;
+        newWindow.OnExit += WindowExit;
         windowsCached.Add(newWindow.name);
         CacheWindow(windowTarget);
         activeWindow = newWindow;
